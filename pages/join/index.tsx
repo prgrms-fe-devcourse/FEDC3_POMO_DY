@@ -1,12 +1,12 @@
 import LogoSvg from '@public/svg/logo.svg';
 import styled from '@emotion/styled';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import { useQuery } from 'react-query';
 
 const Main = styled.div`
-  width: 80%;
-  height: 60%;
-  position: absolute;
-  left: 10%;
-  top: 10%;
+  margin-top: 50px;
+  justify-content: center;
+  align-items: center;
   display: flex;
 `;
 
@@ -97,7 +97,44 @@ const FormButton = styled.button`
   color: white;
 `;
 
-export default function Create() {
+export default function Join() {
+  /*   const { status, data, error } = useQuery('join', fetchTodoList);
+
+  if (status === 'loading') {
+    return <span>Loading...</span>;
+  }
+
+  if (status === 'error') {
+    return <span>Error: {error.message}</span>;
+  } */
+
+  const [Email, setEmail] = useState('');
+  const [Name, setName] = useState('');
+  const [Password, setPassword] = useState('');
+  const [ConfirmPassword, setConfirmPassword] = useState('');
+
+  const onEmailHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.currentTarget.value);
+  };
+  const onNameHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setName(event.currentTarget.value);
+  };
+  const onPasswordHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.currentTarget.value);
+  };
+  const onConfirmPasswordHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setConfirmPassword(event.currentTarget.value);
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log(event);
+    console.log(Email);
+    console.log(Password);
+    console.log(ConfirmPassword);
+    console.log(Name);
+  };
+
   return (
     <Main>
       <Side>
@@ -107,20 +144,20 @@ export default function Create() {
         </Logo>
         <LogoSubTitle>같이 뽀모해요</LogoSubTitle>
       </Side>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <FormTitle>회원가입</FormTitle>
         <FormList>
           <FormSubTitle>이메일</FormSubTitle>
-          <FormInput type="email" placeholder="이메일을 입력해주세요" />
+          <FormInput type="email" placeholder="이메일을 입력해주세요" onChange={onEmailHandler} />
         </FormList>
         <FormList>
           <FormSubTitle>비밀번호</FormSubTitle>
-          <FormInput type="password" placeholder="비밀번호를 입력해 주세요" />
-          <FormInput type="password" placeholder="비밀번호를 다시 입력해 주세요" />
+          <FormInput type="password" placeholder="비밀번호를 입력해 주세요" onChange={onPasswordHandler} />
+          <FormInput type="password" placeholder="비밀번호를 다시 입력해 주세요" onChange={onConfirmPasswordHandler} />
         </FormList>
         <FormList>
           <FormSubTitle>이름</FormSubTitle>
-          <FormInput type="text" placeholder="이름을 입력해 주세요" />
+          <FormInput type="text" placeholder="이름을 입력해 주세요" onChange={onNameHandler} />
         </FormList>
         <FormList>
           <FormButton type="submit">회원가입</FormButton>
