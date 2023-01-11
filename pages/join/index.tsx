@@ -1,8 +1,7 @@
-import LogoSvg from '@public/svg/logo.svg';
+import LogoSvg from '@public/images/logo.svg';
 import styled from '@emotion/styled';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import axios from 'axios';
-import { useQuery } from 'react-query';
 
 const Main = styled.div`
   margin-top: 50px;

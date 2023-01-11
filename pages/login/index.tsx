@@ -1,4 +1,4 @@
-import LogoSvg from '@public/svg/logo.svg';
+import LogoSvg from '@public/images/logo.svg';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 
