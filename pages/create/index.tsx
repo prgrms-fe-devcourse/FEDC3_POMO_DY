@@ -11,7 +11,7 @@ export default function Create() {
       <div>
         <Logo />
         <div>뽀모</div>
-        <div>같이 뽀모해요!!</div>
+        <div>같이 뽀모해요</div>
       </div>
       <form>
         <h3>회원가입</h3>
