@@ -1,6 +1,9 @@
 import LogoSvg from '@public/svg/logo.svg';
 import styled from '@emotion/styled';
 import Link from 'next/link';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import axios from 'axios';
+import Router from 'next/router';
 
 const Main = styled.div`
   margin-top: 50px;
@@ -107,6 +110,43 @@ const FormLink = styled.div`
 `;
 
 export default function Create() {
+  const [Email, setEmail] = useState('');
+  const [Password, setPassword] = useState('');
+  const router = Router;
+
+  const axiosInstance = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
+    headers: {
+      Accept: '*/*',
+      'Content-Type': 'application/json',
+    },
+  });
+
+  const onEmailHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.currentTarget.value);
+  };
+
+  const onPasswordHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.currentTarget.value);
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      const response = await axiosInstance.post('/login', {
+        email: Email,
+        password: Password,
+      });
+      if (response.status === 200) {
+        console.log('로그인 성공');
+        console.log(response.data.token);
+        // router.push('/');
+      }
+    } catch (error) {
+      console.log(error);
+      alert('이메일 혹은 패스워드가 옳지 않습니다.');
+    }
+  };
   return (
     <Main>
       <Side>
@@ -116,23 +156,23 @@ export default function Create() {
         </Logo>
         <LogoSubTitle>같이 뽀모해요</LogoSubTitle>
       </Side>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <FormList>
           <FormTitle>로그인</FormTitle>
         </FormList>
         <FormList>
           <FormSubTitle>이메일</FormSubTitle>
-          <FormInput type="email" placeholder="이메일을 입력해주세요" />
+          <FormInput type="email" placeholder="이메일을 입력해주세요" onChange={onEmailHandler} />
         </FormList>
         <FormList>
           <FormSubTitle>비밀번호</FormSubTitle>
-          <FormInput type="password" placeholder="비밀번호를 입력해 주세요" />
+          <FormInput type="password" placeholder="비밀번호를 입력해 주세요" onChange={onPasswordHandler} />
         </FormList>
         <FormList>
           <FormButton type="submit">로그인</FormButton>
         </FormList>
         <FormLink>
-          <Link href="/">회원가입</Link>
+          <Link href="/join">회원가입</Link>
         </FormLink>
       </Form>
     </Main>
