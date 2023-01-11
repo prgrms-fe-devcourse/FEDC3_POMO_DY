@@ -1,6 +1,7 @@
 import LogoSvg from '@public/svg/logo.svg';
 import styled from '@emotion/styled';
 import { ChangeEvent, FormEvent, useState } from 'react';
+import axios from 'axios';
 import { useQuery } from 'react-query';
 
 const Main = styled.div`
@@ -98,20 +99,18 @@ const FormButton = styled.button`
 `;
 
 export default function Join() {
-  /*   const { status, data, error } = useQuery('join', fetchTodoList);
-
-  if (status === 'loading') {
-    return <span>Loading...</span>;
-  }
-
-  if (status === 'error') {
-    return <span>Error: {error.message}</span>;
-  } */
-
   const [Email, setEmail] = useState('');
   const [Name, setName] = useState('');
   const [Password, setPassword] = useState('');
   const [ConfirmPassword, setConfirmPassword] = useState('');
+
+  const axiosInstance = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
+    headers: {
+      Accept: '*/*',
+      'Content-Type': 'application/json',
+    },
+  });
 
   const onEmailHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.currentTarget.value);
@@ -126,13 +125,22 @@ export default function Join() {
     setConfirmPassword(event.currentTarget.value);
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(event);
-    console.log(Email);
-    console.log(Password);
-    console.log(ConfirmPassword);
-    console.log(Name);
+    if (Password !== ConfirmPassword) {
+      alert('비밀번호가 일치하지 않습니다');
+      return;
+    }
+    try {
+      const response = await axiosInstance.post('/signup', {
+        email: Email,
+        fullName: Name,
+        password: Password,
+      });
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
