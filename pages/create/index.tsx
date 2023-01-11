@@ -49,11 +49,12 @@ const Form = styled.form`
   flex-direction: column;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
-  padding: 0 45px 55px 55px;
-  gap: 30px;
+  padding: 20px 45px 55px 55px;
+  gap: 35px;
 `;
 
 const FormTitle = styled.h3`
+  line-height: 0.5;
   font-size: 30px;
   font-weight: 700;
 `;
@@ -70,10 +71,16 @@ const FormList = styled.div`
 `;
 
 const FormInput = styled.input`
-  width: 480px;
+  width: 460px;
   height: 60px;
   border: 2px solid #b3b3b3;
   border-radius: 5px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 25px;
+  line-height: 36px;
+  padding-left: 20px;
+  color: #838383;
 `;
 const FormButton = styled.button`
   width: 480px;
