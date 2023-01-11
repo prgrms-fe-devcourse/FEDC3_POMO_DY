@@ -3,11 +3,9 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 
 const Main = styled.div`
-  width: 80%;
-  height: 60%;
-  position: absolute;
-  left: 10%;
-  top: 10%;
+  margin-top: 50px;
+  justify-content: center;
+  align-items: center;
   display: flex;
 `;
 
