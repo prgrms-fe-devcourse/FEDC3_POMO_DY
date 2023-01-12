@@ -12,7 +12,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen />
+        <ReactQueryDevtools initialIsOpen={false} />
         <Head>
           <title>뽀모 - 같이 뽀모해요!</title>
         </Head>
