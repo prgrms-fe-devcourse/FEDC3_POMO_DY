@@ -1,5 +1,5 @@
-import React from 'react';
 import styled from '@emotion/styled';
+import { useState, ChangeEventHandler, ChangeEvent } from 'react';
 
 interface Props {
   type?: string;
@@ -10,9 +10,9 @@ interface Props {
 }
 
 function Input({ type, id, placeholder, width, height }: Props) {
-  const [value, setValue] = React.useState('');
+  const [value, setValue] = useState('');
 
-  const handleValueChange: React.ChangeEventHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleValueChange: ChangeEventHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
