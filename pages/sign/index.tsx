@@ -98,16 +98,16 @@ const FormButton = styled.button`
 `;
 
 export default function Join() {
-  const [Email, setEmail] = useState('');
-  const [Name, setName] = useState('');
-  const [Password, setPassword] = useState('');
-  const [ConfirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const onEmailHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.currentTarget.value);
   };
   const onNameHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setName(event.currentTarget.value);
+    setFullName(event.currentTarget.value);
   };
   const onPasswordHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.currentTarget.value);
@@ -118,15 +118,15 @@ export default function Join() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (Password !== ConfirmPassword) {
+    if (password !== confirmPassword) {
       alert('비밀번호가 일치하지 않습니다');
       return;
     }
     try {
       const response = await axiosInstance.post('/signup', {
-        email: Email,
-        fullName: Name,
-        password: Password,
+        email,
+        fullName,
+        password,
       });
       console.log(response);
       if (response.status === 200) {
