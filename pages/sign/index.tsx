@@ -1,7 +1,7 @@
 import LogoSvg from '@public/images/logo.svg';
 import styled from '@emotion/styled';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import axios from 'axios';
+import { axiosInstance } from 'api';
 
 const Main = styled.div`
   margin-top: 50px;
@@ -103,14 +103,6 @@ export default function Join() {
   const [Password, setPassword] = useState('');
   const [ConfirmPassword, setConfirmPassword] = useState('');
 
-  const axiosInstance = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
-    headers: {
-      Accept: '*/*',
-      'Content-Type': 'application/json',
-    },
-  });
-
   const onEmailHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.currentTarget.value);
   };
@@ -137,8 +129,14 @@ export default function Join() {
         password: Password,
       });
       console.log(response);
+      if (response.status === 200) {
+        //성공시 루틴
+      }
     } catch (error) {
       console.error(error);
+      //에러시 루틴
+      // error.response.status = 400
+      // error.response.data = "에러내용"
     }
   };
 
