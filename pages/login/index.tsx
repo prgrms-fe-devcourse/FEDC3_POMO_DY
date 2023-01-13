@@ -109,8 +109,8 @@ const FormLink = styled.div`
 `;
 
 export default function Create() {
-  const [Email, setEmail] = useState('');
-  const [Password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const onEmailHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.currentTarget.value);
@@ -124,8 +124,8 @@ export default function Create() {
     event.preventDefault();
     try {
       const response = await axiosInstance.post('/login', {
-        email: Email,
-        password: Password,
+        email,
+        password,
       });
       if (response.status === 200) {
         console.log('로그인 성공');
