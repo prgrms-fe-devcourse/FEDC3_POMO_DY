@@ -2,8 +2,7 @@ import LogoSvg from '@public/images/logo.svg';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import axios from 'axios';
-import Router from 'next/router';
+import { axiosInstance } from 'api';
 
 const Main = styled.div`
   margin-top: 50px;
@@ -112,15 +111,6 @@ const FormLink = styled.div`
 export default function Create() {
   const [Email, setEmail] = useState('');
   const [Password, setPassword] = useState('');
-  const router = Router;
-
-  const axiosInstance = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
-    headers: {
-      Accept: '*/*',
-      'Content-Type': 'application/json',
-    },
-  });
 
   const onEmailHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.currentTarget.value);
@@ -139,6 +129,7 @@ export default function Create() {
       });
       if (response.status === 200) {
         console.log('로그인 성공');
+        // 주어지는 토큰정보 (로컬로 옴기기)
         console.log(response.data.token);
         // router.push('/');
       }
