@@ -2,6 +2,91 @@ import LogoSvg from '@public/images/logo.svg';
 import styled from '@emotion/styled';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { axiosInstance } from 'api';
+import { Auth } from '@components/auth/auth';
+import { useRouter } from 'next/router';
+import { LoginApi } from '@components/login/loginApi';
+
+export default function Sign() {
+  const [email, setEmail] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const router = useRouter();
+
+  const onEmailHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.currentTarget.value);
+  };
+  const onNameHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setFullName(event.currentTarget.value);
+  };
+  const onPasswordHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.currentTarget.value);
+  };
+  const onConfirmPasswordHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setConfirmPassword(event.currentTarget.value);
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (password !== confirmPassword) {
+      alert('비밀번호가 일치하지 않습니다');
+      return;
+    }
+    try {
+      const response = await axiosInstance.post('/signup', {
+        email,
+        fullName,
+        password,
+      });
+      if (response.status === 200) {
+        Auth({
+          token: response.data.token,
+        });
+        LoginApi({
+          email,
+          password,
+          onSuccess: () => router.push('/'),
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      //에러시 루틴
+      // error.response.status = 400
+      // error.response.data = "에러내용"
+    }
+  };
+
+  return (
+    <Main>
+      <Side>
+        <Logo>
+          <LogoSvg />
+          <LogoTitle>뽀모</LogoTitle>
+        </Logo>
+        <LogoSubTitle>같이 뽀모해요</LogoSubTitle>
+      </Side>
+      <Form onSubmit={handleSubmit}>
+        <FormTitle>회원가입</FormTitle>
+        <FormList>
+          <FormSubTitle>이메일</FormSubTitle>
+          <FormInput type="email" placeholder="이메일을 입력해주세요" onChange={onEmailHandler} />
+        </FormList>
+        <FormList>
+          <FormSubTitle>비밀번호</FormSubTitle>
+          <FormInput type="password" placeholder="비밀번호를 입력해 주세요" onChange={onPasswordHandler} />
+          <FormInput type="password" placeholder="비밀번호를 다시 입력해 주세요" onChange={onConfirmPasswordHandler} />
+        </FormList>
+        <FormList>
+          <FormSubTitle>이름</FormSubTitle>
+          <FormInput type="text" placeholder="이름을 입력해 주세요" onChange={onNameHandler} />
+        </FormList>
+        <FormList>
+          <FormButton type="submit">회원가입</FormButton>
+        </FormList>
+      </Form>
+    </Main>
+  );
+}
 
 const Main = styled.div`
   margin-top: 50px;
@@ -42,8 +127,8 @@ const LogoSubTitle = styled.div`
 
 const Form = styled.form`
   margin-left: 50px;
-  width: 500px;
-  height: 700px;
+  width: 570px;
+  height: 720px;
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -96,78 +181,3 @@ const FormButton = styled.button`
   text-align: center;
   color: white;
 `;
-
-export default function Sign() {
-  const [email, setEmail] = useState('');
-  const [fullName, setFullName] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-
-  const onEmailHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.currentTarget.value);
-  };
-  const onNameHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setFullName(event.currentTarget.value);
-  };
-  const onPasswordHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.currentTarget.value);
-  };
-  const onConfirmPasswordHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setConfirmPassword(event.currentTarget.value);
-  };
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (password !== confirmPassword) {
-      alert('비밀번호가 일치하지 않습니다');
-      return;
-    }
-    try {
-      const response = await axiosInstance.post('/signup', {
-        email,
-        fullName,
-        password,
-      });
-      console.log(response);
-      if (response.status === 200) {
-        //성공시 루틴
-      }
-    } catch (error) {
-      console.error(error);
-      //에러시 루틴
-      // error.response.status = 400
-      // error.response.data = "에러내용"
-    }
-  };
-
-  return (
-    <Main>
-      <Side>
-        <Logo>
-          <LogoSvg />
-          <LogoTitle>뽀모</LogoTitle>
-        </Logo>
-        <LogoSubTitle>같이 뽀모해요</LogoSubTitle>
-      </Side>
-      <Form onSubmit={handleSubmit}>
-        <FormTitle>회원가입</FormTitle>
-        <FormList>
-          <FormSubTitle>이메일</FormSubTitle>
-          <FormInput type="email" placeholder="이메일을 입력해주세요" onChange={onEmailHandler} />
-        </FormList>
-        <FormList>
-          <FormSubTitle>비밀번호</FormSubTitle>
-          <FormInput type="password" placeholder="비밀번호를 입력해 주세요" onChange={onPasswordHandler} />
-          <FormInput type="password" placeholder="비밀번호를 다시 입력해 주세요" onChange={onConfirmPasswordHandler} />
-        </FormList>
-        <FormList>
-          <FormSubTitle>이름</FormSubTitle>
-          <FormInput type="text" placeholder="이름을 입력해 주세요" onChange={onNameHandler} />
-        </FormList>
-        <FormList>
-          <FormButton type="submit">회원가입</FormButton>
-        </FormList>
-      </Form>
-    </Main>
-  );
-}

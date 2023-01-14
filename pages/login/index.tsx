@@ -2,7 +2,55 @@ import LogoSvg from '@public/images/logo.svg';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { axiosInstance } from 'api';
+import { LoginApi } from '@components/login/loginApi';
+import { useRouter } from 'next/router';
+
+export default function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const router = useRouter();
+
+  const onEmailHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.currentTarget.value);
+  };
+
+  const onPasswordHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.currentTarget.value);
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    LoginApi({
+      email,
+      password,
+      onSuccess: () => router.push('/'),
+    });
+  };
+  return (
+    <Main>
+      <Side>
+        <Logo>
+          <LogoSvg />
+          <LogoTitle>뽀모</LogoTitle>
+        </Logo>
+        <LogoSubTitle>같이 뽀모해요</LogoSubTitle>
+      </Side>
+      <Form onSubmit={handleSubmit}>
+        <FormTitle>로그인</FormTitle>
+        <FormItem>
+          <FormSubTitle>이메일</FormSubTitle>
+          <FormInput type="email" placeholder="이메일을 입력해주세요" onChange={onEmailHandler} />
+        </FormItem>
+        <FormItem>
+          <FormSubTitle>비밀번호</FormSubTitle>
+          <FormInput type="password" placeholder="비밀번호를 입력해 주세요" onChange={onPasswordHandler} />
+        </FormItem>
+        <FormButton type="submit">로그인</FormButton>
+        <FormLink href="/join">회원가입</FormLink>
+      </Form>
+    </Main>
+  );
+}
 
 const Main = styled.div`
   margin-top: 50px;
@@ -44,8 +92,8 @@ const LogoSubTitle = styled.div`
 const Form = styled.form`
   margin-left: 50px;
   margin-top: 50px;
-  width: 500px;
-  height: 550px;
+  width: 570px;
+  height: 600px;
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -84,6 +132,7 @@ const FormInput = styled.input`
   padding-left: 20px;
   color: #838383;
 `;
+
 const FormButton = styled.button`
   width: 480px;
   height: 80px;
@@ -107,59 +156,3 @@ const FormLink = styled(Link)`
   text-align: center;
   text-decoration-line: underline;
 `;
-
-export default function Create() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const onEmailHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.currentTarget.value);
-  };
-
-  const onPasswordHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.currentTarget.value);
-  };
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    try {
-      const response = await axiosInstance.post('/login', {
-        email,
-        password,
-      });
-      if (response.status === 200) {
-        console.log('로그인 성공');
-        // 주어지는 토큰정보 (로컬로 옴기기)
-        console.log(response.data.token);
-        // router.push('/');
-      }
-    } catch (error) {
-      console.log(error);
-      alert('이메일 혹은 패스워드가 옳지 않습니다.');
-    }
-  };
-  return (
-    <Main>
-      <Side>
-        <Logo>
-          <LogoSvg />
-          <LogoTitle>뽀모</LogoTitle>
-        </Logo>
-        <LogoSubTitle>같이 뽀모해요</LogoSubTitle>
-      </Side>
-      <Form onSubmit={handleSubmit}>
-        <FormTitle>로그인</FormTitle>
-        <FormItem>
-          <FormSubTitle>이메일</FormSubTitle>
-          <FormInput type="email" placeholder="이메일을 입력해주세요" onChange={onEmailHandler} />
-        </FormItem>
-        <FormItem>
-          <FormSubTitle>비밀번호</FormSubTitle>
-          <FormInput type="password" placeholder="비밀번호를 입력해 주세요" onChange={onPasswordHandler} />
-        </FormItem>
-        <FormButton type="submit">로그인</FormButton>
-        <FormLink href="/join">회원가입</FormLink>
-      </Form>
-    </Main>
-  );
-}
