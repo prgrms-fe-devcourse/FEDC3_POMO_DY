@@ -3,9 +3,14 @@ import { COLORS } from 'styles/colors';
 import BigProfileSvg from '@public/images/bigprofile.svg';
 import PencilSvg from '@public/icons/pencil.svg';
 import ProfileSvg from '@public/icons/profile.svg';
+
 const Main = styled.div`
   margin-top: 100px;
-  display: flex;
+  height: 100vh;
+  background-color: white;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-content: flex-start;
 `;
 
 const Nav = styled.div`
@@ -54,7 +59,7 @@ const InfoUserEmail = styled.div`
 `;
 
 const PasswordChangeButton = styled.button`
-  margin-left: 676px;
+  margin-left: 500px;
   margin-top: 138px;
   width: 162px;
   height: 48px;
@@ -67,6 +72,10 @@ const PasswordChangeButton = styled.button`
   border: none;
   border-radius: 28px;
   border-color: ${COLORS.main};
+`;
+
+const Like = styled.div`
+  display: grid;
 `;
 
 export default function MyProfile() {
@@ -83,14 +92,16 @@ export default function MyProfile() {
           </InfoDetail>
         </Info>
         <PasswordChangeButton>비밀번호 변경</PasswordChangeButton>
-        <div>
-          <div>팔로워</div>
-          <div>팔로잉</div>
-        </div>
-        <div>
-          <ProfileSvg />
-          <div>김규란</div>
-        </div>
+        <Like>
+          <div>
+            <div>팔로워</div>
+            <div>팔로잉</div>
+          </div>
+          <div>
+            <ProfileSvg />
+            <div>김규란</div>
+          </div>
+        </Like>
       </Main>
     </>
   );
