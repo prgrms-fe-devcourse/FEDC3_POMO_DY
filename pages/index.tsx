@@ -45,6 +45,11 @@ const MainTextDiv = styled.div`
   }
 `;
 
+const SubTextDiv = styled.div`
+  color: #333333;
+  font-size: 22px;
+`;
+
 const CategoryCardList = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -101,6 +106,7 @@ export default function Home() {
           <LogoSvg className="logo" />
           같이 뽀모해요.
         </MainTextDiv>
+        <SubTextDiv>원하시는 카테고리를 선택해주세요.</SubTextDiv>
         <CategoryCardList>
           <CategoryCard />
           <CategoryCard />
