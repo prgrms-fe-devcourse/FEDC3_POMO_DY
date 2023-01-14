@@ -1,4 +1,4 @@
-import PomodoroTabs from '@components/post/pomodoro/tabs';
+import PomodoroTabs from '@components/post/tabs';
 
 export default function PomodoroPage() {
   return (
