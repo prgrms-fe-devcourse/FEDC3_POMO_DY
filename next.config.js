@@ -9,7 +9,7 @@ const nextConfig = {
         {
           loader: '@svgr/webpack',
           options: {
-            svgo: false, // rect가 path로 렌더링되지 않도록
+            svgo: false,
           },
         },
       ],
