@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import Profile from '@components/profile/index';
 
 export default function UserProfile() {
   const router = useRouter();
@@ -6,7 +7,7 @@ export default function UserProfile() {
 
   return (
     <>
-      <div>유저 프로필 유저정보 : {userId} </div>
+      <Profile userId={userId} isMyInfo={false} />
     </>
   );
 }
