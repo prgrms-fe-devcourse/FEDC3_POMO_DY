@@ -1,9 +1,9 @@
-import PomodoroTabs from '@components/post/tabs';
+import PostTabs from '@components/post/tabs';
 
-export default function PomodoroPage() {
+export default function PostPage() {
   return (
     <div>
-      <PomodoroTabs />
+      <PostTabs />
     </div>
   );
 }
