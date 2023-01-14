@@ -1,6 +1,8 @@
 import LogoSvg from '@public/images/logo.svg';
 import styled from '@emotion/styled';
 import Link from 'next/link';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import { axiosInstance } from 'api';
 
 const Main = styled.div`
   margin-top: 50px;
@@ -64,7 +66,7 @@ const FormSubTitle = styled.label`
   font-size: 20px;
 `;
 
-const FormList = styled.div`
+const FormItem = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -97,7 +99,7 @@ const FormButton = styled.button`
   color: white;
 `;
 
-const FormLink = styled.div`
+const FormLink = styled(Link)`
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
@@ -107,6 +109,35 @@ const FormLink = styled.div`
 `;
 
 export default function Create() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const onEmailHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.currentTarget.value);
+  };
+
+  const onPasswordHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.currentTarget.value);
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      const response = await axiosInstance.post('/login', {
+        email,
+        password,
+      });
+      if (response.status === 200) {
+        console.log('로그인 성공');
+        // 주어지는 토큰정보 (로컬로 옴기기)
+        console.log(response.data.token);
+        // router.push('/');
+      }
+    } catch (error) {
+      console.log(error);
+      alert('이메일 혹은 패스워드가 옳지 않습니다.');
+    }
+  };
   return (
     <Main>
       <Side>
@@ -116,24 +147,18 @@ export default function Create() {
         </Logo>
         <LogoSubTitle>같이 뽀모해요</LogoSubTitle>
       </Side>
-      <Form>
-        <FormList>
-          <FormTitle>로그인</FormTitle>
-        </FormList>
-        <FormList>
+      <Form onSubmit={handleSubmit}>
+        <FormTitle>로그인</FormTitle>
+        <FormItem>
           <FormSubTitle>이메일</FormSubTitle>
-          <FormInput type="email" placeholder="이메일을 입력해주세요" />
-        </FormList>
-        <FormList>
+          <FormInput type="email" placeholder="이메일을 입력해주세요" onChange={onEmailHandler} />
+        </FormItem>
+        <FormItem>
           <FormSubTitle>비밀번호</FormSubTitle>
-          <FormInput type="password" placeholder="비밀번호를 입력해 주세요" />
-        </FormList>
-        <FormList>
-          <FormButton type="submit">로그인</FormButton>
-        </FormList>
-        <FormLink>
-          <Link href="/">회원가입</Link>
-        </FormLink>
+          <FormInput type="password" placeholder="비밀번호를 입력해 주세요" onChange={onPasswordHandler} />
+        </FormItem>
+        <FormButton type="submit">로그인</FormButton>
+        <FormLink href="/join">회원가입</FormLink>
       </Form>
     </Main>
   );
