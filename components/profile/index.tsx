@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import { COLORS } from 'styles/colors';
-import PencilSvg from '@public/icons/pencil.svg';
-import FollowSvg from '@public/icons/follow.svg';
-import ProfileSvg from '@public/icons/profile.svg';
+import PencilImg from '@public/icons/pencil.svg';
+import FollowImg from '@public/icons/follow.svg';
+import ProfileImg from '@public/icons/profile.svg';
 
 interface userDataType {
   userId: string | string[] | undefined;
@@ -16,32 +16,46 @@ export default function Profile({ userId, isMyInfo }: userDataType) {
       <Main>
         <InfoContainer>
           <Info>
-            <ProfileSvg className="infoIcon" />
+            <ProfileImg className="infoIcon" />
             <InfoDetail>
               <InfoUserName>{userId}</InfoUserName>
-              {isMyInfo ? <PencilSvg /> : <FollowSvg />}
+              {isMyInfo ? <PencilImg /> : <FollowImg />}
               <InfoUserEmail>pomo@gmail.com</InfoUserEmail>
             </InfoDetail>
           </Info>
           {isMyInfo && <PasswordChangeButton>비밀번호 변경</PasswordChangeButton>}
         </InfoContainer>
         <LikeContainer>
-          <LikeTap>
-            <LikeTapItem>팔로워 2명</LikeTapItem>
-            <LikeTapItem>팔로잉 10명</LikeTapItem>
-          </LikeTap>
-          <LikeUser>
-            <ProfileSvg />
-            <LikeUserName>김규란</LikeUserName>
-          </LikeUser>
-          <LikeUser>
-            <ProfileSvg />
-            <LikeUserName>내이름은슈퍼초길지</LikeUserName>
-          </LikeUser>
-          <LikeUser>
-            <ProfileSvg />
-            <LikeUserName>라면국물</LikeUserName>
-          </LikeUser>
+          <LikeBox>
+            <LikeHeader>
+              <LikeTitle>팔로잉</LikeTitle>
+              <LikeSubTitle>2명</LikeSubTitle>
+            </LikeHeader>
+            <Division />
+            <LikeUser>
+              <ProfileImg />
+              <LikeUserName>내이름은슈퍼초길지</LikeUserName>
+            </LikeUser>
+            <LikeUser>
+              <ProfileImg />
+              <LikeUserName>김규란</LikeUserName>
+            </LikeUser>
+          </LikeBox>
+          <LikeBox>
+            <LikeHeader>
+              <LikeTitle>팔로워</LikeTitle>
+              <LikeSubTitle>10명</LikeSubTitle>
+            </LikeHeader>
+            <Division />
+            <LikeUser>
+              <ProfileImg />
+              <LikeUserName>내이름은슈퍼초길지</LikeUserName>
+            </LikeUser>
+            <LikeUser>
+              <ProfileImg />
+              <LikeUserName>김규란</LikeUserName>
+            </LikeUser>
+          </LikeBox>
         </LikeContainer>
       </Main>
     </>
@@ -49,7 +63,7 @@ export default function Profile({ userId, isMyInfo }: userDataType) {
 }
 
 const Main = styled.div`
-  margin-top: 90px;
+  margin-top: 96px;
   height: 100vh;
   background-color: white;
   display: grid;
@@ -130,24 +144,25 @@ const PasswordChangeButton = styled.button`
 `;
 
 const LikeContainer = styled.div`
-  display: grid;
-  margin-left: 130px;
-  margin-top: 125px;
-  gap: 25px;
+  display: flex;
+  margin-left: 160px;
+  margin-top: 80px;
+  gap: 70px;
   grid-column: span 2;
 `;
 
-const LikeTap = styled.div`
-  display: flex;
-  gap: 28px;
-  margin-bottom: 40px;
+const LikeBox = styled.div`
+  width: 530px;
+  height: 480px;
+  box-shadow: 2px 3px 9px 3px rgba(83, 83, 83, 0.25);
+  border-radius: 20px;
+  padding: 32px;
+  display: grid;
+  align-content: flex-start;
+  gap: 20px;
+  grid-column: span 2;
 `;
-const LikeTapItem = styled.div`
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 24px;
-  color: #000000;
-`;
+
 const LikeUser = styled.div`
   display: flex;
 `;
@@ -157,4 +172,29 @@ const LikeUserName = styled.div`
   font-weight: 600;
   font-size: 25px;
   line-height: 30px;
+`;
+
+const LikeHeader = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  height: 60px;
+`;
+const LikeTitle = styled.h3`
+  font-weight: 600;
+  font-size: 35px;
+  line-height: 5px;
+  color: #000000;
+`;
+const LikeSubTitle = styled.h4`
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  color: #000000;
+`;
+
+const Division = styled.div`
+  width: 460px;
+  border: 1px solid #000000;
+  margin-bottom: 10px;
 `;
