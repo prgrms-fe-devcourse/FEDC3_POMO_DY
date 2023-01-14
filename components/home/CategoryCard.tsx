@@ -1,80 +1,65 @@
-import TomatoSvg from '@public/images/tomato.svg';
-import PersonIconSvg from '@public/images/icon/person.svg';
 import styled from '@emotion/styled';
+import { COLORS } from 'styles/colors';
 
 const CardContainer = styled.div`
-  width: 240px;
-  height: 250px;
-  border: 1px solid #000000;
-  background-color: #ffffff;
+  width: 224px;
+  height: 214px;
+  background: #ffffff;
+  border: 15px solid ${COLORS.main};
+  border-radius: 10px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   gap: 10px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  position: relative;
-`;
-
-const ImageContainer = styled.div`
-  position: absolute;
-  top: -30px;
-  left: calc(50% - 33px);
-`;
-
-const TitleDiv = styled.div`
-  font-family: 'UhBee EUN KYUNG';
-  font-size: 40px;
-`;
-
-const TimeDiv = styled.div`
-  font-size: 15px;
-`;
-
-const Button = styled.button`
-  width: 100px;
-  height: 40px;
-  background-color: #d44645;
-  border-radius: 20px;
-  border: none;
-  font-size: 15px;
-  text-align: center;
-  color: white;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-`;
-
-const DetailLink = styled.div`
-  font-size: 13px;
-  text-decoration: underline;
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.03, 1.03);
+    box-shadow: 0px 5px 5px -2px rgba(0, 0, 0, 0.25);
+  }
 `;
 
-const HeadCount = styled.div`
-  position: absolute;
-  left: 5px;
-  bottom: 5px;
-  display: flex;
-  width: 100%;
-  gap: 5px;
+const CategoryTitle = styled.div`
+  font-weight: 700;
+  font-size: 35px;
+  font-family: 'UhBee EUN KYUNG';
+  text-decoration: underline;
+  color: #2b2b2b;
 `;
 
-const CategoryCard = () => {
+const CategorySub = styled.div`
+  font-weight: 400;
+  font-size: 18px;
+`;
+
+const CountCircle = styled.div`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: ${COLORS.main};
+  font-family: 'UhBee EUN KYUNG';
+  font-weight: 700;
+  font-size: 30px;
+  color: #ffffff;
+  text-align: center;
+  line-height: 50px;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.03, 1.03);
+    box-shadow: 0px 5px 5px -2px rgba(0, 0, 0, 0.25);
+  }
+`;
+
+export default function CategoryCard() {
   return (
-    <>
-      <CardContainer>
-        <ImageContainer>
-          <TomatoSvg />
-        </ImageContainer>
-        <TitleDiv>카테고리</TitleDiv>
-        <TimeDiv>00:10 ~ 11:59</TimeDiv>
-        <Button>참여하기</Button>
-        <DetailLink>상세정보</DetailLink>
-        <HeadCount>
-          <PersonIconSvg />4
-        </HeadCount>
-      </CardContainer>
-    </>
+    <CardContainer>
+      <CategoryTitle>카테고리</CategoryTitle>
+      <CategorySub>뽀모방 개수</CategorySub>
+      <CountCircle>4</CountCircle>
+    </CardContainer>
   );
-};
-
-export default CategoryCard;
+}
