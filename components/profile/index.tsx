@@ -14,33 +14,35 @@ export default function Profile({ userId, isMyInfo }: userDataType) {
     <>
       <Nav>Nav 임시</Nav>
       <Main>
-        <Info>
-          <ProfileSvg className="infoIcon" />
-          <InfoDetail>
-            <InfoUserName>{userId}</InfoUserName>
-            {isMyInfo ? <PencilSvg /> : <FollowSvg />}
-            <InfoUserEmail>pomo@gmail.com</InfoUserEmail>
-          </InfoDetail>
-        </Info>
-        {isMyInfo && <PasswordChangeButton>비밀번호 변경</PasswordChangeButton>}
-        <Like>
+        <InfoContainer>
+          <Info>
+            <ProfileSvg className="infoIcon" />
+            <InfoDetail>
+              <InfoUserName>{userId}</InfoUserName>
+              {isMyInfo ? <PencilSvg /> : <FollowSvg />}
+              <InfoUserEmail>pomo@gmail.com</InfoUserEmail>
+            </InfoDetail>
+          </Info>
+          {isMyInfo && <PasswordChangeButton>비밀번호 변경</PasswordChangeButton>}
+        </InfoContainer>
+        <LikeContainer>
           <LikeTap>
             <LikeTapItem>팔로워 2명</LikeTapItem>
             <LikeTapItem>팔로잉 10명</LikeTapItem>
           </LikeTap>
-          <User>
+          <LikeUser>
             <ProfileSvg />
-            <UserName>김규란</UserName>
-          </User>
-          <User>
+            <LikeUserName>김규란</LikeUserName>
+          </LikeUser>
+          <LikeUser>
             <ProfileSvg />
-            <UserName>내이름은슈퍼초길지</UserName>
-          </User>
-          <User>
+            <LikeUserName>내이름은슈퍼초길지</LikeUserName>
+          </LikeUser>
+          <LikeUser>
             <ProfileSvg />
-            <UserName>라면국물</UserName>
-          </User>
-        </Like>
+            <LikeUserName>라면국물</LikeUserName>
+          </LikeUser>
+        </LikeContainer>
       </Main>
     </>
   );
@@ -81,6 +83,12 @@ const Info = styled.div`
   }
 `;
 
+const InfoContainer = styled.div`
+  width: 90vw;
+  display: flex;
+  justify-content: space-between;
+`;
+
 const InfoDetail = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -107,7 +115,6 @@ const InfoUserEmail = styled.div`
 `;
 
 const PasswordChangeButton = styled.button`
-  margin-left: 200px;
   margin-top: 138px;
   width: 162px;
   height: 48px;
@@ -122,7 +129,7 @@ const PasswordChangeButton = styled.button`
   border-color: ${COLORS.main};
 `;
 
-const Like = styled.div`
+const LikeContainer = styled.div`
   display: grid;
   margin-left: 130px;
   margin-top: 125px;
@@ -141,10 +148,10 @@ const LikeTapItem = styled.div`
   line-height: 24px;
   color: #000000;
 `;
-const User = styled.div`
+const LikeUser = styled.div`
   display: flex;
 `;
-const UserName = styled.div`
+const LikeUserName = styled.div`
   margin-left: 20px;
   margin-top: 10px;
   font-weight: 600;
