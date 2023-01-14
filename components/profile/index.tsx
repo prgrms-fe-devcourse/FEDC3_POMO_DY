@@ -96,7 +96,7 @@ const InfoDetail = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 33px;
-  gap: 10px;
+  gap: 15px;
 `;
 
 const InfoUserName = styled.div`
