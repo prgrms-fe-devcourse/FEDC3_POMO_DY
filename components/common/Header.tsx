@@ -4,10 +4,6 @@ import LogoSmall from '@public/images/logo-small.svg';
 import Search from '@components/common/Search';
 import { css } from '@emotion/react';
 
-// const dummy = {
-//   data: [],
-// };
-
 const Bar = styled.nav`
   display: flex;
   align-items: center;
@@ -19,15 +15,12 @@ const LogoContainer = styled.div`
   min-width: 120px;
   align-items: center;
   margin-left: 16px;
+  margin-right: auto;
 `;
 const LogoTitle = styled.div`
   font-family: 'UhBee EUN KYUNG';
   font-size: 1.5rem;
   font-weight: 700;
-`;
-
-const Spacer = styled.div`
-  flex-grow: 1;
 `;
 
 const User = styled.div`
@@ -47,9 +40,9 @@ const imageCircle = css`
 `;
 
 const imageUrl = (props: { src?: string }) => `
-background-image: ${props.src ? `url(${props.src});` : `url(/images/logo-small.svg);`}
+background-image: ${`url(${props.src});`}
 background-repeat: no-repeat;
-background-size: 100% 100%;  
+background-size: 85% 85%;  
 `;
 
 const Profile = styled.div`
@@ -69,10 +62,9 @@ export const Header: FunctionComponent = () => {
         <LogoSmall style={{ marginRight: '16px' }} />
         <LogoTitle> 뽀모 </LogoTitle>
       </LogoContainer>
-      <Spacer />
       <Search />
       <User>
-        <Profile />
+        <Profile src="/images/profile.svg" />
         <Notification src="/images/notification.svg" />
       </User>
     </Bar>
