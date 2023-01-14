@@ -39,7 +39,7 @@ const imageCircle = css`
   cursor: pointer;
 `;
 
-const imageUrl = (props: { src?: string }) => `
+const imageUrl = (props: { src: string }) => `
 background-image: ${`url(${props.src});`}
 background-repeat: no-repeat;
 background-size: 85% 85%;  
