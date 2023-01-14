@@ -20,6 +20,7 @@ const PrevButton = styled.button`
   align-items: center;
   gap: 15px;
   margin-bottom: 40px;
+  min-width: 250px;
   cursor: pointer;
 
   transition: all 0.2s ease-in-out;
@@ -33,12 +34,13 @@ const MainHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-width: 1115px;
+  min-width: 350px;
 `;
 const CategoryTitle = styled.h1`
   font-weight: 700;
   font-size: 48px;
   flex-grow: 1;
+  white-space: nowrap;
 `;
 
 const CreateButton = styled.button`
@@ -50,6 +52,7 @@ const CreateButton = styled.button`
   height: 48px;
   color: #ffffff;
   cursor: pointer;
+  min-width: 162px;
 
   transition: all 0.2s ease-in-out;
   &:hover {
@@ -59,10 +62,10 @@ const CreateButton = styled.button`
 `;
 
 const PostCardList = styled.div`
-  display: grid;
-  justify-items: center;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
 `;
 
 export default function post() {

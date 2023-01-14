@@ -3,9 +3,9 @@ import { COLORS } from 'styles/colors';
 import ProfileIcon from '@public/icons/profile-purple.svg';
 
 const CardContainer = styled.div`
-  width: 345px;
+  min-width: 354px;
   height: 240px;
-  padding: 40px;
+  padding: 40px 50px;
   background: ${COLORS.sub_yellow};
   border-radius: 14px;
   display: flex;
