@@ -66,7 +66,7 @@ const FormSubTitle = styled.label`
   font-size: 20px;
 `;
 
-const FormList = styled.div`
+const FormItem = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -99,7 +99,7 @@ const FormButton = styled.button`
   color: white;
 `;
 
-const FormLink = styled.div`
+const FormLink = styled(Link)`
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
@@ -148,23 +148,17 @@ export default function Create() {
         <LogoSubTitle>같이 뽀모해요</LogoSubTitle>
       </Side>
       <Form onSubmit={handleSubmit}>
-        <FormList>
-          <FormTitle>로그인</FormTitle>
-        </FormList>
-        <FormList>
+        <FormTitle>로그인</FormTitle>
+        <FormItem>
           <FormSubTitle>이메일</FormSubTitle>
           <FormInput type="email" placeholder="이메일을 입력해주세요" onChange={onEmailHandler} />
-        </FormList>
-        <FormList>
+        </FormItem>
+        <FormItem>
           <FormSubTitle>비밀번호</FormSubTitle>
           <FormInput type="password" placeholder="비밀번호를 입력해 주세요" onChange={onPasswordHandler} />
-        </FormList>
-        <FormList>
-          <FormButton type="submit">로그인</FormButton>
-        </FormList>
-        <FormLink>
-          <Link href="/join">회원가입</Link>
-        </FormLink>
+        </FormItem>
+        <FormButton type="submit">로그인</FormButton>
+        <FormLink href="/join">회원가입</FormLink>
       </Form>
     </Main>
   );

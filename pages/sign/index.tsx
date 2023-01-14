@@ -97,7 +97,7 @@ const FormButton = styled.button`
   color: white;
 `;
 
-export default function Create() {
+export default function Sign() {
   return (
     <Main>
       <Side>
