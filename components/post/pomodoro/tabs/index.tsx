@@ -45,11 +45,11 @@ const StyledTabTrigger = styled(Tabs.Trigger)`
   line-height: 24px;
   padding: 14px 85px;
   color: #ffffff;
-  transform: translateX(20px);
 `;
 
 const StyledCommentsTabTrigger = styled(StyledTabTrigger)`
   background-color: ${COLORS.main};
+  margin-left: 20px;
 `;
 
 const StyledParticipantsTabTrigger = styled(StyledTabTrigger)`
