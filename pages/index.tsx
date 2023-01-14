@@ -1,6 +1,6 @@
 import CategoryCard from '@components/home/CategoryCard';
 import LogoSvg from '@public/images/logo.svg';
-import SearchIcon from '@public/images/icon/search.svg';
+import SearchIcon from '@public/icons/search.svg';
 import styled from '@emotion/styled';
 import { COLORS } from './../styles/colors';
 import UserCard from '@components/home/UserCard';
