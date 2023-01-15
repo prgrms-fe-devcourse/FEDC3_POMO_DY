@@ -28,7 +28,7 @@ const TopBox = styled.div`
   flex-direction: column;
   gap: 3px;
 `;
-const Date = styled.div`
+const TextDate = styled.div`
   font-weight: 600;
   font-size: 13px;
   color: #2b2b2b;
@@ -100,27 +100,44 @@ const CountCircle = styled.div`
   line-height: 39px;
 `;
 
-export default function PostCard() {
+interface Props {
+  _id: string;
+  participants: [];
+  data: string;
+  createdAt: string;
+}
+
+export default function PostCard({ _id, participants, data, createdAt }: Props) {
+  const { title, date, description, startTime, endTime, iteration } = JSON.parse(data);
+
+  let elapsedDateStr = '';
+  const dateObj = new Date(createdAt).getTime();
+  const elapsedTime = Date.now() - dateObj;
+  const elapsedHour = Math.floor(elapsedTime / 1000 / 60 / 60);
+  const elapsedDay = Math.floor(elapsedHour / 24);
+  if (elapsedHour > 24) elapsedDateStr = `${elapsedDay}일 ${elapsedHour - elapsedDay * 24}`;
+  else elapsedDateStr = elapsedHour + '';
+
   return (
     <CardContainer>
       <TopBox>
-        <Date>2022.01.11</Date>
+        <TextDate>{date}</TextDate>
         <Time>
-          <RedText>10:10</RedText> ~ 11:00
+          <RedText>{startTime}</RedText> ~ {endTime}
         </Time>
         <RecursionCount>
-          반복 <RedText>1회</RedText>
+          반복 <RedText>{iteration}회</RedText>
         </RecursionCount>
       </TopBox>
       <BottomBox>
         <BottomLeftBox>
-          <TitleContainer>모닝 스터디</TitleContainer>
-          <ContentContainer>굿모닝! 아침 루틴 실천하기!</ContentContainer>
-          <SubContainer>1시간 전</SubContainer>
+          <TitleContainer>{title}</TitleContainer>
+          <ContentContainer>{description}</ContentContainer>
+          <SubContainer>{elapsedDateStr}시간 전</SubContainer>
         </BottomLeftBox>
         <BottomRightBox>
           <ProfileIcon className="profile" />
-          <CountCircle>7명</CountCircle>
+          <CountCircle>{participants.length + 1}명</CountCircle>
         </BottomRightBox>
       </BottomBox>
     </CardContainer>
