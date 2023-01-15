@@ -61,7 +61,7 @@ const SearchIcon = () => {
         `}
         width={15}
         height={15}
-        src="images/search.svg"
+        src="/images/search.svg"
         alt="검색아이콘"
       />
     </div>
