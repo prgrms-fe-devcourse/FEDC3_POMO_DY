@@ -8,7 +8,7 @@ import ParticipantList from './ParticipantList';
 
 export default function PomodoroTabs() {
   return (
-    <Tabs.Root>
+    <Tabs.Root defaultValue="comments">
       <Tabs.List>
         <StyledCommentsTabTrigger value="comments">댓글</StyledCommentsTabTrigger>
         <StyledParticipantsTabTrigger value="participants">참여자</StyledParticipantsTabTrigger>
