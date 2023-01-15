@@ -1,7 +1,64 @@
 import PostCard from '@components/posts/PostCard';
 import styled from '@emotion/styled';
 import LeftArrow from '@public/icons/left_arrow.svg';
+import { axiosInstance } from 'api';
+import { GetServerSideProps } from 'next';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { COLORS } from 'styles/colors';
+
+interface cateoryIdProps {
+  categoryId: string;
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { query } = context;
+  const { categoryId } = query;
+  return {
+    props: {
+      categoryId,
+    },
+  };
+};
+
+export default function Post({ categoryId }: cateoryIdProps) {
+  const [Posts, setPosts] = useState([]);
+
+  const getPosts = async () => {
+    try {
+      const res = await axiosInstance.get(`/posts/channel/${categoryId}`);
+      if (res.status === 200) {
+        setPosts(res.data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+
+  return (
+    <MainContainer>
+      <Link href="/" style={{ textDecoration: 'none' }}>
+        <PrevButton>
+          <LeftArrow />
+          다른 카테고리 보러 가기
+        </PrevButton>
+      </Link>
+      <MainHeader>
+        <CategoryTitle>공부</CategoryTitle>
+        <CreateButton>뽀모 생성하기</CreateButton>
+      </MainHeader>
+      <PostCardList>
+        {posts.map(({ _id, likes, title, createdAt }) => (
+          <PostCard key={_id} _id={_id} participants={likes} data={title} createdAt={createdAt} />
+        ))}
+      </PostCardList>
+    </MainContainer>
+  );
+}
 
 const MainContainer = styled.main`
   min-height: 100vh; // 헤더길이 빼야함
@@ -67,29 +124,3 @@ const PostCardList = styled.div`
   flex-wrap: wrap;
   gap: 50px;
 `;
-
-export default function post() {
-  return (
-    <MainContainer>
-      <PrevButton>
-        <LeftArrow />
-        다른 카테고리 보러 가기
-      </PrevButton>
-      <MainHeader>
-        <CategoryTitle>공부</CategoryTitle>
-        <CreateButton>뽀모 생성하기</CreateButton>
-      </MainHeader>
-      <PostCardList>
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-      </PostCardList>
-    </MainContainer>
-  );
-}
