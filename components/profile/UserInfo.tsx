@@ -4,21 +4,16 @@ import PencilImg from '@public/icons/pencil.svg';
 import FollowImg from '@public/icons/follow.svg';
 import ProfileImg from '@public/icons/profile.svg';
 
-interface userDataProps {
-  userId: string | string[] | undefined;
-  isMyInfo: boolean;
-}
-
-export const UserInfo = ({ userId, isMyInfo }: userDataProps) => {
+export const UserInfo = ({ email, userName, isMyInfo }) => {
   return (
     <>
       <InfoContainer>
         <Info>
           <ProfileImg className="infoIcon" />
           <InfoDetail>
-            <InfoUserName>{userId}</InfoUserName>
+            <InfoUserName>{userName}</InfoUserName>
             {isMyInfo ? <PencilImg /> : <FollowImg />}
-            <InfoUserEmail>pomo@gmail.com</InfoUserEmail>
+            <InfoUserEmail>{email}</InfoUserEmail>
           </InfoDetail>
         </Info>
         {isMyInfo && <PasswordChangeButton>비밀번호 변경</PasswordChangeButton>}

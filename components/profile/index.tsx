@@ -1,21 +1,12 @@
 import styled from '@emotion/styled';
-import { COLORS } from 'styles/colors';
-import PencilImg from '@public/icons/pencil.svg';
-import FollowImg from '@public/icons/follow.svg';
-import ProfileImg from '@public/icons/profile.svg';
 import { LikeList } from './LikeList';
 import { UserInfo } from './UserInfo';
 
-interface userDataProps {
-  userId: string | string[] | undefined;
-  isMyInfo: boolean;
-}
-
-export default function Profile({ userId, isMyInfo }: userDataProps) {
+export default function Profile({ userId, email, userName, isMyInfo }) {
   return (
     <>
       <Main>
-        <UserInfo isMyInfo={isMyInfo} userId={userId} />
+        <UserInfo userId={userId} email={email} userName={userName} isMyInfo={isMyInfo} />
         <LikeContainer>
           <LikeList />
           <LikeList />
