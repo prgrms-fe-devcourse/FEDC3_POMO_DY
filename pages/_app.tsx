@@ -5,6 +5,7 @@ import { global } from '../styles/global';
 import '../public/fonts/index.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { Header } from '@components/common/Header';
 
 export default function App({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient();
@@ -17,6 +18,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <title>뽀모 - 같이 뽀모해요!</title>
         </Head>
         <Global styles={global} />
+        <Header />
         <Component {...pageProps} />
       </QueryClientProvider>
     </>
