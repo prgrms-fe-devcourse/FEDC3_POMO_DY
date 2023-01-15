@@ -19,7 +19,7 @@ const options = {
     Accept: '*/*',
     'Content-Type': 'application/json',
   },
-  timeout: 500,
+  timeout: 10000,
 };
 
 export const internalApi = setInterceptor(
