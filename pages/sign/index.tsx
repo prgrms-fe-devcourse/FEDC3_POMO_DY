@@ -123,7 +123,7 @@ export default function Sign() {
       return;
     }
     try {
-      const response = await axiosInstance.post('/signup', {
+      const response = await axiosInstance.post('/api/signup', {
         email,
         fullName,
         password,

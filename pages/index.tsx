@@ -105,7 +105,7 @@ export default function Home() {
 
   const getCategoryArr = async () => {
     try {
-      const res = await axiosInstance.get('/channels');
+      const res = await axiosInstance.get('/api/channels');
       if (res.status === 200) {
         setCategoryArr(res.data);
       }
