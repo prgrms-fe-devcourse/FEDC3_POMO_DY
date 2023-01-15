@@ -65,7 +65,7 @@ export const Header: FunctionComponent = () => {
         <LogoTitle> 뽀모 </LogoTitle>
       </LogoContainer>
       <SearchBox isOpen={false}>
-        <SearchResult results={[]} />
+        <SearchResult results={[{ _id: '1', fullName: 'hi' }]} />
       </SearchBox>
       <User>
         <Profile src="/images/profile.svg" alt="프로필이미지" />

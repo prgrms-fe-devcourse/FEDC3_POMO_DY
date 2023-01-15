@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { FunctionComponent, ReactNode } from 'react';
+import { FunctionComponent } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import Image from 'next/image';
@@ -15,7 +15,7 @@ interface InputStyleProps {
 }
 
 interface ResultsComponent {
-  children?: ReactNode;
+  children?: JSX.Element;
   isOpen: boolean;
 }
 
@@ -152,14 +152,26 @@ const SearchResultBase: FunctionComponent<Results & { className?: string }> = ({
   return results.length > 0 ? (
     <ul className={className}>
       {results.map((result) => {
+        const isUser = result.fullName;
+        const isPost = result.title;
+        if (isUser && isPost) {
+          throw new Error('you must choose one between User and Post');
+        } else if (!isUser && !isPost) {
+          throw new Error('you must pass User or Post data to SearchResult component');
+        }
+
+        const isResult = isUser || isPost;
+
         return (
-          <Content
-            key={result._id}
-            src={result.image || '/images/post-index.svg'}
-            alt={result.image ? '유저 이미지' : '뽀모도르 글 목차 이미지'}
-            title={result.fullName || result.title}
-            category={(result.channel && result.channel?.name) || null}
-          />
+          isResult && (
+            <Content
+              key={result._id}
+              src={isUser ? result.image || '/images/profile.svg' : '/images/post-index.svg'}
+              alt={isUser ? '유저 이미지' : '뽀모도르 글 목차 이미지'}
+              title={(isPost && result.title) || (isUser && result.fullName)}
+              category={(result.channel && result.channel?.name) || null}
+            />
+          )
         );
       })}
     </ul>
