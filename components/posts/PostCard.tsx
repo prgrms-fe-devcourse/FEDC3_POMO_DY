@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { COLORS } from 'styles/colors';
-import ProfileIcon from '@public/icons/profile-purple.svg';
+import ProfileIcon from '@public/icons/profile.svg';
 
 const CardContainer = styled.div`
   min-width: 354px;
@@ -80,6 +80,11 @@ const BottomRightBox = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 40%;
+
+  & > .profile {
+    width: 39px;
+    height: 39px;
+  }
 `;
 
 const CountCircle = styled.div`
@@ -114,7 +119,7 @@ export default function PostCard() {
           <SubContainer>1시간 전</SubContainer>
         </BottomLeftBox>
         <BottomRightBox>
-          <ProfileIcon />
+          <ProfileIcon className="profile" />
           <CountCircle>7명</CountCircle>
         </BottomRightBox>
       </BottomBox>
