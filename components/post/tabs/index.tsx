@@ -6,7 +6,7 @@ import RefreshIcon from 'public/icons/circle_arrow.svg';
 import CommentList from './CommentList';
 import ParticipantList from './ParticipantList';
 
-export default function PomodoroTabs() {
+export default function PostTabs() {
   return (
     <Tabs.Root defaultValue="comments">
       <Tabs.List>
