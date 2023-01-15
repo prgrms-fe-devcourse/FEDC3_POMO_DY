@@ -2,16 +2,18 @@ import { useRouter } from 'next/router';
 import Profile from '@components/profile/index';
 import { axiosInstance } from 'api';
 import { useQuery } from 'react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function UserProfile() {
   const router = useRouter();
-  const userId = router.query.id;
   const [user, setUser] = useState('63c2b8272358f16faf4df0c5');
 
-  /* if (typeof userId === 'string') {
-    setUser(userId);
-  } */
+  useEffect(() => {
+    if (!router.isReady) return;
+    const userId = router.query.id;
+    console.log(userId);
+    setUser(String(userId));
+  }, [router.isReady]);
 
   const getData = async () => {
     try {
@@ -26,7 +28,6 @@ export default function UserProfile() {
       // error.response.data = "에러내용"
     }
   };
-
   const { status, data, error } = useQuery(user, getData);
 
   if (status === 'loading') {
