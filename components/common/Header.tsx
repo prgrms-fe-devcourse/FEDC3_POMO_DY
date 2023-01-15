@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { FunctionComponent } from 'react';
 import LogoSmall from '@public/images/logo-small.svg';
-import Search from '@components/common/Search';
+import { SearchBox } from '@components/common/Search';
 import { css } from '@emotion/react';
 
 const Bar = styled.nav`
@@ -39,20 +39,20 @@ const imageCircle = css`
   cursor: pointer;
 `;
 
-const imageUrl = (props: { src: string }) => `
-background-image: ${`url(${props.src});`}
-background-repeat: no-repeat;
-background-size: 85% 85%;  
+const imageBase = (props: { className?: string; src: string; alt: string }) => {
+  return (
+    <div className={props.className}>
+      <img src={props.src} alt={props.alt} style={{ width: '85%', height: '85%' }} />
+    </div>
+  );
+};
+
+const Profile = styled(imageBase)`
+  ${imageCircle}
 `;
 
-const Profile = styled.div`
-  ${imageCircle};
-  ${imageUrl}
-`;
-
-const Notification = styled.div`
-  ${imageCircle};
-  ${imageUrl}
+const Notification = styled(imageBase)`
+  ${imageCircle}
 `;
 
 export const Header: FunctionComponent = () => {
@@ -62,10 +62,10 @@ export const Header: FunctionComponent = () => {
         <LogoSmall style={{ marginRight: '16px' }} />
         <LogoTitle> 뽀모 </LogoTitle>
       </LogoContainer>
-      <Search />
+      <SearchBox />
       <User>
-        <Profile src="/images/profile.svg" />
-        <Notification src="/images/notification.svg" />
+        <Profile src="/images/profile.svg" alt="프로필이미지" />
+        <Notification src="/images/notification.svg" alt="알람이미지" />
       </User>
     </Bar>
   );
