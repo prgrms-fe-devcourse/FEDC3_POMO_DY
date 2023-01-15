@@ -4,6 +4,8 @@ import SearchIcon from '@public/icons/search.svg';
 import styled from '@emotion/styled';
 import { COLORS } from './../styles/colors';
 import UserCard from '@components/home/UserCard';
+import { useEffect, useState } from 'react';
+import { axiosInstance } from 'api';
 
 const MainContainer = styled.main`
   background-color: white;
@@ -99,6 +101,23 @@ const UserList = styled.ul`
 `;
 
 export default function Home() {
+  const [categoryArr, setCategoryArr] = useState([]);
+
+  const getCategoryArr = async () => {
+    try {
+      const res = await axiosInstance.get('/channels');
+      if (res.status === 200) {
+        setCategoryArr(res.data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getCategoryArr();
+  }, []);
+
   return (
     <MainContainer>
       <CategoryContainer>
@@ -108,12 +127,9 @@ export default function Home() {
         </MainTextDiv>
         <SubTextDiv>원하시는 카테고리를 선택해주세요.</SubTextDiv>
         <CategoryCardList>
-          <CategoryCard />
-          <CategoryCard />
-          <CategoryCard />
-          <CategoryCard />
-          <CategoryCard />
-          <CategoryCard />
+          {categoryArr.map(({ _id, name, posts }) => (
+            <CategoryCard key={_id} id={_id} name={name} posts={posts} />
+          ))}
         </CategoryCardList>
       </CategoryContainer>
       <UserListContainer>
