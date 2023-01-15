@@ -35,5 +35,10 @@ export const publicApi = setInterceptor(
   }),
 );
 
+// FIXME: 토큰 관리 로직이 미완이라 넣은 임시 코드
+const AUTH_TOKEN = process.env.NEXT_PUBLIC_AUTH_TOKEN;
+internalApi.defaults.headers.common['Authorization'] = `Bearer ${AUTH_TOKEN}`;
+publicApi.defaults.headers.common['Authorization'] = `Bearer ${AUTH_TOKEN}`;
+
 // 기존 instance
 export { internalApi as axiosInstance };
