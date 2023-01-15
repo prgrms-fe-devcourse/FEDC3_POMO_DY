@@ -14,6 +14,7 @@ export const LoginApi = async ({ email, password, onSuccess }: loginApiProps) =>
       password,
     });
     if (response.status === 200) {
+      console.log(response);
       Auth({
         token: response.data.token,
       });

@@ -20,6 +20,7 @@ export default function Login() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log(password);
     LoginApi({
       email,
       password,
