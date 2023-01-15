@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 
 import { publicApi } from 'api';
 
-export default async function login(_request: NextApiRequest, response: NextApiResponse) {
+export default async function channels(_request: NextApiRequest, response: NextApiResponse) {
   try {
     const { data }: AxiosResponse = await publicApi.get('/channels');
 

@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 
 import { publicApi } from 'api';
 
-export default async function login(request: NextApiRequest, response: NextApiResponse) {
+export default async function signup(request: NextApiRequest, response: NextApiResponse) {
   const { body } = request;
 
   try {
