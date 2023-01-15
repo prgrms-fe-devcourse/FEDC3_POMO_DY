@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { FunctionComponent } from 'react';
 import LogoSmall from '@public/images/logo-small.svg';
-import { SearchBox } from '@components/common/Search';
+import Search from '@components/common/Search';
 import { css } from '@emotion/react';
 
 const Bar = styled.nav`
@@ -62,7 +62,7 @@ export const Header: FunctionComponent = () => {
         <LogoSmall style={{ marginRight: '16px' }} />
         <LogoTitle> 뽀모 </LogoTitle>
       </LogoContainer>
-      <SearchBox />
+      <Search />
       <User>
         <Profile src="/images/profile.svg" alt="프로필이미지" />
         <Notification src="/images/notification.svg" alt="알람이미지" />
