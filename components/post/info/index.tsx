@@ -1,26 +1,33 @@
 import styled from '@emotion/styled';
 import { COLORS } from 'styles/colors';
+import { Post } from '../types';
 
-export default function PostInfo() {
+interface PostInfoProps {
+  postInfo: Post;
+}
+
+export default function PostInfo({ postInfo }: PostInfoProps) {
   return (
     <Container>
       <TitleWrapper>
-        <Category>공부</Category>
-        <Title>같이 모각코해요!</Title>
+        <Category>{postInfo.category.name}</Category>
+        <Title>{postInfo.title}</Title>
       </TitleWrapper>
       <InfoItem>
         <Label>진행 일자</Label>
-        <Content>2022.01.03</Content>
+        <Content>{postInfo.date}</Content>
       </InfoItem>
       <InfoItem>
         <Label>반복</Label>
         <Content className="iteration">
-          <span>1</span> / 4회
+          <span>0</span> / {postInfo.iteration}회
         </Content>
       </InfoItem>
       <InfoItem>
         <Label>진행 시간</Label>
-        <Content>10:00 - 13:00</Content>
+        <Content>
+          {postInfo.startTime} - {postInfo.endTime}
+        </Content>
       </InfoItem>
     </Container>
   );
