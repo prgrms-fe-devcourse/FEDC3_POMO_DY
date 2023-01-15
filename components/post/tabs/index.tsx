@@ -1,12 +1,20 @@
 import styled from '@emotion/styled';
 import * as Tabs from '@radix-ui/react-tabs';
-import React from 'react';
+import React, { useState } from 'react';
 import { COLORS } from 'styles/colors';
 import RefreshIcon from 'public/icons/circle_arrow.svg';
 import CommentList from './CommentList';
 import ParticipantList from './ParticipantList';
 
 export default function PostTabs() {
+  const [commentValue, setCommentValue] = useState('');
+
+  const onChangeCommentValue = (e: React.ChangeEvent<HTMLInputElement>) => setCommentValue(e.target.value);
+  const onSubmitComment = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(commentValue);
+  };
+
   return (
     <Tabs.Root defaultValue="comments">
       <Tabs.List>
@@ -20,10 +28,10 @@ export default function PostTabs() {
               <RefreshIcon />
             </RefreshButton>
             <CommentList />
-            <CommentInputWrapper>
-              <CommentInput placeholder="댓글을 입력하세요" />
+            <CommentForm onSubmit={onSubmitComment}>
+              <CommentInput onChange={onChangeCommentValue} value={commentValue} placeholder="댓글을 입력하세요" />
               <CommentSubmitButton>완료</CommentSubmitButton>
-            </CommentInputWrapper>
+            </CommentForm>
           </Background>
         </StyledCommentsTabContainer>
       </Tabs.Content>
@@ -94,7 +102,7 @@ const RefreshButton = styled.button`
   margin-top: 20px;
 `;
 
-const CommentInputWrapper = styled.div`
+const CommentForm = styled.form`
   position: relative;
   margin-bottom: 15px;
 `;
