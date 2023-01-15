@@ -10,7 +10,6 @@ export default function Document() {
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css"
           crossOrigin="anonymous"
         />
-        <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
       </Head>
       <body>
         <Main />
