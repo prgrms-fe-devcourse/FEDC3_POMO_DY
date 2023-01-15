@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
 import { FunctionComponent } from 'react';
 import LogoSmall from '@public/images/logo-small.svg';
-import Search from '@components/common/Search';
+import { SearchBox, SearchResult } from '@components/common/Search';
 import { css } from '@emotion/react';
+import Image from 'next/image';
 
 const Bar = styled.nav`
   display: flex;
@@ -42,13 +43,14 @@ const imageCircle = css`
 const imageBase = (props: { className?: string; src: string; alt: string }) => {
   return (
     <div className={props.className}>
-      <img src={props.src} alt={props.alt} style={{ width: '85%', height: '85%' }} />
+      <Image src={props.src} alt={props.alt} width={15} height={15} style={{ width: '85%', height: '85%' }} />
     </div>
   );
 };
 
 const Profile = styled(imageBase)`
   ${imageCircle}
+  padding-top:3px;
 `;
 
 const Notification = styled(imageBase)`
@@ -62,7 +64,9 @@ export const Header: FunctionComponent = () => {
         <LogoSmall style={{ marginRight: '16px' }} />
         <LogoTitle> 뽀모 </LogoTitle>
       </LogoContainer>
-      <Search />
+      <SearchBox isOpen={false}>
+        <SearchResult results={[]} />
+      </SearchBox>
       <User>
         <Profile src="/images/profile.svg" alt="프로필이미지" />
         <Notification src="/images/notification.svg" alt="알람이미지" />
