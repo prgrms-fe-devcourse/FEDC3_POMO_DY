@@ -1,7 +1,13 @@
 import { Auth } from '@components/auth/auth';
 import { axiosInstance } from 'api';
 
-export const LoginApi = async ({ email, password, onSuccess }) => {
+interface loginApiProps {
+  email: string;
+  password: string;
+  onSuccess: () => void;
+}
+
+export const LoginApi = async ({ email, password, onSuccess }: loginApiProps) => {
   try {
     const response = await axiosInstance.post('/login', {
       email,
