@@ -10,7 +10,7 @@ interface AuthRequiredProps {
 export const AuthRequired: FC<AuthRequiredProps> = ({ children }) => {
   const router = useRouter();
   useOnce(() => {
-    if (getLocalstorage('JWT_TOKEN') === null) {
+    if (getLocalstorage('JWT_TOKEN') === null && router.query.id !== 'sign') {
       router.push('/login');
     }
   });

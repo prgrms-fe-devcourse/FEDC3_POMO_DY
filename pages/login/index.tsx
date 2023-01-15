@@ -46,7 +46,7 @@ export default function Login() {
           <FormInput type="password" placeholder="비밀번호를 입력해 주세요" onChange={onPasswordHandler} />
         </FormItem>
         <FormButton type="submit">로그인</FormButton>
-        <FormLink href="/join">회원가입</FormLink>
+        <FormLink href="/sign">회원가입</FormLink>
       </Form>
     </Main>
   );
