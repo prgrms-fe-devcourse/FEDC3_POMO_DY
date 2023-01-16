@@ -89,6 +89,7 @@ function PostCreate({ values, onChange, onCreate }: Props) {
 const Container = styled.main({
   width: '700px',
   minWidth: '550px',
+  marginBottom: '100px',
 });
 
 const H1 = styled.h1({
@@ -100,7 +101,7 @@ const H1 = styled.h1({
 
 const StyledForm = styled.form({
   maxWidth: '100%',
-  minHeight: '450px',
+  minHeight: '480px',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -152,7 +153,7 @@ const ContentWrapper = styled.div({
 const Content = styled.textarea({
   height: '100px',
   padding: '20px',
-  margin: '10px 0px 20px 0px',
+  margin: '10px 0px 40px 0px',
   outline: 'none',
   resize: 'none',
   border: '1px solid #B3B3B3',

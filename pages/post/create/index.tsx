@@ -30,7 +30,7 @@ function PostCreatePage() {
 
 const Container = styled.div({
   minWidth: '700px',
-  height: '100vh',
+  height: 'calc(100vh - 100px)',
   minHeight: '600px',
   display: 'flex',
   flexDirection: 'column',
