@@ -38,22 +38,3 @@ const StyledCommentsTabTrigger = styled(StyledTabTrigger)`
 const StyledParticipantsTabTrigger = styled(StyledTabTrigger)`
   background-color: ${COLORS.sub_green};
 `;
-
-export const StyledTabContainer = styled.div`
-  border-radius: 20px;
-  width: 501px;
-  height: 726px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const TabContentBackground = styled.div`
-  background-color: white;
-  border-radius: 20px;
-  width: 450px;
-  height: 672px;
-  display: flex;
-  flex-direction: column;
-  padding: 0 33px;
-`;

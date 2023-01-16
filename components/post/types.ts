@@ -9,8 +9,8 @@ export interface Post {
   iteration: number;
   description: string;
   category: Category;
+  comments: Comment[];
 }
-
 interface Participant {
   id: string;
   userId: string;
@@ -19,6 +19,11 @@ interface Participant {
 interface Category {
   id: string;
   name: CategoryName;
+}
+
+export interface Comment {
+  id: string;
+  content: string;
 }
 
 export type CategoryNameInDB = 'study' | 'develop' | 'job' | 'reading' | 'hobby' | 'etc';

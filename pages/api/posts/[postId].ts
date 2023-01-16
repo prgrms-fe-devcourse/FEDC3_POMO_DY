@@ -16,12 +16,16 @@ export default async function getPost(request: NextApiRequest, response: NextApi
     const categoryNameInDB = data.channel.name;
     if (!isCategoryNameInDB(categoryNameInDB)) throw new Error('잘못된 카테고리입니다.');
 
+    if (!Array.isArray(data.comments)) throw new Error('잘못된 댓글 목록입니다.');
+
     const post = {
       id: data._id,
       category: {
         id: data.channel._id,
         name: CATEGORY_NAME_MAP[categoryNameInDB],
       },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      comments: data.comments.map((comment: any) => ({ id: comment._id, content: comment.comment })),
       ...JSON.parse(data.title),
     };
 

@@ -1,17 +1,19 @@
 import styled from '@emotion/styled';
 import { COLORS } from 'styles/colors';
-import { StyledTabContainer, TabContentBackground } from '..';
 import RefreshIcon from 'public/icons/circle_arrow.svg';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { usePostComment } from '@components/post/hooks/queries';
 import CommentItem from './CommentItem';
+import useComments from '@components/post/hooks/useComments';
+import { tabContainerStyle, TabContentBackground } from '@components/post/styles';
 
 export default function CommentTapContent() {
   const [commentValue, setCommentValue] = useState('');
   const { mutate: postComment } = usePostComment();
   const router = useRouter();
   const { postId } = router.query;
+  const comments = useComments();
 
   const onChangeCommentValue = (e: React.ChangeEvent<HTMLInputElement>) => setCommentValue(e.target.value);
   const onSubmitComment = (e: React.FormEvent<HTMLFormElement>) => {
@@ -21,25 +23,28 @@ export default function CommentTapContent() {
   };
 
   return (
-    <StyledCommentsTabContainer>
+    <Container>
       <TabContentBackground>
         <RefreshButton>
           <RefreshIcon />
         </RefreshButton>
         <CommentList>
-          <CommentItem />
+          {comments.map((comment) => (
+            <CommentItem comment={comment.content} key={comment.id} />
+          ))}
         </CommentList>
         <CommentForm onSubmit={onSubmitComment}>
           <CommentInput onChange={onChangeCommentValue} value={commentValue} placeholder="댓글을 입력하세요" />
           <CommentSubmitButton>완료</CommentSubmitButton>
         </CommentForm>
       </TabContentBackground>
-    </StyledCommentsTabContainer>
+    </Container>
   );
 }
 
-const StyledCommentsTabContainer = styled(StyledTabContainer)`
+const Container = styled.div`
   background-color: ${COLORS.main};
+  ${tabContainerStyle}
 `;
 
 const RefreshButton = styled.button`
@@ -86,4 +91,5 @@ const CommentList = styled.div`
   flex-direction: column;
   margin: 20px 0;
   height: 100%;
+  gap: 25px;
 `;

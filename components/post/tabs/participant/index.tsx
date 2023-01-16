@@ -1,11 +1,11 @@
+import { tabContainerStyle, TabContentBackground } from '@components/post/styles';
 import styled from '@emotion/styled';
 import { COLORS } from 'styles/colors';
-import { StyledTabContainer, TabContentBackground } from '..';
 import ParticipantItem from './ParticipantItem';
 
 export default function ParticipantTapContent() {
   return (
-    <StyledParticipantsTabContainer>
+    <Container>
       <TabContentBackground>
         <ParticipantList>
           <ParticipantItem isHost />
@@ -14,12 +14,13 @@ export default function ParticipantTapContent() {
           <ParticipantItem />
         </ParticipantList>
       </TabContentBackground>
-    </StyledParticipantsTabContainer>
+    </Container>
   );
 }
 
-const StyledParticipantsTabContainer = styled(StyledTabContainer)`
+const Container = styled.div`
   background-color: ${COLORS.sub_green};
+  ${tabContainerStyle}
 `;
 
 const ParticipantList = styled.div`
