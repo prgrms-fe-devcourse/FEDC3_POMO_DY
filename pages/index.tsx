@@ -1,3 +1,9 @@
+import { AuthRequired } from '@components/auth/authrequire';
+
 export default function Home() {
-  return <></>;
+  return (
+    <AuthRequired>
+      <></>
+    </AuthRequired>
+  );
 }

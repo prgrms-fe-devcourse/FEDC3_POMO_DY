@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
-import { getLocalstorage } from '@components/auth/localstorage';
-import { useOnce } from 'hooks/useOnce';
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useEffect } from 'react';
+import { getLocalstorage } from './localstorage';
 
 interface AuthRequiredProps {
   children: ReactNode;
@@ -9,11 +8,14 @@ interface AuthRequiredProps {
 
 export const AuthRequired: FC<AuthRequiredProps> = ({ children }) => {
   const router = useRouter();
-  useOnce(() => {
-    if (getLocalstorage('JWT_TOKEN') === null && router.query.id !== 'sign') {
-      router.push('/login');
+  const token = typeof window !== 'undefined' ? getLocalstorage('JWT_TOKEN') : null;
+
+  useEffect(() => {
+    if (token === null) {
+      console.log(1);
+      router.replace('/login');
     }
-  });
+  }, [router, token]);
 
   return <>{children}</>;
 };
