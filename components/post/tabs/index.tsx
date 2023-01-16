@@ -6,9 +6,9 @@ import RefreshIcon from 'public/icons/circle_arrow.svg';
 import CommentList from './CommentList';
 import ParticipantList from './ParticipantList';
 
-export default function PomodoroTabs() {
+export default function PostTabs() {
   return (
-    <Tabs.Root>
+    <Tabs.Root defaultValue="comments">
       <Tabs.List>
         <StyledCommentsTabTrigger value="comments">댓글</StyledCommentsTabTrigger>
         <StyledParticipantsTabTrigger value="participants">참여자</StyledParticipantsTabTrigger>

@@ -35,14 +35,18 @@ export const reset = css`
     display: block;
   }
 
-  /**
- * Correct the font size and margin on 'h1' elements within 'section' and
- * 'article' contexts in Chrome, Firefox, and Safari.
- */
-
-  h1 {
-    font-size: 2em;
-    margin: 0.67em 0;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
   }
 
   /* Grouping content
