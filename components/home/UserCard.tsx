@@ -1,25 +1,33 @@
 import styled from '@emotion/styled';
+import ProfileIcon from '@public/icons/profile.svg';
+import Link from 'next/link';
+import { UserInfoType } from './types';
 
-const UserCardContainer = styled.div`
+const UserCardContainer = styled.li`
   display: flex;
   align-items: center;
   justify-content: flex-start;
   gap: 10px;
   cursor: pointer;
-  border-radius: 20px;
+  color: #000000;
+  padding: 5px;
+  border-radius: 5px;
 
   &:hover {
     background-color: #ededed;
-    box-shadow: 0px 5px 5px -2px rgba(0, 0, 0, 0.25);
   }
 `;
 
 const ImageContainer = styled.div`
   border-radius: 50%;
-  width: 43px;
-  height: 43px;
-  border: 2px solid #838383;
+  width: 40px;
+  height: 40px;
   position: relative;
+
+  & > .profile {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const ActiveCircle = styled.div`
@@ -33,16 +41,20 @@ const ActiveCircle = styled.div`
 `;
 
 const UserNameContainer = styled.div`
-  font-size: 24px;
+  font-size: 22px;
 `;
 
-export default function UserCard() {
+export default function UserCard({ _id, fullName, isOnline }: UserInfoType) {
+  const nextUrl = `/profile/${_id}`;
   return (
-    <UserCardContainer>
-      <ImageContainer>
-        <ActiveCircle></ActiveCircle>
-      </ImageContainer>
-      <UserNameContainer>User</UserNameContainer>
-    </UserCardContainer>
+    <Link href={nextUrl} style={{ textDecoration: 'none' }}>
+      <UserCardContainer>
+        <ImageContainer>
+          <ProfileIcon className="profile" />
+          {isOnline && <ActiveCircle></ActiveCircle>}
+        </ImageContainer>
+        <UserNameContainer>{fullName}</UserNameContainer>
+      </UserCardContainer>
+    </Link>
   );
 }

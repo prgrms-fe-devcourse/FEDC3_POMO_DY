@@ -4,8 +4,9 @@ import SearchIcon from '@public/icons/search.svg';
 import styled from '@emotion/styled';
 import { COLORS } from './../styles/colors';
 import UserCard from '@components/home/UserCard';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { axiosInstance } from 'api';
+import { CategoryInfoType, UserInfoType } from '@components/home/types';
 
 const MainContainer = styled.main`
   background-color: white;
@@ -26,6 +27,7 @@ const UserListContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 260px;
   padding: 20px;
   width: 15%;
   gap: 15px;
@@ -97,11 +99,16 @@ const UserList = styled.ul`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 15px;
 `;
 
 export default function Home() {
-  const [categoryArr, setCategoryArr] = useState([]);
+  const [categoryArr, setCategoryArr] = useState(Array<CategoryInfoType>);
+  const [users, setUsers] = useState(Array<UserInfoType>);
+  const [searchKeyword, setSearchKeyword] = useState(String);
+
+  const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchKeyword(e.target.value);
+  };
 
   const getCategoryArr = async () => {
     try {
@@ -114,8 +121,20 @@ export default function Home() {
     }
   };
 
+  const getUserList = async () => {
+    try {
+      const res = await axiosInstance.get('/users/get-users');
+      if (res.status === 200) {
+        setUsers(res.data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     getCategoryArr();
+    getUserList();
   }, []);
 
   return (
@@ -127,21 +146,27 @@ export default function Home() {
         </MainTextDiv>
         <SubTextDiv>원하시는 카테고리를 선택해주세요.</SubTextDiv>
         <CategoryCardList>
-          {categoryArr.map(({ _id, name, posts }) => (
-            <CategoryCard key={_id} id={_id} name={name} posts={posts} />
+          {categoryArr.map(({ _id, name, posts }: CategoryInfoType) => (
+            <CategoryCard key={_id} _id={_id} name={name} posts={posts} />
           ))}
         </CategoryCardList>
       </CategoryContainer>
       <UserListContainer>
         <InputContainer>
           <SearchIcon className="search" />
-          <UserSearchInput type="text" placeholder="유저 검색하기" />
+          <UserSearchInput
+            type="text"
+            placeholder="유저 검색하기"
+            onChange={onChangeInputHandler}
+            value={searchKeyword}
+          />
         </InputContainer>
         <UserList>
-          <UserCard />
-          <UserCard />
-          <UserCard />
-          <UserCard />
+          {users
+            .filter(({ fullName }: UserInfoType) => fullName.includes(searchKeyword))
+            .map(({ _id, fullName, isOnline }) => (
+              <UserCard key={_id} _id={_id} fullName={fullName} isOnline={isOnline} />
+            ))}
         </UserList>
       </UserListContainer>
     </MainContainer>

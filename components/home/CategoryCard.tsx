@@ -1,12 +1,7 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { COLORS } from 'styles/colors';
-
-interface Props {
-  id: string;
-  name: string;
-  posts: [];
-}
+import { CategoryInfoType } from './types';
 
 const CardContainer = styled.div`
   width: 224px;
@@ -66,8 +61,8 @@ const CountCircle = styled.div`
   }
 `;
 
-export default function CategoryCard({ id, name, posts }: Props) {
-  const nextUrl = `/post/${id}`;
+export default function CategoryCard({ _id, name, posts }: CategoryInfoType) {
+  const nextUrl = `/post/${_id}`;
 
   const gettranslateName = (name: string) => {
     switch (name) {
