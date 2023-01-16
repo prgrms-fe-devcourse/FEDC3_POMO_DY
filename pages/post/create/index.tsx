@@ -1,20 +1,29 @@
 import styled from '@emotion/styled';
 
-import PostCreate from '@components/post/create';
-import { FormEventHandler } from 'react';
+import PostCreate from '@components/postCreate/index';
+import { usePostCreateForm } from '@components/postCreate/hooks/usePostCreateForm';
 
 function PostCreatePage() {
-  const handleCreateSubmit: FormEventHandler = (e: React.FormEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const TMP_CHANNEL_ID = '63c22e612358f16faf4df033';
+  const {
+    form,
+    onChange: handleChange,
+    onSubmit: handleSubmit,
+  } = usePostCreateForm({
+    title: '',
+    date: '',
+    startTime: '',
+    endTime: '',
+    interval: 0,
+    content: '',
+    channelId: TMP_CHANNEL_ID,
+  });
 
-    // TODO: Input 유효성 검사
-    // TODO: Time Interval에 따라 종료 시간 변경
-    // TODO: post 생성 요청
-  };
+  // TODO: Input 유효성 검사
 
   return (
     <Container>
-      <PostCreate onCreate={handleCreateSubmit} />
+      <PostCreate values={form} onChange={handleChange} onCreate={handleSubmit} />
     </Container>
   );
 }
