@@ -12,7 +12,6 @@ export const AuthRequired: FC<AuthRequiredProps> = ({ children }) => {
 
   useEffect(() => {
     if (token === null) {
-      console.log(1);
       router.replace('/login');
     }
   }, [router, token]);
