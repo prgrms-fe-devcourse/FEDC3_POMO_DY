@@ -2,6 +2,7 @@ import PostCard from '@components/posts/PostCard';
 import styled from '@emotion/styled';
 import LeftArrow from '@public/icons/left_arrow.svg';
 import { axiosInstance } from 'api';
+import { log } from 'console';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -26,7 +27,7 @@ export default function Post({ categoryId }: cateoryIdProps) {
 
   const getPosts = async () => {
     try {
-      const res = await axiosInstance.get(`/posts/channel/${categoryId}`);
+      const res = await axiosInstance.get(`/api/posts/channel/${categoryId}`);
       if (res.status === 200) {
         setPosts(res.data);
       }
@@ -52,8 +53,8 @@ export default function Post({ categoryId }: cateoryIdProps) {
         <CreateButton>뽀모 생성하기</CreateButton>
       </MainHeader>
       <PostCardList>
-        {posts.map(({ _id, likes, title, createdAt }) => (
-          <PostCard key={_id} _id={_id} participants={likes} data={title} createdAt={createdAt} />
+        {posts.map(({ _id, participants, data, createdAt }) => (
+          <PostCard key={_id} _id={_id} participants={participants} data={data} createdAt={createdAt} />
         ))}
       </PostCardList>
     </MainContainer>
