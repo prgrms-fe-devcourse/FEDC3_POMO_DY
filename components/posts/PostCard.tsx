@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
 import { COLORS } from 'styles/colors';
 import ProfileIcon from '@public/icons/profile.svg';
+import SadTomatoSvg from '@public/images/sad-tomato.svg';
 import { postDetailType } from './types';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const CardContainer = styled.div`
   min-width: 354px;
@@ -16,11 +17,33 @@ const CardContainer = styled.div`
   gap: 20px;
   transition: all 0.2s ease-in-out;
   cursor: pointer;
+  position: relative;
 
   &:hover {
     transform: scale(1.03, 1.03);
     box-shadow: 0px 5px 5px -2px rgba(0, 0, 0, 0.25);
   }
+`;
+
+const CardCoverContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  gap: 5px;
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+  top: 0;
+  left: 0;
+  background: rgba(161, 194, 152, 0.88);
+`;
+
+const CoverMsg = styled.div`
+  font-family: 'UhBee EUN KYUNG';
+  font-weight: 700;
+  font-size: 18px;
 `;
 
 const TopBox = styled.div`
@@ -111,6 +134,15 @@ interface Props {
 
 export default function PostCard({ _id, participants, data, createdAt }: Props) {
   const { title, date, description, startTime, endTime, iteration } = data;
+  const [isInProgress, setIsInProgress] = useState(false);
+
+  const getIsInProgress = useCallback((startTime: string, endTime: string) => {
+    const startT = new Date(startTime).getTime();
+    const endT = new Date(endTime).getTime();
+    const nowT = Date.now();
+
+    if (nowT >= startT && nowT <= endT) setIsInProgress(true);
+  }, []);
 
   const getElapsedTimeStr = useCallback((createdAt: string) => {
     const dateObj = new Date(createdAt).getTime();
@@ -121,8 +153,18 @@ export default function PostCard({ _id, participants, data, createdAt }: Props) 
     else return `${elapsedHour}시간 전`;
   }, []);
 
+  useEffect(() => {
+    getIsInProgress(startTime, endTime);
+  }, [startTime, endTime]);
+
   return (
     <CardContainer>
+      {isInProgress && (
+        <CardCoverContainer>
+          <SadTomatoSvg />
+          <CoverMsg>진행 중인 뽀모예요</CoverMsg>
+        </CardCoverContainer>
+      )}
       <TopBox>
         <TextDate>{date}</TextDate>
         <Time>
