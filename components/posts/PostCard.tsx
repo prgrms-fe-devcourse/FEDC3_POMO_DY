@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import { COLORS } from 'styles/colors';
 import ProfileIcon from '@public/icons/profile.svg';
+import { postDetailType } from './types';
+import { useCallback } from 'react';
 
 const CardContainer = styled.div`
   min-width: 354px;
@@ -103,20 +105,21 @@ const CountCircle = styled.div`
 interface Props {
   _id: string;
   participants: [];
-  data: string;
+  data: postDetailType;
   createdAt: string;
 }
 
 export default function PostCard({ _id, participants, data, createdAt }: Props) {
-  const { title, date, description, startTime, endTime, iteration } = JSON.parse(data);
+  const { title, date, description, startTime, endTime, iteration } = data;
 
-  let elapsedDateStr = '';
-  const dateObj = new Date(createdAt).getTime();
-  const elapsedTime = Date.now() - dateObj;
-  const elapsedHour = Math.floor(elapsedTime / 1000 / 60 / 60);
-  const elapsedDay = Math.floor(elapsedHour / 24);
-  if (elapsedHour > 24) elapsedDateStr = `${elapsedDay}일 ${elapsedHour - elapsedDay * 24}`;
-  else elapsedDateStr = elapsedHour + '';
+  const getElapsedTimeStr = useCallback((createdAt: string) => {
+    const dateObj = new Date(createdAt).getTime();
+    const elapsedTime = Date.now() - dateObj;
+    const elapsedHour = Math.floor(elapsedTime / 1000 / 60 / 60);
+    const elapsedDay = Math.floor(elapsedHour / 24);
+    if (elapsedHour > 24) return `${elapsedDay}일`;
+    else return `${elapsedHour}시간 전`;
+  }, []);
 
   return (
     <CardContainer>
@@ -133,7 +136,7 @@ export default function PostCard({ _id, participants, data, createdAt }: Props) 
         <BottomLeftBox>
           <TitleContainer>{title}</TitleContainer>
           <ContentContainer>{description}</ContentContainer>
-          <SubContainer>{elapsedDateStr}시간 전</SubContainer>
+          <SubContainer>{getElapsedTimeStr(createdAt)} 전</SubContainer>
         </BottomLeftBox>
         <BottomRightBox>
           <ProfileIcon className="profile" />
