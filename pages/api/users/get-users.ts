@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 
 import { publicApi } from 'api';
 
-export default async function channels(_request: NextApiRequest, response: NextApiResponse) {
+export default async function users(_request: NextApiRequest, response: NextApiResponse) {
   try {
     const { data }: AxiosResponse = await publicApi.get('/users/get-users');
 
