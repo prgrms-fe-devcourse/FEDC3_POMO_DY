@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 
 import { publicApi } from 'api';
 import { isCategoryNameInDB } from '@components/post/types';
-import { CategoryNameMap } from '@components/post/constants';
+import { CATEGORY_NAME_MAP } from '@components/post/constants';
 
 export default async function getPost(request: NextApiRequest, response: NextApiResponse) {
   const {
@@ -20,7 +20,7 @@ export default async function getPost(request: NextApiRequest, response: NextApi
       id: data._id,
       category: {
         id: data.channel._id,
-        name: CategoryNameMap[categoryNameInDB],
+        name: CATEGORY_NAME_MAP[categoryNameInDB],
       },
       ...JSON.parse(data.title),
     };
