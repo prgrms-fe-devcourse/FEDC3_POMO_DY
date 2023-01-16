@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 export default function Post({ categoryId }: cateoryIdProps) {
-  const [Posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState([]);
 
   const getPosts = async () => {
     try {
