@@ -5,14 +5,20 @@ import { COLORS } from 'styles/colors';
 import RefreshIcon from 'public/icons/circle_arrow.svg';
 import CommentList from './CommentList';
 import ParticipantList from './ParticipantList';
+import { usePostComment } from '../hooks/queries';
+import { useRouter } from 'next/router';
 
 export default function PostTabs() {
   const [commentValue, setCommentValue] = useState('');
+  const { mutate: postComment } = usePostComment();
+  const router = useRouter();
+  const { postId } = router.query;
 
   const onChangeCommentValue = (e: React.ChangeEvent<HTMLInputElement>) => setCommentValue(e.target.value);
   const onSubmitComment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(commentValue);
+    postComment({ postId: postId as string, comment: commentValue });
+    setCommentValue('');
   };
 
   return (
