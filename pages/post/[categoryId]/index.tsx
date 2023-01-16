@@ -5,7 +5,7 @@ import { axiosInstance } from 'api';
 import { log } from 'console';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { COLORS } from 'styles/colors';
 
 interface cateoryIdProps {
@@ -25,7 +25,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 export default function Post({ categoryId }: cateoryIdProps) {
   const [posts, setPosts] = useState([]);
 
-  const getPosts = async () => {
+  const getPosts = useCallback(async () => {
     try {
       const res = await axiosInstance.get(`/api/posts/channel/${categoryId}`);
       if (res.status === 200) {
@@ -34,7 +34,7 @@ export default function Post({ categoryId }: cateoryIdProps) {
     } catch (error) {
       console.error(error);
     }
-  };
+  }, []);
 
   useEffect(() => {
     getPosts();
@@ -93,6 +93,7 @@ const MainHeader = styled.div`
   align-items: center;
   justify-content: space-between;
   min-width: 350px;
+  margin-bottom: 50px;
 `;
 const CategoryTitle = styled.h1`
   font-weight: 700;

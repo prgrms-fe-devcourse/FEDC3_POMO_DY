@@ -59,7 +59,7 @@ const BottomBox = styled.div`
 `;
 
 const BottomLeftBox = styled.div`
-  width: 60%;
+  width: 70%;
 `;
 
 const TitleContainer = styled.div`
@@ -81,7 +81,7 @@ const SubContainer = styled.div`
 const BottomRightBox = styled.div`
   display: flex;
   justify-content: flex-end;
-  width: 40%;
+  width: 30%;
 
   & > .profile {
     width: 39px;
