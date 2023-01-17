@@ -69,7 +69,7 @@ export default function Post({ categoryId }: cateoryIdProps) {
 }
 
 const MainContainer = styled.main`
-  min-height: 100vh; // 헤더길이 빼야함
+  min-height: calc(100vh - 100px);
   background-color: #ffffff;
   padding: 120px 180px;
 `;
