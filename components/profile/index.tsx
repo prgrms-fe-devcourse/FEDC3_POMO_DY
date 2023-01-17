@@ -2,14 +2,14 @@ import styled from '@emotion/styled';
 import { LikeList } from './LikeList';
 import { UserInfo } from './UserInfo';
 
-export default function Profile({ userId, email, userName, isMyInfo }) {
+export default function Profile({ followers, following, email, userName, isMyInfo }) {
   return (
     <>
       <Main>
-        <UserInfo userId={userId} email={email} userName={userName} isMyInfo={isMyInfo} />
+        <UserInfo email={email} userName={userName} isMyInfo={isMyInfo} />
         <LikeContainer>
-          <LikeList />
-          <LikeList />
+          <LikeList list={following} title={'팔로잉'} />
+          <LikeList list={followers} title={'팔로워'} />
         </LikeContainer>
       </Main>
     </>

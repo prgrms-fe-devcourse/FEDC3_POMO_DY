@@ -26,7 +26,13 @@ export default function MyProfile() {
 
   return (
     <>
-      <Profile userId={data._id} email={data.email} userName={data.fullName} isMyInfo={true} />
+      <Profile
+        followers={data.followers}
+        following={data.following}
+        email={data.email}
+        userName={data.fullName}
+        isMyInfo={true}
+      />
     </>
   );
 }

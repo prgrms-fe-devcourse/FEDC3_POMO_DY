@@ -4,6 +4,7 @@ import LogoSmall from '@public/images/logo-small.svg';
 import { SearchBox, SearchResult } from '@components/common/Search';
 import { css } from '@emotion/react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Bar = styled.nav`
   display: flex;
@@ -68,7 +69,9 @@ export const Header: FunctionComponent = () => {
         <SearchResult results={[{ _id: '1', fullName: 'hi' }]} />
       </SearchBox>
       <User>
-        <Profile src="/images/profile.svg" alt="프로필이미지" />
+        <Link href={'/profile'}>
+          <Profile src="/images/profile.svg" alt="프로필이미지" />
+        </Link>
         <Notification src="/images/notification.svg" alt="알람이미지" />
       </User>
     </Bar>

@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 import ProfileImg from '@public/icons/profile.svg';
 
-export const LikeList = () => {
+export const LikeList = ({ list, title }) => {
   return (
     <LikeBox>
       <LikeHeader>
-        <LikeTitle>팔로워</LikeTitle>
-        <LikeSubTitle>10명</LikeSubTitle>
+        <LikeTitle>{title}</LikeTitle>
+        <LikeSubTitle>{list.length} 명</LikeSubTitle>
       </LikeHeader>
       <Division />
       <LikeUser>
@@ -51,12 +51,14 @@ const LikeHeader = styled.div`
   height: 60px;
 `;
 const LikeTitle = styled.h3`
+  margin-top: 20px;
   font-weight: 600;
   font-size: 35px;
   line-height: 5px;
   color: #000000;
 `;
 const LikeSubTitle = styled.h4`
+  margin-top: 10px;
   font-weight: 500;
   font-size: 20px;
   line-height: 24px;

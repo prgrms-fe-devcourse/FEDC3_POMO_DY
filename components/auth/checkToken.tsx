@@ -7,7 +7,6 @@ export const checkToken = async (token: string) => {
     const response = await axiosInstance.post('/api/authUser', token);
     if (response.status === 200) {
       setToken(token);
-      console.log(response);
     }
   } catch (error) {
     console.log(error, '옳바르지 않은 토큰입니다.');

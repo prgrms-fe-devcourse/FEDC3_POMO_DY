@@ -24,8 +24,8 @@ export default function UserProfile() {
       console.error(error);
     }
   };
+
   const { status, data } = useQuery(user, getData);
-  console.log(data);
 
   if (status === 'loading') {
     return <span>Loading...</span>;
@@ -33,7 +33,13 @@ export default function UserProfile() {
 
   return (
     <>
-      <Profile userId={data._id} email={data.email} userName={data.fullName} isMyInfo={false} />
+      <Profile
+        followers={data.followers}
+        following={data.following}
+        email={data.email}
+        userName={data.fullName}
+        isMyInfo={false}
+      />
     </>
   );
 }
