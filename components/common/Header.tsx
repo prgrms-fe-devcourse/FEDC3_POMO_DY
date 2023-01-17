@@ -1,9 +1,12 @@
 import styled from '@emotion/styled';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, ChangeEvent, useCallback, useState, useEffect, useMemo } from 'react';
 import LogoSmall from '@public/images/logo-small.svg';
 import { SearchBox, SearchResult } from '@components/common/Search';
 import { css } from '@emotion/react';
 import Image from 'next/image';
+import { axiosInstance } from 'api';
+import { isCategoryNameInDB } from '@components/post/types';
+import { CategoryNameMap } from '@components/post/constants';
 
 const Bar = styled.nav`
   display: flex;
@@ -58,14 +61,92 @@ const Notification = styled(imageBase)`
 `;
 
 export const Header: FunctionComponent = () => {
+  const [keyword, setKeyword] = useState<string>('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== undefined && categories.length > 0) {
+      getResultsSearch(keyword);
+    }
+  }, [keyword]);
+
+  const getCategories = useCallback(async () => {
+    try {
+      const { data } = await axiosInstance.get('/api/channels');
+      const categoriesName = data.map(({ _id, name }: { _id: string; name: string }) => {
+        const categoryName = name;
+        if (!isCategoryNameInDB(categoryName)) throw new Error('잘못된 카테고리입니다.');
+
+        return {
+          _id,
+          name: CategoryNameMap[categoryName],
+        };
+      });
+      setCategories(categoriesName);
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
+
+  const getResultsSearch = useCallback(async (keyword: string) => {
+    if (keyword === '') {
+      return;
+    }
+
+    try {
+      const res = await axiosInstance.get(`/api/search/all/${keyword}`);
+      if (res.status === 200 && res.data.length > 0) {
+        const { data } = res;
+        data.map(
+          (result: {
+            _id: string;
+            role?: string;
+            image?: string;
+            fullName?: string;
+            channelId?: string;
+            title?: string;
+          }) => {
+            const category: { _id: string; name: string } | null | undefined = result.channelId
+              ? categories.find((categoryName: { _id: string; name: string }) => categoryName._id === result.channelId)
+              : null;
+
+            return {
+              ...result,
+              category,
+            };
+          },
+        );
+        setSearchResults(data);
+        setIsOpen(true);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
+
+  const onSearchHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value },
+    } = e;
+    setKeyword(value);
+    if (value.trim().length === 0) {
+      setIsOpen(false);
+    }
+  }, []);
   return (
     <Bar>
       <LogoContainer>
         <LogoSmall style={{ marginRight: '16px' }} />
         <LogoTitle> 뽀모 </LogoTitle>
       </LogoContainer>
-      <SearchBox isOpen={false}>
-        <SearchResult results={[{ _id: '1', fullName: 'hi' }]} />
+      <SearchBox onChange={onSearchHandler} isOpen={isOpen}>
+        <SearchResult results={searchResults} />
       </SearchBox>
       <User>
         <Profile src="/images/profile.svg" alt="프로필이미지" />

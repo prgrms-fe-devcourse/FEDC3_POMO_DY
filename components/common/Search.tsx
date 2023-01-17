@@ -1,10 +1,14 @@
 /** @jsxImportSource @emotion/react */
-import { FunctionComponent } from 'react';
+import { FunctionComponent, ChangeEvent } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import Image from 'next/image';
 
-interface InputStyleProps {
+interface InputPropsBase {
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+
+interface InputStyleProps extends InputPropsBase {
   minW?: number;
   minH?: number;
   maxW?: number;
@@ -23,16 +27,18 @@ interface User {
   _id: string;
   image?: string;
   fullName?: string;
+  role?: string;
 }
 
-interface Channel {
-  name?: string;
+interface Category {
+  _id: string;
+  name: string;
 }
 
 interface Post {
   _id: string;
   title?: string;
-  channel?: Channel;
+  category?: Category | null;
 }
 
 interface Results {
@@ -44,6 +50,7 @@ const SearchContainer = styled.div`
   position: relative;
   min-width: 300px;
   background-color: #ffffff;
+  z-index: 100;
 `;
 
 const SearchIcon = () => {
@@ -152,7 +159,7 @@ const SearchResultBase: FunctionComponent<Results & { className?: string }> = ({
   return results.length > 0 ? (
     <ul className={className}>
       {results.map((result) => {
-        const isUser = result.fullName;
+        const isUser = result.role;
         const isPost = result.title;
         if (isUser && isPost) {
           throw new Error('you must choose one between User and Post');
@@ -169,7 +176,7 @@ const SearchResultBase: FunctionComponent<Results & { className?: string }> = ({
               src={isUser ? result.image || '/images/profile.svg' : '/images/post-index.svg'}
               alt={isUser ? '유저 이미지' : '뽀모도르 글 목차 이미지'}
               title={(isPost && result.title) || (isUser && result.fullName)}
-              category={(result.channel && result.channel?.name) || null}
+              category={(result.category && result.category.name) || null}
             />
           )
         );
@@ -198,12 +205,13 @@ export const SearchBox: FunctionComponent<InputStyleProps & ResultsComponent> = 
   children,
   placeholder = '검색어를 입력해주세요!',
   isOpen,
+  onChange,
 }) => {
   return (
     <SearchContainer>
       <SearchInputContainer>
         {icon}
-        <SearchInput placeholder={placeholder} maxLength={maxLength} />
+        <SearchInput onChange={onChange} placeholder={placeholder} maxLength={maxLength} />
       </SearchInputContainer>
       {isOpen && children}
     </SearchContainer>
