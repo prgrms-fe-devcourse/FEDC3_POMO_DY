@@ -67,6 +67,7 @@ const RefreshButton = styled.button`
 const CommentForm = styled.form`
   position: relative;
   margin-bottom: 15px;
+  margin-top: auto;
 `;
 
 const CommentInput = styled.input`
@@ -98,4 +99,6 @@ const CommentList = styled.div`
   margin: 20px 0;
   height: 100%;
   gap: 25px;
+  max-height: 500px;
+  overflow-y: scroll;
 `;
