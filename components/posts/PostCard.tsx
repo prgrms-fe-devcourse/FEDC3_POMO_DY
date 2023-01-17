@@ -17,9 +17,10 @@ export default function PostCard({ _id, participants, data, createdAt }: Props) 
   const [isInProgress, setIsInProgress] = useState(false);
 
   const getIsInProgress = useCallback((startTime: string, endTime: string) => {
-    const startT = new Date(startTime).getTime();
-    const endT = new Date(endTime).getTime();
+    const startT = new Date(`${date} ${startTime}`).getTime();
+    const endT = new Date(`${date} ${endTime}`).getTime();
     const nowT = Date.now();
+    console.log(startT, nowT, endT);
 
     if (nowT >= startT && nowT <= endT) setIsInProgress(true);
   }, []);
