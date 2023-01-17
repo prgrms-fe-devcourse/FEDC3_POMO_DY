@@ -1,13 +1,11 @@
+import { deleteLocalstorage } from '@components/auth/localstorage';
 import { axiosInstance } from 'api';
-import { setToken } from 'api';
-import { deleteLocalstorage } from './localstorage';
 
-export const checkToken = async (token: string) => {
+export const getId = async (token: string | null) => {
   try {
     const response = await axiosInstance.post('/api/authUser', token);
     if (response.status === 200) {
-      setToken(token);
-      console.log(response);
+      return response.data._id;
     }
   } catch (error) {
     console.log(error, '옳바르지 않은 토큰입니다.');

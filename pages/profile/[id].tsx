@@ -16,7 +16,7 @@ export default function UserProfile() {
 
   const getData = async () => {
     try {
-      const response = await axiosInstance.get(`/users/${user}`);
+      const response = await axiosInstance.get(`/api/users/${user}`);
       if (response.status === 200) {
         return response.data;
       }

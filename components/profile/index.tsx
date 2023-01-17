@@ -17,7 +17,6 @@ export default function Profile({ userId, email, userName, isMyInfo }) {
 }
 
 const Main = styled.div`
-  margin-top: 96px;
   height: 100vh;
   background-color: white;
   display: grid;
