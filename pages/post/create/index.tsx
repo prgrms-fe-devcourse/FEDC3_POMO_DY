@@ -14,7 +14,7 @@ function PostCreatePage() {
     date: '',
     startTime: '',
     endTime: '',
-    interval: 0,
+    interval: 1,
     content: '',
     channelId: TMP_CHANNEL_ID,
   });

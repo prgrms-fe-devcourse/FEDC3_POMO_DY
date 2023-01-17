@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import Input from './input';
 import { Post } from './types';
 import { COLORS } from 'styles/colors';
-import { calcTodayDate } from './utils/date';
+import { calcTodayDateKST } from './utils/date';
 
 interface Props {
   values: Post;
@@ -13,7 +13,7 @@ interface Props {
 
 function PostCreate({ values, onChange, onCreate }: Props) {
   const { title, date, startTime, endTime, interval, content } = values;
-  const today = calcTodayDate();
+  const today = calcTodayDateKST();
 
   return (
     <Container>
@@ -64,7 +64,7 @@ function PostCreate({ values, onChange, onCreate }: Props) {
               placeholder="ex. 3"
               width={50}
               height={30}
-              min={0}
+              min={1}
               max={24}
               onChange={onChange}
             />

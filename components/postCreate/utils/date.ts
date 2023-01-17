@@ -1,6 +1,9 @@
-export const calcTodayDate = () => {
-  const nowUTC = Date.now();
-  const timeOff = new Date().getTimezoneOffset() * 60000;
-  const today = new Date(nowUTC - timeOff).toISOString().split('T')[0];
-  return today;
+export const calcTodayDateKST = () => {
+  const [year, month, date] = new Date()
+    .toLocaleDateString()
+    .split('.')
+    .slice(0, -1)
+    .map((v) => v.trim());
+
+  return `${year}-${month.padStart(2, '0')}-${date.padStart(2, '0')}`;
 };

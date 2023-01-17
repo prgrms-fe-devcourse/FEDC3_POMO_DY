@@ -29,8 +29,7 @@ export const usePostCreateForm = (initialState: Post) => {
 
     if (name === 'interval' && value) {
       const intervalNumber = Number(value);
-
-      if (intervalNumber < 0) {
+      if (intervalNumber < 1) {
         return;
       }
 
@@ -47,7 +46,6 @@ export const usePostCreateForm = (initialState: Post) => {
     e.preventDefault();
 
     const { isValid, msg } = validatePostCreateForm(form);
-
     if (!isValid) {
       alert(msg);
       return;

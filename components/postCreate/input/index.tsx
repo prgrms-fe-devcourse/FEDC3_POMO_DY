@@ -7,29 +7,15 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function Input({ initialValue, type, id, placeholder, width, height, onChange, min, max }: Props) {
-  const [value, setValue] = useState(initialValue);
+function Input({ initialValue, id, onChange, ...props }: Props) {
+  const [value, setValue] = useState(initialValue ?? '');
 
   const handleValueChange: React.ChangeEventHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
     onChange && onChange(e);
   };
 
-  return (
-    <StyledInput
-      type={type}
-      id={id}
-      name={id}
-      value={value}
-      placeholder={placeholder}
-      width={width}
-      height={height}
-      min={min}
-      max={max}
-      autoComplete="off"
-      onChange={handleValueChange}
-    />
-  );
+  return <StyledInput id={id} name={id} value={value} autoComplete="off" onChange={handleValueChange} {...props} />;
 }
 
 const StyledInput = styled.input(({ width, height }) => {
