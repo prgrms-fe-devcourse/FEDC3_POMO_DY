@@ -123,7 +123,7 @@ export default function Create() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const response = await axiosInstance.post('/login', {
+      const response = await axiosInstance.post('/api/login', {
         email,
         password,
       });

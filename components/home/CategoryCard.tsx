@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
+import Link from 'next/link';
 import { COLORS } from 'styles/colors';
+import { CategoryInfoType } from './types';
 
 const CardContainer = styled.div`
   width: 224px;
@@ -23,16 +25,21 @@ const CardContainer = styled.div`
 `;
 
 const CategoryTitle = styled.div`
+  width: 75%;
+  padding: 6px 0;
+  text-align: center;
   font-weight: 700;
   font-size: 35px;
   font-family: 'UhBee EUN KYUNG';
-  text-decoration: underline;
+  border-bottom: 2px solid;
   color: #2b2b2b;
 `;
 
 const CategorySub = styled.div`
   font-weight: 400;
   font-size: 18px;
+  text-decoration: none;
+  color: #000000;
 `;
 
 const CountCircle = styled.div`
@@ -54,12 +61,35 @@ const CountCircle = styled.div`
   }
 `;
 
-export default function CategoryCard() {
+export default function CategoryCard({ _id, name, posts }: CategoryInfoType) {
+  const nextUrl = `/post/${_id}`;
+
+  const gettranslateName = (name: string) => {
+    switch (name) {
+      case 'study':
+        return '공부';
+      case 'develop':
+        return '개발';
+      case 'job':
+        return '취업';
+      case 'reading':
+        return '독서';
+      case 'hobby':
+        return '취미';
+      case 'etc':
+        return '기타';
+      default:
+        return '카테고리';
+    }
+  };
+
   return (
-    <CardContainer>
-      <CategoryTitle>카테고리</CategoryTitle>
-      <CategorySub>뽀모방 개수</CategorySub>
-      <CountCircle>4</CountCircle>
-    </CardContainer>
+    <Link href={nextUrl} style={{ textDecoration: 'none' }}>
+      <CardContainer>
+        <CategoryTitle>{gettranslateName(name)}</CategoryTitle>
+        <CategorySub>뽀모방 개수</CategorySub>
+        <CountCircle>{posts.length}</CountCircle>
+      </CardContainer>
+    </Link>
   );
 }
