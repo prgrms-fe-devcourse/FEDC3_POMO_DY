@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { COLORS } from 'styles/colors';
 import RefreshIcon from 'public/icons/circle_arrow.svg';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { usePostComment } from '@components/post/hooks/queries';
 import CommentItem from './CommentItem';
 import useComments from '@components/post/hooks/useComments';
@@ -16,6 +16,7 @@ export default function CommentTapContent() {
   const { postId } = router.query;
   const comments = useComments();
   const queryClient = useQueryClient();
+  const commentListRef = useRef<HTMLDivElement>(null);
 
   const onChangeCommentValue = (e: React.ChangeEvent<HTMLInputElement>) => setCommentValue(e.target.value);
   const onSubmitComment = (e: React.FormEvent<HTMLFormElement>) => {
@@ -27,6 +28,13 @@ export default function CommentTapContent() {
     setCommentValue('');
   };
   const onClickRefresh = () => queryClient.refetchQueries(['post_getPost', postId]);
+  const moveScrollTop = () => {
+    if (commentListRef.current) {
+      commentListRef.current.scrollTop = commentListRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => moveScrollTop(), [comments]);
 
   return (
     <Container>
@@ -34,7 +42,7 @@ export default function CommentTapContent() {
         <RefreshButton onClick={onClickRefresh}>
           <RefreshIcon />
         </RefreshButton>
-        <CommentList>
+        <CommentList ref={commentListRef}>
           {comments.map((comment) => (
             <CommentItem comment={comment.content} key={comment.id} />
           ))}
