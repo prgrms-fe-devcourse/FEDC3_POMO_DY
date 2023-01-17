@@ -14,3 +14,11 @@ export const getLocalstorage = (key: string) => {
     throw new Error(error);
   }
 };
+
+export const deleteLocalstorage = (key: string) => {
+  try {
+    window.localStorage.removeItem(key);
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};

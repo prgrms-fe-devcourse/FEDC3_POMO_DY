@@ -7,7 +7,7 @@ export default async function sign(request: NextApiRequest, response: NextApiRes
   const { body } = request;
 
   try {
-    const { data }: AxiosResponse = await publicApi.post('/sign', body);
+    const { data }: AxiosResponse = await publicApi.post('/signup', body);
 
     return response.status(200).end(JSON.stringify(data));
   } catch (err) {
