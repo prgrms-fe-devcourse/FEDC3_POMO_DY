@@ -2,16 +2,23 @@ import styled from '@emotion/styled';
 import { LikeItem } from './LikeItem';
 
 export const LikeList = ({ list, title }) => {
+  let titleName = '';
+
+  if (title === 'following') {
+    titleName = '팔로잉';
+  } else {
+    titleName = '팔로워';
+  }
   console.log(list);
   return (
     <LikeBox>
       <LikeHeader>
-        <LikeTitle>{title}</LikeTitle>
+        <LikeTitle>{titleName}</LikeTitle>
         <LikeSubTitle>{list?.length} 명</LikeSubTitle>
       </LikeHeader>
       <Division />
       {list.map((data) => {
-        return <LikeItem key={data.user} id={data.user} />;
+        return <LikeItem key={data.user} title={title} following={data.user} followers={data.follower} />;
       })}
     </LikeBox>
   );

@@ -8,8 +8,8 @@ export default function Profile({ followers, following, email, userName, isMyInf
       <Main>
         <UserInfo email={email} userName={userName} isMyInfo={isMyInfo} />
         <LikeContainer>
-          <LikeList list={following} title={'팔로잉'} />
-          <LikeList list={followers} title={'팔로워'} />
+          <LikeList list={following} title={'following'} />
+          <LikeList list={followers} title={'followers'} />
         </LikeContainer>
       </Main>
     </>

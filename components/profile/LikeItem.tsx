@@ -3,7 +3,15 @@ import styled from '@emotion/styled';
 import { getFullName } from './getFullName';
 import { useQuery } from 'react-query';
 
-export const LikeItem = ({ id }) => {
+export const LikeItem = ({ following, followers, title }) => {
+  let id = '';
+
+  if (title === 'following') {
+    id = following;
+  } else {
+    id = followers;
+  }
+
   const { status, data } = useQuery(id, () => getFullName(id));
 
   if (status === 'loading') {
