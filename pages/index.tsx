@@ -124,7 +124,7 @@ export default function Home() {
 
   const getUserList = async () => {
     try {
-      const res = await axiosInstance.get('/users/get-users');
+      const res = await axiosInstance.get('/api/users/get-users');
       if (res.status === 200) {
         setUsers(res.data);
       }
