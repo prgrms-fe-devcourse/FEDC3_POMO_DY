@@ -1,5 +1,5 @@
 export const calcTodayDateKST = () => {
-  const [year, month, date] = new Date()
+  const [year, month, date]: string[] = new Date()
     .toLocaleDateString()
     .split('.')
     .slice(0, -1)
