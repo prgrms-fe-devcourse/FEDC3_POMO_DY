@@ -1,8 +1,9 @@
+import { CategoryNameMap } from '@components/post/constants';
+import { CategoryNameInDB } from '@components/post/types';
 import PostCard from '@components/posts/PostCard';
 import styled from '@emotion/styled';
 import LeftArrow from '@public/icons/left_arrow.svg';
 import { axiosInstance } from 'api';
-import { log } from 'console';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
@@ -25,9 +26,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 export default function Post({ categoryId }: cateoryIdProps) {
   const [posts, setPosts] = useState([]);
 
+  const splitedData = categoryId.split('-');
+  const translatedName = CategoryNameMap[splitedData[1]];
+
   const getPosts = useCallback(async () => {
     try {
-      const res = await axiosInstance.get(`/api/posts/channel/${categoryId}`);
+      const res = await axiosInstance.get(`/api/posts/channel/${splitedData[0]}`);
       if (res.status === 200) {
         setPosts(res.data);
       }
@@ -49,10 +53,13 @@ export default function Post({ categoryId }: cateoryIdProps) {
         </PrevButton>
       </Link>
       <MainHeader>
-        <CategoryTitle>공부</CategoryTitle>
-        <CreateButton>뽀모 생성하기</CreateButton>
+        <CategoryTitle>{translatedName}</CategoryTitle>
+        <Link href="/post/create">
+          <CreateButton>뽀모 생성하기</CreateButton>
+        </Link>
       </MainHeader>
       <PostCardList>
+        {!posts.length && <Notice>모집 중인 뽀모방이 없어요</Notice>}
         {posts.map(({ _id, participants, data, createdAt }) => (
           <PostCard key={_id} _id={_id} participants={participants} data={data} createdAt={createdAt} />
         ))}
@@ -124,5 +131,13 @@ const PostCardList = styled.div`
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
-  gap: 50px;
+  gap: 30px;
+`;
+
+const Notice = styled.div`
+  flex-grow: 1;
+  margin-top: 100px;
+  font-size: 23px;
+  text-align: center;
+  color: #828282;
 `;

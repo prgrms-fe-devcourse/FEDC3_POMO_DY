@@ -4,7 +4,7 @@ import { AxiosResponse } from 'axios';
 import { publicApi } from 'api';
 import { postType } from '@components/posts/types';
 
-export default async function getPost(request: NextApiRequest, response: NextApiResponse) {
+export default async function getPosts(request: NextApiRequest, response: NextApiResponse) {
   const {
     query: { categoryId },
   } = request;
@@ -16,6 +16,7 @@ export default async function getPost(request: NextApiRequest, response: NextApi
       return {
         _id: post._id,
         participants: post.likes,
+        categoryName: post.channel.name,
         data: JSON.parse(post.title),
         createdAt: post.createdAt,
       };

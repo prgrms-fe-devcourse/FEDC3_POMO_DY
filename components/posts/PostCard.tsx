@@ -5,10 +5,76 @@ import SadTomatoSvg from '@public/images/sad-tomato.svg';
 import { postDetailType } from './types';
 import { useCallback, useEffect, useState } from 'react';
 
+interface Props {
+  _id: string;
+  participants: [];
+  data: postDetailType;
+  createdAt: string;
+}
+
+export default function PostCard({ _id, participants, data, createdAt }: Props) {
+  const { title, date, description, startTime, endTime, iteration } = data;
+  const [isInProgress, setIsInProgress] = useState(false);
+
+  const getIsInProgress = useCallback((startTime: string, endTime: string) => {
+    const startT = new Date(startTime).getTime();
+    const endT = new Date(endTime).getTime();
+    const nowT = Date.now();
+
+    if (nowT >= startT && nowT <= endT) setIsInProgress(true);
+  }, []);
+
+  const getElapsedTimeStr = useCallback((createdAt: string) => {
+    const dateObj = new Date(createdAt).getTime();
+    const elapsedTime = Date.now() - dateObj;
+    const elapsedHour = Math.floor(elapsedTime / 1000 / 60 / 60);
+    const elapsedDay = Math.floor(elapsedHour / 24);
+    if (elapsedHour > 24) return `${elapsedDay}일 전`;
+    else if (elapsedHour < 1) return `${Math.floor(elapsedTime / 1000 / 60)}분 전`;
+    else return `${elapsedHour}시간 전`;
+  }, []);
+
+  useEffect(() => {
+    getIsInProgress(startTime, endTime);
+  }, [startTime, endTime]);
+
+  return (
+    <CardContainer>
+      {isInProgress && (
+        <CardCoverContainer>
+          <SadTomatoSvg />
+          <CoverMsg>진행 중인 뽀모예요</CoverMsg>
+        </CardCoverContainer>
+      )}
+      <TopBox>
+        <TextDate>{date}</TextDate>
+        <Time>
+          <RedText>{startTime}</RedText> ~ {endTime}
+        </Time>
+        <RecursionCount>
+          반복 <RedText>{iteration || '0'}회</RedText>
+        </RecursionCount>
+      </TopBox>
+      <BottomBox>
+        <BottomLeftBox>
+          <TitleContainer>{title}</TitleContainer>
+          <ContentContainer>{description}</ContentContainer>
+          <SubContainer>{getElapsedTimeStr(createdAt)}</SubContainer>
+        </BottomLeftBox>
+        <BottomRightBox>
+          <ProfileIcon className="profile" />
+          <CountCircle>{participants.length + 1}명</CountCircle>
+        </BottomRightBox>
+      </BottomBox>
+    </CardContainer>
+  );
+}
+
 const CardContainer = styled.div`
-  min-width: 354px;
-  height: 240px;
-  padding: 40px 50px;
+  min-width: 370px;
+  width: 31.5%;
+  height: 245px;
+  padding: 40px;
   background: ${COLORS.sub_yellow};
   border-radius: 14px;
   display: flex;
@@ -87,7 +153,8 @@ const BottomLeftBox = styled.div`
 
 const TitleContainer = styled.div`
   font-weight: 600;
-  font-size: 20px;
+  font-size: 18px;
+  margin-bottom: 5px;
 `;
 
 const ContentContainer = styled.div`
@@ -124,67 +191,3 @@ const CountCircle = styled.div`
   text-align: center;
   line-height: 39px;
 `;
-
-interface Props {
-  _id: string;
-  participants: [];
-  data: postDetailType;
-  createdAt: string;
-}
-
-export default function PostCard({ _id, participants, data, createdAt }: Props) {
-  const { title, date, description, startTime, endTime, iteration } = data;
-  const [isInProgress, setIsInProgress] = useState(false);
-
-  const getIsInProgress = useCallback((startTime: string, endTime: string) => {
-    const startT = new Date(startTime).getTime();
-    const endT = new Date(endTime).getTime();
-    const nowT = Date.now();
-
-    if (nowT >= startT && nowT <= endT) setIsInProgress(true);
-  }, []);
-
-  const getElapsedTimeStr = useCallback((createdAt: string) => {
-    const dateObj = new Date(createdAt).getTime();
-    const elapsedTime = Date.now() - dateObj;
-    const elapsedHour = Math.floor(elapsedTime / 1000 / 60 / 60);
-    const elapsedDay = Math.floor(elapsedHour / 24);
-    if (elapsedHour > 24) return `${elapsedDay}일`;
-    else return `${elapsedHour}시간 전`;
-  }, []);
-
-  useEffect(() => {
-    getIsInProgress(startTime, endTime);
-  }, [startTime, endTime]);
-
-  return (
-    <CardContainer>
-      {isInProgress && (
-        <CardCoverContainer>
-          <SadTomatoSvg />
-          <CoverMsg>진행 중인 뽀모예요</CoverMsg>
-        </CardCoverContainer>
-      )}
-      <TopBox>
-        <TextDate>{date}</TextDate>
-        <Time>
-          <RedText>{startTime}</RedText> ~ {endTime}
-        </Time>
-        <RecursionCount>
-          반복 <RedText>{iteration}회</RedText>
-        </RecursionCount>
-      </TopBox>
-      <BottomBox>
-        <BottomLeftBox>
-          <TitleContainer>{title}</TitleContainer>
-          <ContentContainer>{description}</ContentContainer>
-          <SubContainer>{getElapsedTimeStr(createdAt)} 전</SubContainer>
-        </BottomLeftBox>
-        <BottomRightBox>
-          <ProfileIcon className="profile" />
-          <CountCircle>{participants.length + 1}명</CountCircle>
-        </BottomRightBox>
-      </BottomBox>
-    </CardContainer>
-  );
-}
