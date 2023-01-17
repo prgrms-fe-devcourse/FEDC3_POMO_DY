@@ -104,6 +104,7 @@ const Form = styled.form`
 `;
 
 const FormTitle = styled.h3`
+  margin-top: 30px;
   line-height: 0.5;
   font-size: 30px;
   font-weight: 700;

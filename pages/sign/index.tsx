@@ -46,9 +46,6 @@ export default function Sign() {
       }
     } catch (error) {
       console.error(error);
-      //에러시 루틴
-      // error.response.status = 400
-      // error.response.data = "에러내용"
     }
   };
 
@@ -135,6 +132,7 @@ const Form = styled.form`
 `;
 
 const FormTitle = styled.h3`
+  margin-top: 30px;
   line-height: 0.5;
   font-size: 30px;
   font-weight: 700;
