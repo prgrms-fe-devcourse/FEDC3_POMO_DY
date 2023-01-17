@@ -7,6 +7,7 @@ import { usePostComment } from '@components/post/hooks/queries';
 import CommentItem from './CommentItem';
 import useComments from '@components/post/hooks/useComments';
 import { tabContainerStyle, TabContentBackground } from '@components/post/styles';
+import { useQueryClient } from 'react-query';
 
 export default function CommentTapContent() {
   const [commentValue, setCommentValue] = useState('');
@@ -14,18 +15,23 @@ export default function CommentTapContent() {
   const router = useRouter();
   const { postId } = router.query;
   const comments = useComments();
+  const queryClient = useQueryClient();
 
   const onChangeCommentValue = (e: React.ChangeEvent<HTMLInputElement>) => setCommentValue(e.target.value);
   const onSubmitComment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    postComment({ postId: postId as string, comment: commentValue });
+    postComment(
+      { postId: postId as string, comment: commentValue },
+      { onSuccess: () => queryClient.invalidateQueries(['post_getPost', postId]) },
+    );
     setCommentValue('');
   };
+  const onClickRefresh = () => queryClient.refetchQueries(['post_getPost', postId]);
 
   return (
     <Container>
       <TabContentBackground>
-        <RefreshButton>
+        <RefreshButton onClick={onClickRefresh}>
           <RefreshIcon />
         </RefreshButton>
         <CommentList>
