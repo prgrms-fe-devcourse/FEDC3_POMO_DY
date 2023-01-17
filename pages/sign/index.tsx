@@ -2,7 +2,6 @@ import LogoSvg from '@public/images/logo.svg';
 import styled from '@emotion/styled';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { axiosInstance } from 'api';
-import { Auth } from '@components/auth/auth';
 import { useRouter } from 'next/router';
 import { LoginApi } from '@components/login/loginApi';
 
@@ -33,15 +32,12 @@ export default function Sign() {
       return;
     }
     try {
-      const response = await axiosInstance.post('/signup', {
+      const response = await axiosInstance.post('api/signup', {
         email,
         fullName,
         password,
       });
       if (response.status === 200) {
-        Auth({
-          token: response.data.token,
-        });
         LoginApi({
           email,
           password,
