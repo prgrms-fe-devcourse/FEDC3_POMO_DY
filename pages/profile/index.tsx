@@ -13,19 +13,12 @@ export default function MyProfile() {
       }
     } catch (error) {
       console.error(error);
-      //에러시 루틴
-      // error.response.status = 400
-      // error.response.data = "에러내용"
     }
   };
-  const { status, data, error } = useQuery('myData', getData);
+  const { status, data } = useQuery('myData', getData);
 
   if (status === 'loading') {
     return <span>Loading...</span>;
-  }
-
-  if (status === 'error') {
-    return <span>Error: {error.message}</span>;
   }
 
   return (

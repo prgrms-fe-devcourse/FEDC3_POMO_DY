@@ -11,7 +11,6 @@ export default function UserProfile() {
   useEffect(() => {
     if (!router.isReady) return;
     const userId = router.query.id;
-    console.log(userId);
     setUser(String(userId));
   }, [router.isReady]);
 
@@ -23,19 +22,13 @@ export default function UserProfile() {
       }
     } catch (error) {
       console.error(error);
-      //에러시 루틴
-      // error.response.status = 400
-      // error.response.data = "에러내용"
     }
   };
-  const { status, data, error } = useQuery(user, getData);
+  const { status, data } = useQuery(user, getData);
+  console.log(data);
 
   if (status === 'loading') {
     return <span>Loading...</span>;
-  }
-
-  if (status === 'error') {
-    return <span>Error: {error.message}</span>;
   }
 
   return (
