@@ -7,6 +7,7 @@ import UserCard from '@components/home/UserCard';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { axiosInstance } from 'api';
 import { CategoryInfoType, UserInfoType } from '@components/home/types';
+import { AuthRequired } from '@components/auth/authrequire';
 
 const MainContainer = styled.main`
   background-color: white;
@@ -123,7 +124,7 @@ export default function Home() {
 
   const getUserList = async () => {
     try {
-      const res = await axiosInstance.get('/users/get-users');
+      const res = await axiosInstance.get('/api/users/get-users');
       if (res.status === 200) {
         setUsers(res.data);
       }
@@ -138,37 +139,39 @@ export default function Home() {
   }, []);
 
   return (
-    <MainContainer>
-      <CategoryContainer>
-        <MainTextDiv>
-          <LogoSvg className="logo" />
-          같이 뽀모해요.
-        </MainTextDiv>
-        <SubTextDiv>원하시는 카테고리를 선택해주세요.</SubTextDiv>
-        <CategoryCardList>
-          {categoryArr.map(({ _id, name, posts }: CategoryInfoType) => (
-            <CategoryCard key={_id} _id={_id} name={name} posts={posts} />
-          ))}
-        </CategoryCardList>
-      </CategoryContainer>
-      <UserListContainer>
-        <InputContainer>
-          <SearchIcon className="search" />
-          <UserSearchInput
-            type="text"
-            placeholder="유저 검색하기"
-            onChange={onChangeInputHandler}
-            value={searchKeyword}
-          />
-        </InputContainer>
-        <UserList>
-          {users
-            .filter(({ fullName }: UserInfoType) => fullName.includes(searchKeyword))
-            .map(({ _id, fullName, isOnline }) => (
-              <UserCard key={_id} _id={_id} fullName={fullName} isOnline={isOnline} />
+    <AuthRequired>
+      <MainContainer>
+        <CategoryContainer>
+          <MainTextDiv>
+            <LogoSvg className="logo" />
+            같이 뽀모해요.
+          </MainTextDiv>
+          <SubTextDiv>원하시는 카테고리를 선택해주세요.</SubTextDiv>
+          <CategoryCardList>
+            {categoryArr.map(({ _id, name, posts }: CategoryInfoType) => (
+              <CategoryCard key={_id} _id={_id} name={name} posts={posts} />
             ))}
-        </UserList>
-      </UserListContainer>
-    </MainContainer>
+          </CategoryCardList>
+        </CategoryContainer>
+        <UserListContainer>
+          <InputContainer>
+            <SearchIcon className="search" />
+            <UserSearchInput
+              type="text"
+              placeholder="유저 검색하기"
+              onChange={onChangeInputHandler}
+              value={searchKeyword}
+            />
+          </InputContainer>
+          <UserList>
+            {users
+              .filter(({ fullName }: UserInfoType) => fullName.includes(searchKeyword))
+              .map(({ _id, fullName, isOnline }) => (
+                <UserCard key={_id} _id={_id} fullName={fullName} isOnline={isOnline} />
+              ))}
+          </UserList>
+        </UserListContainer>
+      </MainContainer>
+    </AuthRequired>
   );
 }
