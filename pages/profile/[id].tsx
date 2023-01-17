@@ -3,6 +3,7 @@ import Profile from '@components/profile/index';
 import { axiosInstance } from 'api';
 import { useQuery } from 'react-query';
 import { useEffect, useState } from 'react';
+import { getFullName } from '@components/profile/getFullName';
 
 export default function UserProfile() {
   const router = useRouter();
@@ -14,18 +15,7 @@ export default function UserProfile() {
     setUser(String(userId));
   }, [router.isReady]);
 
-  const getData = async () => {
-    try {
-      const response = await axiosInstance.get(`/api/users/${user}`);
-      if (response.status === 200) {
-        return response.data;
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const { status, data } = useQuery(user, getData);
+  const { status, data } = useQuery(user, () => getFullName(user));
 
   if (status === 'loading') {
     return <span>Loading...</span>;

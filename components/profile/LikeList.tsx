@@ -1,22 +1,18 @@
 import styled from '@emotion/styled';
-import ProfileImg from '@public/icons/profile.svg';
+import { LikeItem } from './LikeItem';
 
 export const LikeList = ({ list, title }) => {
+  console.log(list);
   return (
     <LikeBox>
       <LikeHeader>
         <LikeTitle>{title}</LikeTitle>
-        <LikeSubTitle>{list.length} 명</LikeSubTitle>
+        <LikeSubTitle>{list?.length} 명</LikeSubTitle>
       </LikeHeader>
       <Division />
-      <LikeUser>
-        <ProfileImg />
-        <LikeUserName>내이름은슈퍼초길지</LikeUserName>
-      </LikeUser>
-      <LikeUser>
-        <ProfileImg />
-        <LikeUserName>김규란</LikeUserName>
-      </LikeUser>
+      {list.map((data) => {
+        return <LikeItem key={data.user} id={data.user} />;
+      })}
     </LikeBox>
   );
 };
@@ -31,17 +27,6 @@ const LikeBox = styled.div`
   align-content: flex-start;
   gap: 20px;
   grid-column: span 2;
-`;
-
-const LikeUser = styled.div`
-  display: flex;
-`;
-const LikeUserName = styled.div`
-  margin-left: 20px;
-  margin-top: 10px;
-  font-weight: 600;
-  font-size: 25px;
-  line-height: 30px;
 `;
 
 const LikeHeader = styled.div`

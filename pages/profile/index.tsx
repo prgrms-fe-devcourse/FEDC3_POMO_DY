@@ -10,7 +10,6 @@ export default function MyProfile() {
       const token = getLocalstorage('JWT_TOKEN');
       const id = await getId(token);
       const response = await axiosInstance.get(`/api/users/${id}`);
-      console.log(response);
       if (response.status === 200) {
         return response.data;
       }
