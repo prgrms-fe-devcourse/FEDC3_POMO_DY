@@ -12,12 +12,14 @@ const Bar = styled.nav`
   height: 100px;
 `;
 
-const LogoContainer = styled.div`
+const LogoContainer = styled(Link)`
   display: flex;
   min-width: 120px;
   align-items: center;
   margin-left: 16px;
   margin-right: auto;
+  text-decoration-line: none;
+  color: black;
 `;
 const LogoTitle = styled.div`
   font-family: 'UhBee EUN KYUNG';
@@ -61,7 +63,7 @@ const Notification = styled(imageBase)`
 export const Header: FunctionComponent = () => {
   return (
     <Bar>
-      <LogoContainer>
+      <LogoContainer href={'/'}>
         <LogoSmall style={{ marginRight: '16px' }} />
         <LogoTitle> 뽀모 </LogoTitle>
       </LogoContainer>

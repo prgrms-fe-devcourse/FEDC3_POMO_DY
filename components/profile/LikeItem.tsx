@@ -4,18 +4,42 @@ import { getFullName } from './getFullName';
 import { useQuery } from 'react-query';
 import Link from 'next/link';
 import { COLORS } from 'styles/colors';
+import { getLocalstorage } from '@components/auth/localstorage';
+import { publicApi } from 'api';
+import { useRouter } from 'next/router';
 
-export const LikeItem = ({ following, followers, title }) => {
-  let id = '';
+interface LikeItemProps {
+  followers: string;
+  following: string;
+  title: string;
+  isMyInfo: boolean;
+}
 
+export const LikeItem = ({ following, followers, title, isMyInfo }: LikeItemProps) => {
+  const router = useRouter();
+  let id: string;
   if (title === 'following') {
     id = following;
   } else {
     id = followers;
   }
 
-  const onDeleteHandler = () => {
-    console.log(data.followers[0]._id);
+  const onDeleteHandler = async () => {
+    const hostId = getLocalstorage('ID');
+    const followingId = data.followers.find((item: any) => item.follower == hostId)._id;
+    try {
+      const response = await publicApi.delete('/follow/delete', {
+        data: {
+          id: followingId,
+        },
+      });
+      if (response.status === 200) {
+        // 차후 수정 (페이지 교체)
+        router.reload();
+      }
+    } catch (error) {
+      console.log(error, '팔로잉 삭제 실패');
+    }
   };
 
   const { status, data } = useQuery(id, () => getFullName(id));
@@ -24,15 +48,13 @@ export const LikeItem = ({ following, followers, title }) => {
     return <span>Loading...</span>;
   }
 
-  console.log(data.followers, data.fullName);
-
   return (
     <UserBox>
       <LikeUser href={`/profile/${id}`}>
         {data && <ProfileImg />}
         {data && <LikeUserName>{data?.fullName}</LikeUserName>}
       </LikeUser>
-      {data && <DeleteButton onClick={onDeleteHandler}>삭제하기</DeleteButton>}
+      {title === 'following' && isMyInfo && <DeleteButton onClick={onDeleteHandler}>삭제하기</DeleteButton>}
     </UserBox>
   );
 };

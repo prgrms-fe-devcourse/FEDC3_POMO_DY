@@ -1,7 +1,7 @@
 import { deleteLocalstorage } from '@components/auth/localstorage';
 import { axiosInstance } from 'api';
 
-export const getId = async (token: string | null) => {
+export const getId = async (token: string | null | undefined) => {
   try {
     const response = await axiosInstance.post('/api/authUser', token);
     if (response.status === 200) {

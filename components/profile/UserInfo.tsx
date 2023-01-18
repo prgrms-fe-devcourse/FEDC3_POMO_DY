@@ -3,21 +3,43 @@ import { COLORS } from 'styles/colors';
 import PencilImg from '@public/icons/pencil.svg';
 import ProfileImg from '@public/icons/profile.svg';
 import { publicApi } from 'api';
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { getLocalstorage } from '@components/auth/localstorage';
 
-export const UserInfo = ({ email, userName, isMyInfo }) => {
+interface UserInfoProps {
+  email: string;
+  userName: string;
+  isMyInfo: boolean;
+}
+
+export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
   const [isFallow, setIsFallow] = useState(false);
   const [name, setName] = useState('templite');
   const router = useRouter();
   const followId = router.query.id;
+  const hostId = getLocalstorage('ID');
+  console.log(hostId, followId);
 
   useEffect(() => {
     setName(userName);
+    initState();
   }, [userName]);
 
+  const initState = async () => {
+    try {
+      const response = await publicApi.get(`/users/${hostId}`);
+      const checkFollow = response.data.following.findIndex((item: any) => item.user === followId);
+      if (response.status === 200 && checkFollow >= 0) {
+        setIsFallow(true);
+      }
+    } catch (error) {
+      console.log(error, '정보 입력 실패');
+    }
+  };
+
   const onModifyNameHandler = async () => {
-    const modifyName = prompt('변경을 원하는 이름을 적어주세요');
+    const modifyName: any = prompt('변경을 원하는 이름을 적어주세요');
     try {
       const response = await publicApi.put('/settings/update-user', {
         fullName: modifyName,
@@ -34,12 +56,9 @@ export const UserInfo = ({ email, userName, isMyInfo }) => {
     {
       const modifyPassword = prompt('변경을 원하는 비밀번호를 적어주세요');
       try {
-        const response = await publicApi.put('/settings/update-password', {
+        await publicApi.put('/settings/update-password', {
           password: modifyPassword,
         });
-        if (response.status === 200) {
-          //console.log('response.data');
-        }
       } catch (error) {
         console.log(error, '비밀번호 변경 실패');
       }

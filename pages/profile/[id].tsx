@@ -14,12 +14,12 @@ export default function UserProfile() {
     if (!router.isReady) return;
     const userId = router.query.id;
     if (userId === getLocalstorage('ID')) {
-      router.push('/profile');
+      router.replace('/profile');
     }
     setUser(String(userId));
   }, [router]);
 
-  const { status, data } = useQuery(user, () => getFullName(user));
+  const { status, data } = useQuery([user], () => getFullName(user));
 
   if (status === 'loading') {
     return <span>Loading...</span>;

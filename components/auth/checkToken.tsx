@@ -2,7 +2,7 @@ import { axiosInstance } from 'api';
 import { setToken } from 'api';
 import { deleteLocalstorage, setLocalstorage } from './localstorage';
 
-export const checkToken = async (token: string) => {
+export const checkToken = async (token: string | undefined) => {
   try {
     const response = await axiosInstance.post('/api/authUser', token);
     if (response.status === 200) {
