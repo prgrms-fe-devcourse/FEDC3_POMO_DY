@@ -18,9 +18,18 @@ export default function PostCard({ _id, participants, data, createdAt }: Props) 
 
   const getIsInProgress = useCallback((startTime: string, endTime: string) => {
     const startT = new Date(`${date} ${startTime}`).getTime();
-    const endT = new Date(`${date} ${endTime}`).getTime();
+
+    let endT;
+    const endTimeHour = parseInt(endTime.split(':')[0]);
+    if (endTimeHour > 24) {
+      const newEndT = `${endTimeHour - 24}:${endTime.split(':')[1]}`; // 24시간 뺀 시간
+      const newDate = new Date(new Date(date).setDate(new Date(date).getDate() + 1)).toDateString(); // 하루 더한 날짜
+
+      endT = new Date(`${newDate} ${newEndT}`).getTime();
+    } else {
+      endT = new Date(`${date} ${endTime}`).getTime();
+    }
     const nowT = Date.now();
-    console.log(startT, nowT, endT);
 
     if (nowT >= startT && nowT <= endT) setIsInProgress(true);
   }, []);
