@@ -1,6 +1,6 @@
 import { axiosInstance } from 'api';
 import { AxiosResponse } from 'axios';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { Post } from '../types';
 
 export const useGetPost = (id: string) =>
@@ -12,3 +12,9 @@ export const useGetPost = (id: string) =>
     },
     { enabled: !!id },
   );
+
+export const usePostComment = () =>
+  useMutation(async ({ comment, postId }: { comment: string; postId: string }) => {
+    const response = await axiosInstance.post('/api/comments/create', { comment, postId });
+    return response;
+  });

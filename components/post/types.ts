@@ -1,4 +1,4 @@
-import { CategoryNameMap } from '@components/post/constants';
+import { CATEGORY_NAME_MAP } from '@components/post/constants';
 export interface Post {
   id: string;
   title: string;
@@ -9,8 +9,8 @@ export interface Post {
   iteration: number;
   description: string;
   category: Category;
+  comments: Comment[];
 }
-
 interface Participant {
   id: string;
   userId: string;
@@ -21,10 +21,15 @@ interface Category {
   name: CategoryName;
 }
 
+export interface Comment {
+  id: string;
+  content: string;
+}
+
 export type CategoryNameInDB = 'study' | 'develop' | 'job' | 'reading' | 'hobby' | 'etc';
 
 export type CategoryName = '공부' | '개발' | '취업' | '독서' | '취미' | '기타';
 
 export const isCategoryNameInDB = (name: string): name is CategoryNameInDB => {
-  return CategoryNameMap.hasOwnProperty(name);
+  return CATEGORY_NAME_MAP.hasOwnProperty(name);
 };
