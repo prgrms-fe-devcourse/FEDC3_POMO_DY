@@ -15,6 +15,7 @@ export const getPost = async (id: string) => {
   if (!Array.isArray(data.comments)) throw new Error('잘못된 댓글 목록입니다.');
 
   if (!Array.isArray(data.likes)) throw new Error('잘못된 참여자 목록입니다.');
+
   const participantIdList: string[] = data.likes
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .filter((like: any) => like.hasOwnProperty('user'))
@@ -22,7 +23,6 @@ export const getPost = async (id: string) => {
     .filter((like: any) => typeof like.user === 'string')
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .map((like: any) => like.user as string);
-
   const participants = await getParticipants(participantIdList);
 
   const post: Post = {
