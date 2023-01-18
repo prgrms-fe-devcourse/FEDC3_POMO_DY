@@ -4,14 +4,18 @@ import Link from 'next/link';
 import { UserInfoType } from './types';
 
 const UserCardContainer = styled.li`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
+  list-style: none;
   cursor: pointer;
-  color: #000000;
   padding: 5px;
   border-radius: 5px;
+
+  & > .link {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    color: #000000;
+  }
 
   &:hover {
     background-color: #ededed;
@@ -47,14 +51,14 @@ const UserNameContainer = styled.div`
 export default function UserCard({ _id, fullName, isOnline }: UserInfoType) {
   const nextUrl = `/profile/${_id}`;
   return (
-    <Link href={nextUrl} style={{ textDecoration: 'none' }}>
-      <UserCardContainer>
+    <UserCardContainer>
+      <Link href={nextUrl} style={{ textDecoration: 'none' }} className="link">
         <ImageContainer>
           <ProfileIcon className="profile" />
           {isOnline && <ActiveCircle></ActiveCircle>}
         </ImageContainer>
         <UserNameContainer>{fullName}</UserNameContainer>
-      </UserCardContainer>
-    </Link>
+      </Link>
+    </UserCardContainer>
   );
 }
