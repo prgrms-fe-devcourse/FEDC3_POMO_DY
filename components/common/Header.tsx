@@ -6,7 +6,12 @@ import { css } from '@emotion/react';
 import Image from 'next/image';
 import { axiosInstance } from 'api';
 import { isCategoryNameInDB } from '@components/post/types';
-import { CategoryNameMap } from '@components/post/constants';
+import { CATEGORY_NAME_MAP } from '@components/post/constants';
+
+interface Category {
+  _id: string;
+  name: string;
+}
 
 const Bar = styled.nav`
   display: flex;
@@ -64,7 +69,7 @@ export const Header: FunctionComponent = () => {
   const [keyword, setKeyword] = useState<string>('');
   const [searchResults, setSearchResults] = useState([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
     getCategories();
@@ -85,7 +90,7 @@ export const Header: FunctionComponent = () => {
 
         return {
           _id,
-          name: CategoryNameMap[categoryName],
+          name: CATEGORY_NAME_MAP[categoryName],
         };
       });
       setCategories(categoriesName);
@@ -103,7 +108,7 @@ export const Header: FunctionComponent = () => {
       const res = await axiosInstance.get(`/api/search/all/${keyword}`);
       if (res.status === 200 && res.data.length > 0) {
         const { data } = res;
-        data.map(
+        const finalData = data.map(
           (result: {
             _id: string;
             role?: string;
@@ -111,19 +116,23 @@ export const Header: FunctionComponent = () => {
             fullName?: string;
             channelId?: string;
             title?: string;
+            category?: object | null;
           }) => {
-            const category: { _id: string; name: string } | null | undefined = result.channelId
-              ? categories.find((categoryName: { _id: string; name: string }) => categoryName._id === result.channelId)
+            const categoryData: Category | undefined | null = result.channelId
+              ? categories.find((categoryName) => categoryName._id === result.channelId)
               : null;
 
-            return {
-              ...result,
-              category,
-            };
+            const returnValue = { ...result };
+            returnValue.category = categoryData ? { ...categoryData } : null;
+
+            return returnValue;
           },
         );
-        setSearchResults(data);
+        setSearchResults(finalData);
+        console.log('data: ', finalData);
         setIsOpen(true);
+      } else {
+        setIsOpen(false);
       }
     } catch (err) {
       console.error(err);

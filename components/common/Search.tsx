@@ -104,7 +104,7 @@ const Content = (props: { src: string; alt: string; title: string | undefined; c
         cursor: pointer;
         &:hover {
           background-color: #fffbeb;
-          opacity: 0.8;
+          opacity: 1;
         }
       `}
     >
@@ -128,6 +128,10 @@ const Content = (props: { src: string; alt: string; title: string | undefined; c
       <p
         css={css`
           padding: 0px 0px;
+          width: 50%;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
         `}
       >
         {title}
@@ -176,7 +180,7 @@ const SearchResultBase: FunctionComponent<Results & { className?: string }> = ({
               src={isUser ? result.image || '/images/profile.svg' : '/images/post-index.svg'}
               alt={isUser ? '유저 이미지' : '뽀모도르 글 목차 이미지'}
               title={(isPost && result.title) || (isUser && result.fullName)}
-              category={(result.category && result.category.name) || null}
+              category={result.category && result.category.name ? result.category.name : null}
             />
           )
         );
