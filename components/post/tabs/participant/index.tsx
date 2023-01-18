@@ -15,9 +15,11 @@ export default function ParticipantTapContent() {
         <ParticipantList>
           <ParticipantItem {...host} isHost />
           <Divider />
-          {participants.map(({ id, ...participant }) => (
-            <ParticipantItem {...participant} key={id} />
-          ))}
+          {participants
+            .filter((participant) => participant.id !== hostId)
+            .map(({ id, ...participant }) => (
+              <ParticipantItem {...participant} key={id} />
+            ))}
         </ParticipantList>
       </TabContentBackground>
     </Container>
