@@ -2,6 +2,7 @@ import ProfileImg from '@public/icons/profile.svg';
 import styled from '@emotion/styled';
 import { getFullName } from './getFullName';
 import { useQuery } from 'react-query';
+import Link from 'next/link';
 
 export const LikeItem = ({ following, followers, title }) => {
   let id = '';
@@ -19,14 +20,14 @@ export const LikeItem = ({ following, followers, title }) => {
   }
 
   return (
-    <LikeUser>
+    <LikeUser href={`/profile/${id}`}>
       {data && <ProfileImg />}
       {data && <LikeUserName>{data?.fullName}</LikeUserName>}
     </LikeUser>
   );
 };
 
-const LikeUser = styled.div`
+const LikeUser = styled(Link)`
   display: flex;
 `;
 const LikeUserName = styled.div`

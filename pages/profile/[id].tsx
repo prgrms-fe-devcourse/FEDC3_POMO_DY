@@ -13,7 +13,7 @@ export default function UserProfile() {
     if (!router.isReady) return;
     const userId = router.query.id;
     setUser(String(userId));
-  }, [router.isReady]);
+  }, [router.isReady, router.query.id]);
 
   const { status, data } = useQuery(user, () => getFullName(user));
 
