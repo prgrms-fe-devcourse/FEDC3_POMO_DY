@@ -3,7 +3,7 @@ import { CategoryNameInDB } from '@components/post/types';
 import PostCard from '@components/posts/PostCard';
 import styled from '@emotion/styled';
 import LeftArrow from '@public/icons/left_arrow.svg';
-import { axiosInstance } from 'api';
+import { publicApi } from 'api';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
@@ -39,7 +39,8 @@ export default function Post({ categoryId, categoryName }: cateoryIdProps) {
 
   const getPosts = useCallback(async () => {
     try {
-      const res = await axiosInstance.get(`/api/posts/channel/${categoryId}`);
+      const res = await publicApi.get(`/posts/channel/${categoryId}`);
+
       if (res.status === 200) {
         setPosts(res.data);
       }
@@ -68,8 +69,8 @@ export default function Post({ categoryId, categoryName }: cateoryIdProps) {
       </MainHeader>
       <PostCardList>
         {!posts.length && <Notice>모집 중인 뽀모방이 없어요</Notice>}
-        {posts.map(({ _id, participants, data, createdAt }) => (
-          <PostCard key={_id} _id={_id} participants={participants} data={data} createdAt={createdAt} />
+        {posts.map(({ _id, likes, title, createdAt }) => (
+          <PostCard key={_id} _id={_id} participants={likes} data={JSON.parse(title)} createdAt={createdAt} />
         ))}
       </PostCardList>
     </MainContainer>

@@ -14,6 +14,7 @@ interface Props {
 
 export default function PostCard({ _id, participants, data, createdAt }: Props) {
   const { title, date, description, startTime, endTime, iteration } = data;
+
   const [isInProgress, setIsInProgress] = useState(false);
 
   const getIsInProgress = useCallback((startTime: string, endTime: string) => {
