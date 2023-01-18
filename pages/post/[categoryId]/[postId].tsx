@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 
 export default function PostPage() {
-  window && console.log(window.location.href);
   const router = useRouter();
   const { postId } = router.query;
   const { data } = useGetPost(postId as string);
