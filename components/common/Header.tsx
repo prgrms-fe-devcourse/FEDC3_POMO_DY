@@ -76,6 +76,10 @@ export const Header: FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
+    setIsOpen(searchResults.length > 0);
+  }, [searchResults]);
+
+  useEffect(() => {
     if (typeof window !== undefined && categories.length > 0) {
       getResultsSearch(keyword);
     }
@@ -129,17 +133,15 @@ export const Header: FunctionComponent = () => {
           },
         );
         setSearchResults(finalData);
-        console.log('data: ', finalData);
-        setIsOpen(true);
       } else {
-        setIsOpen(false);
+        setSearchResults([]);
       }
     } catch (err) {
       console.error(err);
     }
   }, []);
 
-  const onSearchHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value },
     } = e;
@@ -154,7 +156,7 @@ export const Header: FunctionComponent = () => {
         <LogoSmall style={{ marginRight: '16px' }} />
         <LogoTitle> 뽀모 </LogoTitle>
       </LogoContainer>
-      <SearchBox onChange={onSearchHandler} isOpen={isOpen}>
+      <SearchBox onChange={onChangeHandler} isOpen={isOpen}>
         <SearchResult results={searchResults} />
       </SearchBox>
       <User>
