@@ -1,16 +1,19 @@
 import styled from '@emotion/styled';
 import EmptyProfileImage from 'public/icons/profile.svg';
 import { COLORS } from 'styles/colors';
+import Image from 'next/image';
 
 interface ParticipantItemProps {
   isHost?: boolean;
+  name: string;
+  image?: string;
 }
 
-export default function ParticipantItem({ isHost }: ParticipantItemProps) {
+export default function ParticipantItem({ isHost, name, image }: ParticipantItemProps) {
   return (
     <Container>
-      <EmptyProfileImage />
-      <UserName>남주영</UserName>
+      {image ? <StyledImage src={image} alt="프로필 이미지" width="57" height="57" /> : <EmptyProfileImage />}
+      <UserName>{name}</UserName>
       {isHost && (
         <HostLabel>
           <Circle />
@@ -62,4 +65,8 @@ const Host = styled.div`
   font-size: 20px;
   line-height: 34px;
   color: #000000;
+`;
+
+const StyledImage = styled(Image)`
+  border-radius: 50%;
 `;

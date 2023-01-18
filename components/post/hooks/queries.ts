@@ -1,13 +1,12 @@
 import { axiosInstance } from 'api';
-import { AxiosResponse } from 'axios';
+import { getPost } from 'api/post';
 import { useMutation, useQuery } from 'react-query';
-import { Post } from '../types';
 
 export const useGetPost = (id: string) =>
-  useQuery<AxiosResponse<Post, unknown>, unknown, Post, string[]>(
+  useQuery(
     ['post_getPost', id],
     async () => {
-      const { data } = await axiosInstance.get(`/api/posts/${id}`);
+      const data = await getPost(id);
       return data;
     },
     { enabled: !!id },
