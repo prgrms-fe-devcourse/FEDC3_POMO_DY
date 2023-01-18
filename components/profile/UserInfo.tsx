@@ -5,6 +5,7 @@ import FollowImg from '@public/icons/follow.svg';
 import ProfileImg from '@public/icons/profile.svg';
 
 export const UserInfo = ({ email, userName, isMyInfo }) => {
+  const isFallow = false;
   return (
     <>
       <InfoContainer>
@@ -12,11 +13,17 @@ export const UserInfo = ({ email, userName, isMyInfo }) => {
           <ProfileImg className="infoIcon" />
           <InfoDetail>
             <InfoUserName>{userName}</InfoUserName>
-            {isMyInfo ? <PencilImg /> : <FollowImg />}
+            {isMyInfo && <PencilImg />}
             <InfoUserEmail>{email}</InfoUserEmail>
           </InfoDetail>
         </Info>
-        {isMyInfo && <PasswordChangeButton>비밀번호 변경</PasswordChangeButton>}
+        {isMyInfo ? (
+          <RedButton>비밀번호 변경</RedButton>
+        ) : isFallow ? (
+          <GrayButton>팔로잉</GrayButton>
+        ) : (
+          <RedButton>팔로우</RedButton>
+        )}
       </InfoContainer>
     </>
   );
@@ -65,7 +72,7 @@ const InfoUserEmail = styled.div`
   grid-column: span 2;
 `;
 
-const PasswordChangeButton = styled.button`
+const Button = styled.button`
   margin-top: 138px;
   width: 162px;
   height: 48px;
@@ -78,4 +85,14 @@ const PasswordChangeButton = styled.button`
   border: none;
   border-radius: 28px;
   border-color: ${COLORS.main};
+`;
+
+const RedButton = styled(Button)`
+  background: ${COLORS.main};
+  border-color: ${COLORS.main};
+`;
+
+const GrayButton = styled(Button)`
+  background: #838383;
+  border-color: #838383;
 `;
