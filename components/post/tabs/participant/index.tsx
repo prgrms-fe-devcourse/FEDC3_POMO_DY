@@ -1,3 +1,4 @@
+import useHost from '@components/post/hooks/useHost';
 import useParticipants from '@components/post/hooks/useParticipants';
 import { tabContainerStyle, TabContentBackground } from '@components/post/styles';
 import styled from '@emotion/styled';
@@ -6,11 +7,13 @@ import ParticipantItem from './ParticipantItem';
 
 export default function ParticipantTapContent() {
   const participants = useParticipants();
+  const { id: hostId, ...host } = useHost();
+
   return (
     <Container>
       <TabContentBackground>
         <ParticipantList>
-          {/* <ParticipantItem isHost /> */}
+          <ParticipantItem {...host} isHost />
           <Divider />
           {participants.map(({ id, ...participant }) => (
             <ParticipantItem {...participant} key={id} />

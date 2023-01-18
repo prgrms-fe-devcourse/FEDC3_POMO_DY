@@ -10,6 +10,7 @@ export interface Post {
   description: string;
   category: Category;
   comments: Comment[];
+  host: User;
 }
 
 export interface User {

@@ -22,6 +22,7 @@ export const getPost = async (id: string) => {
     .filter((like: any) => typeof like.user === 'string')
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .map((like: any) => like.user as string);
+
   const participants = await getParticipants(participantIdList);
 
   const post: Post = {
@@ -33,6 +34,7 @@ export const getPost = async (id: string) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     comments: data.comments.map((comment: any) => ({ id: comment._id, content: comment.comment })),
     participants,
+    host: { id: data.author._id, name: data.author.fullName, image: data.author.image },
     ...JSON.parse(data.title),
   };
 
