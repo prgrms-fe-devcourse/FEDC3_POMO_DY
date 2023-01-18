@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 import { COLORS } from 'styles/colors';
 
-interface cateoryIdProps {
+interface CateoryIdProps {
   categoryId: string;
   categoryName: CategoryNameInDB;
 }
@@ -32,7 +32,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   };
 };
 
-export default function Post({ categoryId, categoryName }: cateoryIdProps) {
+export default function Post({ categoryId, categoryName }: CateoryIdProps) {
   const [posts, setPosts] = useState([]);
 
   const translatedName = CATEGORY_NAME_MAP[categoryName];
@@ -40,7 +40,6 @@ export default function Post({ categoryId, categoryName }: cateoryIdProps) {
   const getPosts = useCallback(async () => {
     try {
       const res = await publicApi.get(`/posts/channel/${categoryId}`);
-
       if (res.status === 200) {
         setPosts(res.data);
       }

@@ -1,6 +1,6 @@
 import { CategoryInfoType } from '@components/home/types';
 
-export interface postDetailType {
+export interface PostDetailType {
   title: string;
   description: string;
   date: string;
@@ -9,7 +9,7 @@ export interface postDetailType {
   iteration: string;
 }
 
-export interface postType {
+export interface PostType {
   _id: string;
   likes: Participant[];
   title: string;

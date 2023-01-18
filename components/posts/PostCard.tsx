@@ -2,14 +2,14 @@ import styled from '@emotion/styled';
 import { COLORS } from 'styles/colors';
 import ProfileIcon from '@public/icons/profile.svg';
 import SadTomatoSvg from '@public/images/sad-tomato.svg';
-import { postDetailType } from './types';
+import { PostDetailType } from './types';
 import { useEffect, useState } from 'react';
 import { getElapsedTimeStr, getIsInProgress } from './util';
 
 interface Props {
   _id: string;
   participants: [];
-  data: postDetailType;
+  data: PostDetailType;
   createdAt: string;
 }
 

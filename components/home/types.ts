@@ -1,5 +1,5 @@
 import { CategoryNameInDB } from '@components/post/types';
-import { postType } from '@components/posts/types';
+import { PostType } from '@components/posts/types';
 
 export interface UserInfoType {
   isOnline: boolean;
@@ -10,5 +10,5 @@ export interface UserInfoType {
 export interface CategoryInfoType {
   _id: string;
   name: CategoryNameInDB;
-  posts: postType[];
+  posts: PostType[];
 }
