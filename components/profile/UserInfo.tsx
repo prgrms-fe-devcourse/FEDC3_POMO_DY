@@ -2,22 +2,56 @@ import styled from '@emotion/styled';
 import { COLORS } from 'styles/colors';
 import PencilImg from '@public/icons/pencil.svg';
 import ProfileImg from '@public/icons/profile.svg';
+import { publicApi } from 'api';
+import { getLocalstorage } from '@components/auth/localstorage';
+import { useState } from 'react';
 
 export const UserInfo = ({ email, userName, isMyInfo }) => {
   const isFallow = false;
+  const [name, setName] = useState(userName);
+  const onModifyNameHandler = async () => {
+    const modifyName = prompt('변경을 원하는 이름을 적어주세요');
+    try {
+      const response = await publicApi.put('/settings/update-user', {
+        fullName: modifyName,
+      });
+      if (response.status === 200) {
+        setName(modifyName);
+      }
+    } catch (error) {
+      console.log(error, '이름 변경 실패');
+    }
+  };
+
+  const onModifyPasswordHandler = async () => {
+    {
+      const modifyPassword = prompt('변경을 원하는 비밀번호를 적어주세요');
+      try {
+        const response = await publicApi.put('/settings/update-password', {
+          password: modifyPassword,
+        });
+        if (response.status === 200) {
+          //console.log('response.data');
+        }
+      } catch (error) {
+        console.log(error, '비밀번호 변경 실패');
+      }
+    }
+  };
+
   return (
     <>
       <InfoContainer>
         <Info>
           <ProfileImg className="infoIcon" />
           <InfoDetail>
-            <InfoUserName>{userName}</InfoUserName>
-            {isMyInfo && <PencilImg />}
+            <InfoUserName>{name}</InfoUserName>
+            {isMyInfo && <PencilImg onClick={onModifyNameHandler} />}
             <InfoUserEmail>{email}</InfoUserEmail>
           </InfoDetail>
         </Info>
         {isMyInfo ? (
-          <RedButton>비밀번호 변경</RedButton>
+          <RedButton onClick={onModifyPasswordHandler}>비밀번호 변경</RedButton>
         ) : isFallow ? (
           <GrayButton>팔로잉</GrayButton>
         ) : (

@@ -10,7 +10,6 @@ export default async function authUser(request: NextApiRequest, response: NextAp
         Authorization: `Bearer ${body}`,
       },
     });
-    console.log(data);
     if (!data._id) {
       return response.status(404).end('옳바르지 않은 토큰입니다.');
     }

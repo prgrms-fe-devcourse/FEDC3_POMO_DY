@@ -38,6 +38,7 @@ export const publicApi = setInterceptor(
 export const setToken = async (token: string) => {
   internalApi.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   publicApi.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  console.log(`bearer ${token} 주입완료`);
 };
 
 // 기존 instance
