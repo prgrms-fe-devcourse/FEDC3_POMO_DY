@@ -7,7 +7,7 @@ export const useGetPost = (id: string) =>
   useQuery<AxiosResponse<Post, unknown>, unknown, Post, string[]>(
     ['post_getPost', id],
     async () => {
-      const { data } = await axiosInstance.get(`/api/posts/${id}`);
+      const { data } = await axiosInstance.post(`/api/posts`, id);
       return data;
     },
     { enabled: !!id },
