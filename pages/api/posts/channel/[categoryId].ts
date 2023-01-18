@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { AxiosResponse } from 'axios';
 
 import { publicApi } from 'api';
-import { postType } from '@components/posts/types';
+import { PostType } from '@components/posts/types';
 
 export default async function getPosts(request: NextApiRequest, response: NextApiResponse) {
   const {
@@ -12,7 +12,7 @@ export default async function getPosts(request: NextApiRequest, response: NextAp
   try {
     const { data }: AxiosResponse = await publicApi.get(`/posts/channel/${categoryId}`);
 
-    const posts = data.map((post: postType) => {
+    const posts = data.map((post: PostType) => {
       return {
         _id: post._id,
         participants: post.likes,
