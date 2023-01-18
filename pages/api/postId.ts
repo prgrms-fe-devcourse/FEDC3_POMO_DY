@@ -6,9 +6,7 @@ import { isCategoryNameInDB } from '@components/post/types';
 import { CategoryNameMap } from '@components/post/constants';
 
 export default async function getPost(request: NextApiRequest, response: NextApiResponse) {
-  const {
-    query: { postId },
-  } = request;
+  const { body: postId } = request;
 
   try {
     const { data }: AxiosResponse = await publicApi.get(`/posts/${postId}`);
