@@ -19,7 +19,6 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
   const router = useRouter();
   const followId = router.query.id;
   const hostId = getLocalstorage('ID');
-  console.log(hostId, followId);
 
   useEffect(() => {
     setName(userName);
@@ -73,7 +72,6 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
       });
       if (response.status === 200) {
         setIsFallow(true);
-        console.log(response.data);
       }
     } catch (error) {
       console.log(error, '팔로우 실패');
