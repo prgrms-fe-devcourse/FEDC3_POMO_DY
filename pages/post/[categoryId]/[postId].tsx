@@ -1,3 +1,4 @@
+import { DEFAULT_POST } from '@components/post/constants';
 import { useGetPost } from '@components/post/hooks/queries';
 import PostInfo from '@components/post/info';
 import PostTabs from '@components/post/tabs';
@@ -5,6 +6,9 @@ import { Post } from '@components/post/types';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
+import React from 'react';
+
+export const PostContext = React.createContext<Post>(DEFAULT_POST);
 
 interface PostPageProps {
   post: Post;
@@ -15,10 +19,10 @@ export default function PostPage({ post }: PostPageProps) {
   const { postId } = router.query;
   // const { data } = useGetPost(postId as string);
   return (
-    <div>
+    <PostContext.Provider value={post}>
       {post && <PostInfo postInfo={post} />}
       <PostTabs />
-    </div>
+    </PostContext.Provider>
   );
 }
 
