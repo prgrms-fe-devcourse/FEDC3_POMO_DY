@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { COLORS } from 'styles/colors';
 import PencilImg from '@public/icons/pencil.svg';
-import FollowImg from '@public/icons/follow.svg';
 import ProfileImg from '@public/icons/profile.svg';
 
 export const UserInfo = ({ email, userName, isMyInfo }) => {

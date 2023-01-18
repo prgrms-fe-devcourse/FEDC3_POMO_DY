@@ -29,6 +29,8 @@ export const LikeItem = ({ following, followers, title }) => {
 
 const LikeUser = styled(Link)`
   display: flex;
+  text-decoration-line: none;
+  color: black;
 `;
 const LikeUserName = styled.div`
   margin-left: 20px;
