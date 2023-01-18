@@ -3,12 +3,19 @@ import { COLORS } from 'styles/colors';
 import PencilImg from '@public/icons/pencil.svg';
 import ProfileImg from '@public/icons/profile.svg';
 import { publicApi } from 'api';
-import { getLocalstorage } from '@components/auth/localstorage';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 export const UserInfo = ({ email, userName, isMyInfo }) => {
-  const isFallow = false;
-  const [name, setName] = useState(userName);
+  const [isFallow, setIsFallow] = useState(false);
+  const [name, setName] = useState('templite');
+  const router = useRouter();
+  const followId = router.query.id;
+
+  useEffect(() => {
+    setName(userName);
+  }, [userName]);
+
   const onModifyNameHandler = async () => {
     const modifyName = prompt('변경을 원하는 이름을 적어주세요');
     try {
@@ -39,6 +46,21 @@ export const UserInfo = ({ email, userName, isMyInfo }) => {
     }
   };
 
+  const onFollowHandler = async () => {
+    const followId = router.query.id;
+    try {
+      const response = await publicApi.post('/follow/create', {
+        userId: followId,
+      });
+      if (response.status === 200) {
+        setIsFallow(true);
+        console.log(response.data);
+      }
+    } catch (error) {
+      console.log(error, '팔로우 실패');
+    }
+  };
+
   return (
     <>
       <InfoContainer>
@@ -55,7 +77,7 @@ export const UserInfo = ({ email, userName, isMyInfo }) => {
         ) : isFallow ? (
           <GrayButton>팔로잉</GrayButton>
         ) : (
-          <RedButton>팔로우</RedButton>
+          <RedButton onClick={onFollowHandler}>팔로우</RedButton>
         )}
       </InfoContainer>
     </>
