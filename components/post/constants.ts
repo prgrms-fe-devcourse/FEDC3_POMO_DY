@@ -20,4 +20,5 @@ export const DEFAULT_POST: Post = {
   description: '',
   category: { id: '', name: '공부' },
   comments: [],
+  host: { id: '', name: '' },
 };
