@@ -1,4 +1,4 @@
-import { CategoryNameMap } from '@components/post/constants';
+import { CATEGORY_NAME_MAP } from '@components/post/constants';
 import { CategoryNameInDB } from '@components/post/types';
 import styled from '@emotion/styled';
 import Link from 'next/link';
@@ -65,7 +65,7 @@ const CountCircle = styled.div`
 
 export default function CategoryCard({ _id, name, posts }: CategoryInfoType) {
   const nextUrl = `/post/${_id}`;
-  const translatedName = CategoryNameMap[name];
+  const translatedName = CATEGORY_NAME_MAP[name];
 
   return (
     <Link href={nextUrl} style={{ textDecoration: 'none' }} as={`${nextUrl}-${name}`}>

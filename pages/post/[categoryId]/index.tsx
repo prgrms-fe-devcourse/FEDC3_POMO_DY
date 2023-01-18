@@ -1,4 +1,4 @@
-import { CategoryNameMap } from '@components/post/constants';
+import { CATEGORY_NAME_MAP } from '@components/post/constants';
 import { CategoryNameInDB } from '@components/post/types';
 import PostCard from '@components/posts/PostCard';
 import styled from '@emotion/styled';
@@ -11,27 +11,35 @@ import { COLORS } from 'styles/colors';
 
 interface cateoryIdProps {
   categoryId: string;
+  categoryName: CategoryNameInDB;
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { query } = context;
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const { categoryId } = query;
+
+  let id, name;
+  if (typeof categoryId === 'string') {
+    const splitedStr = categoryId.split('-');
+    id = splitedStr[0];
+    name = splitedStr[1];
+  }
+
   return {
     props: {
-      categoryId,
+      categoryId: id,
+      categoryName: name,
     },
   };
 };
 
-export default function Post({ categoryId }: cateoryIdProps) {
+export default function Post({ categoryId, categoryName }: cateoryIdProps) {
   const [posts, setPosts] = useState([]);
 
-  const splitedData = categoryId.split('-');
-  const translatedName = CategoryNameMap[splitedData[1]];
+  const translatedName = CATEGORY_NAME_MAP[categoryName];
 
   const getPosts = useCallback(async () => {
     try {
-      const res = await axiosInstance.get(`/api/posts/channel/${splitedData[0]}`);
+      const res = await axiosInstance.get(`/api/posts/channel/${categoryId}`);
       if (res.status === 200) {
         setPosts(res.data);
       }
@@ -54,7 +62,7 @@ export default function Post({ categoryId }: cateoryIdProps) {
       </Link>
       <MainHeader>
         <CategoryTitle>{translatedName}</CategoryTitle>
-        <Link href="/post/create">
+        <Link href={`/post/create/${categoryId}`}>
           <CreateButton>뽀모 생성하기</CreateButton>
         </Link>
       </MainHeader>
