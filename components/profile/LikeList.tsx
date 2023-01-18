@@ -9,7 +9,6 @@ export const LikeList = ({ list, title }) => {
   } else {
     titleName = '팔로워';
   }
-  console.log(list);
   return (
     <LikeBox>
       <LikeHeader>

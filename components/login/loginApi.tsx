@@ -15,7 +15,9 @@ export const LoginApi = async ({ email, password, onSuccess }: loginApiProps) =>
     });
     if (response.status === 200) {
       const token: string = response.data.token;
+      const id: string = response.data._id;
       setLocalstorage('JWT_TOKEN', token);
+      setLocalstorage('ID', id);
       setToken(token);
       onSuccess();
     }

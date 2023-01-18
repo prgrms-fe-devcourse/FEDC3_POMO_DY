@@ -1,19 +1,23 @@
 import { useRouter } from 'next/router';
 import Profile from '@components/profile/index';
-import { axiosInstance } from 'api';
 import { useQuery } from 'react-query';
 import { useEffect, useState } from 'react';
 import { getFullName } from '@components/profile/getFullName';
+import { getLocalstorage } from '@components/auth/localstorage';
 
 export default function UserProfile() {
+  const id = getLocalstorage('ID');
   const router = useRouter();
-  const [user, setUser] = useState('63c2b8272358f16faf4df0c5');
+  const [user, setUser] = useState(id);
 
   useEffect(() => {
     if (!router.isReady) return;
     const userId = router.query.id;
+    if (userId === getLocalstorage('ID')) {
+      router.push('/profile');
+    }
     setUser(String(userId));
-  }, [router.isReady, router.query.id]);
+  }, [router]);
 
   const { status, data } = useQuery(user, () => getFullName(user));
 

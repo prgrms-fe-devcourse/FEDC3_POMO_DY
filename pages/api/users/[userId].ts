@@ -6,7 +6,6 @@ export default async function getProfile(request: NextApiRequest, response: Next
   const {
     query: { userId },
   } = request;
-  console.log(request.query);
 
   try {
     const { data }: AxiosResponse = await publicApi.get(`/users/${userId}`);

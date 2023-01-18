@@ -17,6 +17,7 @@ export default function MyProfile() {
       console.error(error);
     }
   };
+
   const { status, data } = useQuery('myData', getData);
 
   if (status === 'loading') {
