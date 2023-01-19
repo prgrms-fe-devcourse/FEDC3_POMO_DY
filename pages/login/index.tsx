@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { LoginApi } from '@components/login/loginApi';
 import { useRouter } from 'next/router';
+import { validPasswordCheck } from '@components/login/validateInput';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -20,6 +21,9 @@ export default function Login() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!validPasswordCheck(password)) {
+      return;
+    }
     LoginApi({
       email,
       password,

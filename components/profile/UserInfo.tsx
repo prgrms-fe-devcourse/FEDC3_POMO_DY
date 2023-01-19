@@ -9,6 +9,7 @@ import { getLocalstorage } from '@components/auth/localstorage';
 import { FollowingIdData, UserInfoProps } from './types';
 import Modal from '@components/common/modal';
 import { useQueryClient } from 'react-query';
+import { validNickNameCheck, validPasswordCheck } from '@components/login/validateInput';
 
 export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
   const [isFallow, setIsFallow] = useState(false);
@@ -77,6 +78,9 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
   };
 
   const onModifyNameHandler = async () => {
+    if (!validNickNameCheck(modalInputValue)) {
+      return;
+    }
     setIsModalOpen(true);
     setModalTypes('name');
     setModalTitle('닉네임 변경');
@@ -84,6 +88,9 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
   };
 
   const onModifyPasswordHandler = async () => {
+    if (!validPasswordCheck(modalInputValue)) {
+      return;
+    }
     setIsModalOpen(true);
     setModalTypes('password');
     setModalTitle('비밀번호 변경');
@@ -98,6 +105,7 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
       });
       if (response.status === 200) {
         setIsFallow(true);
+        queryClient.invalidateQueries([followId]);
       }
     } catch (error) {
       console.log(error, '팔로우 실패');
