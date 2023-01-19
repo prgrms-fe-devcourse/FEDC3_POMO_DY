@@ -177,7 +177,7 @@ export default function Home() {
           </InputContainer>
           <UserList>
             {users
-              .filter(({ fullName }: UserInfoType) => fullName.includes(searchKeyword))
+              .filter(({ fullName }: UserInfoType) => fullName?.includes(searchKeyword))
               .map(({ _id, fullName, isOnline }) => (
                 <UserCard key={_id} _id={_id} fullName={fullName} isOnline={isOnline} />
               ))}

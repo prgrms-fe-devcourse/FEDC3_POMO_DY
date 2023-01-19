@@ -159,7 +159,6 @@ const FormInput = styled.input`
   font-size: 25px;
   line-height: 36px;
   padding-left: 20px;
-  color: #838383;
 `;
 const FormButton = styled.button`
   width: 480px;

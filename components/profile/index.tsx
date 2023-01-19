@@ -18,7 +18,7 @@ export default function Profile({ followers, following, email, userName, isMyInf
 }
 
 const Main = styled.div`
-  height: 100vh;
+  height: 90vh;
   background-color: white;
   display: grid;
   grid-template-columns: repeat(2, 1fr);

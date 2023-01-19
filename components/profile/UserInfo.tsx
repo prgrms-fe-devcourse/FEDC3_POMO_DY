@@ -12,7 +12,7 @@ import Modal from '@components/common/modal';
 export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
   const [isFallow, setIsFallow] = useState(false);
   const [name, setName] = useState('templite');
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   const followId = router.query.id;
   const hostId = getLocalstorage('ID');
@@ -36,31 +36,40 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
     initState();
   }, [initState, userName]);
 
+  const onSubmitModalHendler = (e) => {
+    e.prevant;
+    //
+  };
+
   const onModifyNameHandler = async () => {
-    const modifyName: PromptType = prompt('변경을 원하는 이름을 적어주세요');
+    setIsModalOpen(true);
+    /*     const modifyName: PromptType = prompt('변경을 원하는 이름을 적어주세요');
     try {
       const response = await publicApi.put('/settings/update-user', {
         fullName: modifyName,
       });
       if (response.status === 200) {
         setName(String(modifyName));
+        setIsModalOpen(false);
       }
     } catch (error) {
       console.log(error, '이름 변경 실패');
-    }
+    } */
   };
 
   const onModifyPasswordHandler = async () => {
-    {
-      const modifyPassword: PromptType = prompt('변경을 원하는 비밀번호를 적어주세요');
-      try {
-        await publicApi.put('/settings/update-password', {
-          password: modifyPassword,
-        });
-      } catch (error) {
-        console.log(error, '비밀번호 변경 실패');
+    setIsModalOpen(true);
+    /* const modifyPassword: PromptType = prompt('변경을 원하는 비밀번호를 적어주세요');
+    try {
+      const response = await publicApi.put('/settings/update-password', {
+        password: modifyPassword,
+      });
+      if (response.status === 200) {
+        setIsModalOpen(false);
       }
-    }
+    } catch (error) {
+      console.log(error, '비밀번호 변경 실패');
+    } */
   };
 
   const onFollowHandler = async () => {
@@ -79,7 +88,13 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
 
   return (
     <>
-      <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
+        <Container onSubmit={onSubmitModalHendler}>
+          <ModalTitle>닉네임 변경</ModalTitle>
+          <ModalInput placeholder="닉네임을 입력해 주세요" />
+          <RedButton>완료</RedButton>
+        </Container>
+      </Modal>
       <InfoContainer>
         <Info>
           <ProfileImg className="infoIcon" />
@@ -167,4 +182,36 @@ const RedButton = styled(Button)`
 const GrayButton = styled(Button)`
   background: #838383;
   border-color: #838383;
+`;
+
+const Container = styled.form`
+  min-width: 450px;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  padding-bottom: 40px;
+`;
+
+const ModalTitle = styled.h1`
+  font-size: 2rem;
+  font-weight: 700;
+`;
+
+const ModalInput = styled.input`
+  margin-top: 80px;
+  padding-left: 2px;
+  height: 45px;
+  font-size: 1.3rem;
+  font-weight: 400;
+  border-left-width: 0;
+  border-right-width: 0;
+  border-top-width: 0;
+  border-bottom-width: 5px;
+  border-color: ${COLORS.main};
+
+  :focus {
+    outline: none;
+  }
 `;
