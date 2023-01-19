@@ -1,5 +1,14 @@
 import styled from '@emotion/styled';
-import { FunctionComponent, ChangeEvent, useCallback, useState, useEffect } from 'react';
+import {
+  FunctionComponent,
+  ChangeEvent,
+  useCallback,
+  useState,
+  useEffect,
+  ReactNode,
+  MouseEvent,
+  MouseEventHandler,
+} from 'react';
 import LogoSmall from '@public/images/logo-small.svg';
 import { SearchBox, SearchResult } from '@components/common/Search';
 import { css } from '@emotion/react';
@@ -13,6 +22,50 @@ interface Category {
   _id: string;
   name: string;
 }
+
+interface Notification {
+  seen: boolean;
+  _id: string;
+  author: string;
+  follow: string;
+}
+
+interface Notifications {
+  notifications?: Notification[];
+}
+
+const dummy = [
+  {
+    seen: false,
+    _id: '1',
+    author: 'flash',
+    follow: '1-1',
+  },
+  {
+    seen: false,
+    _id: '2',
+    author: 'ho',
+    follow: '1-2',
+  },
+  {
+    seen: false,
+    _id: '3',
+    author: 'fd',
+    follow: '1-3',
+  },
+  {
+    seen: false,
+    _id: '4',
+    author: 'sophia',
+    follow: '1-4',
+  },
+  {
+    seen: false,
+    _id: '5',
+    author: 'sophia',
+    follow: '1-5',
+  },
+];
 
 const Bar = styled.nav`
   display: flex;
@@ -33,6 +86,71 @@ const LogoContainer = styled.div`
     align-items: center;
   }
 `;
+
+const Text = styled.p`
+  color: ${(props) => props.color || '#000000'};
+  padding: 0;
+`;
+
+const NotificationsContainer = ({
+  children,
+  _hover,
+  _leave,
+}: {
+  children?: ReactNode;
+  _hover?: (e: MouseEvent<HTMLDivElement>) => void;
+  _leave?: (e: MouseEvent<HTMLDivElement>) => void;
+}) => {
+  return (
+    <div onMouseOver={_hover} onMouseOut={_leave}>
+      {children}
+    </div>
+  );
+};
+
+const NotificationsList = styled.ul`
+  list-style: none;
+  position: absolute;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  top: 50px;
+  right: 30px;
+  min-width: 300px;
+  max-height: 400px;
+  overflow-y: scroll;
+  z-index: 200;
+`;
+
+const NotificationItem = styled.li`
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  padding-left: 10px;
+  gap: 15px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #fffbeb;
+    opacitiy: 0.5;
+  }
+`;
+
+const NotificationResults = ({ notifications = dummy }: Notifications) => {
+  return (
+    <NotificationsList>
+      {notifications.map((notification) => {
+        return (
+          <NotificationItem key={notification._id}>
+            <Profile src="/images/profile.svg" alt="프로필이미지" />
+            <Text>{`${notification.follow} 님이 팔로우 하셨습니다.`}</Text>
+          </NotificationItem>
+        );
+      })}
+    </NotificationsList>
+  );
+};
+
 const LogoTitle = styled.div`
   font-family: 'UhBee EUN KYUNG';
   font-size: 1.5rem;
@@ -69,7 +187,7 @@ const Profile = styled(imageBase)`
   padding-top:3px;
 `;
 
-const Notification = styled(imageBase)`
+const NotificationIcon = styled(imageBase)`
   ${imageCircle}
 `;
 
@@ -79,6 +197,7 @@ export const Header: FunctionComponent = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isFetched, setIsFetched] = useState(false);
+  const [isNotification, setIsNotification] = useState(false);
 
   useEffect(() => {
     getCategories();
@@ -142,7 +261,6 @@ export const Header: FunctionComponent = () => {
             return returnValue;
           },
         );
-        console.log(finalData);
         setSearchResults(finalData);
       } else {
         setSearchResults([]);
@@ -162,6 +280,7 @@ export const Header: FunctionComponent = () => {
       setKeyword(value);
     }
   }, []);
+
   return (
     <Bar>
       <LogoContainer>
@@ -177,7 +296,10 @@ export const Header: FunctionComponent = () => {
         <Link href="/profile">
           <Profile src="/images/profile.svg" alt="프로필이미지" />
         </Link>
-        <Notification src="/images/notification.svg" alt="알람이미지" />
+        <NotificationsContainer _hover={() => setIsNotification(true)} _leave={() => setIsNotification(false)}>
+          <NotificationIcon src="/images/notification.svg" alt="알람이미지" />
+          {isNotification && <NotificationResults />}
+        </NotificationsContainer>
       </User>
     </Bar>
   );
