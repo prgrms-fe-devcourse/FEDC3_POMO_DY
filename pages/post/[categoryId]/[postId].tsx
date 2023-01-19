@@ -4,6 +4,7 @@ import PostInfo from '@components/post/info';
 import PostTabs from '@components/post/tabs';
 import Time from '@components/post/time';
 import { Post } from '@components/post/types';
+import Waiting from '@components/post/waiting';
 import { useRouter } from 'next/router';
 import React from 'react';
 
@@ -23,6 +24,7 @@ export default function PostPage() {
           <Time status="rest" />
         </PostContext.Provider>
       )}
+      <Waiting />
     </div>
   );
 }
