@@ -32,7 +32,7 @@ const ModalWrapper = styled.div`
   bottom: 0;
   left: 0;
   display: flex;
-  padding: 10vh 0 calc(10vh + 100px);
+  padding: 5vh 0 13vh;
   justify-content: center;
   align-items: center;
   overflow: hidden;
@@ -50,7 +50,7 @@ const Dimmed = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  min-height: 300px;
+  min-height: 100px;
   max-height: -webkit-fill-available;
   display: flex;
   flex-direction: column;
