@@ -121,7 +121,12 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
       <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
         <Container onSubmit={onSubmitModalHendler}>
           <ModalTitle>{modalInfo.title}</ModalTitle>
-          <ModalInput onChange={onInputModalHendler} type={modalInfo.inputType} placeholder={modalInfo.placeholder} />
+          <ModalInput
+            onChange={onInputModalHendler}
+            type={modalInfo.inputType}
+            placeholder={modalInfo.placeholder}
+            autoFocus
+          />
           <RedButton>완료</RedButton>
         </Container>
       </Modal>
