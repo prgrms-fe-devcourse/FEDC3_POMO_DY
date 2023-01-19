@@ -27,10 +27,10 @@ export default function MyProfile() {
   return (
     <>
       <Profile
-        followers={data.followers}
-        following={data.following}
-        email={data.email}
-        userName={data.fullName}
+        followers={data?.followers}
+        following={data?.following}
+        email={data?.email}
+        userName={data?.fullName}
         isMyInfo={true}
       />
     </>

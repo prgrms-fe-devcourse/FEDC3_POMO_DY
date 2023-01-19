@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { COLORS } from 'styles/colors';
 import { LikeItem } from './LikeItem';
 import { FollowingIdData, LikeListProps } from './types';
 
@@ -37,6 +38,21 @@ const LikeBox = styled.div`
   align-content: flex-start;
   gap: 20px;
   grid-column: span 2;
+  overflow: auto;
+  overflow-x: hidden;
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: ${COLORS.main};
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: ${COLORS.main};
+    border-radius: 5px;
+    box-shadow: inset 0px 0px 5px white;
+  }
 `;
 
 const LikeHeader = styled.div`
