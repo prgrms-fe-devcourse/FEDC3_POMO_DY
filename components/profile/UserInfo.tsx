@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { getLocalstorage } from '@components/auth/localstorage';
 import { FollowingIdData, UserInfoProps } from './types';
 import Modal from '@components/common/modal';
+import { useQueryClient } from 'react-query';
 
 export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
   const [isFallow, setIsFallow] = useState(false);
@@ -20,6 +21,7 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
   const router = useRouter();
   const followId = router.query.id;
   const hostId = getLocalstorage('ID');
+  const queryClient = useQueryClient();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const initState = async () => {
@@ -45,14 +47,14 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
   const onSubmitModalHendler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (modalTypes === 'name') {
-      setName(() => modalInputValue);
-      console.log(name, modalInputValue);
       try {
         const response = await publicApi.put('/settings/update-user', {
           fullName: modalInputValue,
         });
         if (response.status === 200) {
           setIsModalOpen(false);
+          setName(() => modalInputValue);
+          queryClient.invalidateQueries('myData');
         }
       } catch (error) {
         console.log(error, '이름 변경 실패');
