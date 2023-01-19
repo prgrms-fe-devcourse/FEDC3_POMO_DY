@@ -14,11 +14,14 @@ import { validNickNameCheck, validPasswordCheck } from '@components/login/valida
 export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
   const [isFallow, setIsFallow] = useState(false);
   const [name, setName] = useState(userName);
+  const [modalInfo, setModalInfo] = useState({
+    title: '',
+    inputType: '',
+    modalType: '',
+    placeholder: '',
+  });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalInputValue, setModalInputValue] = useState('');
-  const [modalTypes, setModalTypes] = useState('');
-  const [modalTitle, setModalTitle] = useState('');
-  const [placeholderValue, setPlaceholderValue] = useState('');
   const router = useRouter();
   const followId = router.query.id;
   const hostId = getLocalstorage('ID');
@@ -47,7 +50,7 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
 
   const onSubmitModalHendler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (modalTypes === 'name') {
+    if (modalInfo.modalType === 'name') {
       if (!validNickNameCheck(modalInputValue)) {
         return;
       }
@@ -63,7 +66,7 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
       } catch (error) {
         console.log(error, '이름 변경 실패');
       }
-    } else if (modalTypes === 'password') {
+    } else if (modalInfo.modalType === 'password') {
       if (!validPasswordCheck(modalInputValue)) {
         return;
       }
@@ -85,16 +88,17 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
 
   const onModifyNameHandler = async () => {
     setIsModalOpen(true);
-    setModalTypes('name');
-    setModalTitle('닉네임 변경');
-    setPlaceholderValue('닉네임을 입력해 주세요');
+    setModalInfo({ title: '닉네임 변경', inputType: 'text', modalType: 'name', placeholder: '닉네임을 입력해 주세요' });
   };
 
   const onModifyPasswordHandler = async () => {
     setIsModalOpen(true);
-    setModalTypes('password');
-    setModalTitle('비밀번호 변경');
-    setPlaceholderValue('비밀번호를 입력해 주세요');
+    setModalInfo({
+      title: '비밀번호 변경',
+      inputType: 'password',
+      modalType: 'password',
+      placeholder: '비밀번호를 입력해 주세요',
+    });
   };
 
   const onFollowHandler = async () => {
@@ -116,8 +120,8 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
     <>
       <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
         <Container onSubmit={onSubmitModalHendler}>
-          <ModalTitle>{modalTitle}</ModalTitle>
-          <ModalInput onChange={onInputModalHendler} placeholder={placeholderValue} />
+          <ModalTitle>{modalInfo.title}</ModalTitle>
+          <ModalInput onChange={onInputModalHendler} type={modalInfo.inputType} placeholder={modalInfo.placeholder} />
           <RedButton>완료</RedButton>
         </Container>
       </Modal>
