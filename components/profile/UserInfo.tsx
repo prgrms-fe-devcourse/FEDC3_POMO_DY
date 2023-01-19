@@ -3,16 +3,20 @@ import { COLORS } from 'styles/colors';
 import PencilImg from '@public/icons/pencil.svg';
 import ProfileImg from '@public/icons/profile.svg';
 import { publicApi } from 'api';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { getLocalstorage } from '@components/auth/localstorage';
-import { FollowingIdData, PromptType, UserInfoProps } from './types';
+import { FollowingIdData, UserInfoProps } from './types';
 import Modal from '@components/common/modal';
 
 export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
   const [isFallow, setIsFallow] = useState(false);
-  const [name, setName] = useState('templite');
+  const [name, setName] = useState(userName);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalInputValue, setModalInputValue] = useState('');
+  const [modalTypes, setModalTypes] = useState('');
+  const [modalTitle, setModalTitle] = useState('');
+  const [placeholderValue, setPlaceholderValue] = useState('');
   const router = useRouter();
   const followId = router.query.id;
   const hostId = getLocalstorage('ID');
@@ -21,7 +25,6 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
   const initState = async () => {
     try {
       const response = await publicApi.get(`/users/${hostId}`);
-      console.log(response.data.following);
       const checkFollow = response.data.following.findIndex((item: FollowingIdData) => item.user === followId);
       if (response.status === 200 && checkFollow >= 0) {
         setIsFallow(true);
@@ -32,44 +35,57 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
   };
 
   useEffect(() => {
-    setName(userName);
     initState();
   }, [initState, userName]);
 
-  const onSubmitModalHendler = (e) => {
-    e.prevant;
-    //
+  const onInputModalHendler = (e: ChangeEvent<HTMLInputElement>) => {
+    setModalInputValue(e.target.value);
+  };
+
+  const onSubmitModalHendler = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (modalTypes === 'name') {
+      setName(() => modalInputValue);
+      console.log(name, modalInputValue);
+      try {
+        const response = await publicApi.put('/settings/update-user', {
+          fullName: modalInputValue,
+        });
+        if (response.status === 200) {
+          setIsModalOpen(false);
+        }
+      } catch (error) {
+        console.log(error, '이름 변경 실패');
+      }
+    } else if (modalTypes === 'password') {
+      try {
+        const response = await publicApi.put('/settings/update-password', {
+          password: modalInputValue,
+        });
+        if (response.status === 200) {
+          setIsModalOpen(false);
+        }
+      } catch (error) {
+        console.log(error, '비밀번호 변경 실패');
+      }
+    } else {
+      console.error('옳지않은 타입입니다.');
+      setIsModalOpen(false);
+    }
   };
 
   const onModifyNameHandler = async () => {
     setIsModalOpen(true);
-    /*     const modifyName: PromptType = prompt('변경을 원하는 이름을 적어주세요');
-    try {
-      const response = await publicApi.put('/settings/update-user', {
-        fullName: modifyName,
-      });
-      if (response.status === 200) {
-        setName(String(modifyName));
-        setIsModalOpen(false);
-      }
-    } catch (error) {
-      console.log(error, '이름 변경 실패');
-    } */
+    setModalTypes('name');
+    setModalTitle('닉네임 변경');
+    setPlaceholderValue('닉네임을 입력해 주세요');
   };
 
   const onModifyPasswordHandler = async () => {
     setIsModalOpen(true);
-    /* const modifyPassword: PromptType = prompt('변경을 원하는 비밀번호를 적어주세요');
-    try {
-      const response = await publicApi.put('/settings/update-password', {
-        password: modifyPassword,
-      });
-      if (response.status === 200) {
-        setIsModalOpen(false);
-      }
-    } catch (error) {
-      console.log(error, '비밀번호 변경 실패');
-    } */
+    setModalTypes('password');
+    setModalTitle('비밀번호 변경');
+    setPlaceholderValue('비밀번호를 입력해 주세요');
   };
 
   const onFollowHandler = async () => {
@@ -90,8 +106,8 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
     <>
       <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
         <Container onSubmit={onSubmitModalHendler}>
-          <ModalTitle>닉네임 변경</ModalTitle>
-          <ModalInput placeholder="닉네임을 입력해 주세요" />
+          <ModalTitle>{modalTitle}</ModalTitle>
+          <ModalInput onChange={onInputModalHendler} placeholder={placeholderValue} />
           <RedButton>완료</RedButton>
         </Container>
       </Modal>

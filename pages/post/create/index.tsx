@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import PostCreate from '@components/create';
+import PostCreate from '@components/post/create';
 import { FormEventHandler } from 'react';
 
 function PostCreatePage() {

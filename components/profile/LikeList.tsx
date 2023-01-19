@@ -10,7 +10,6 @@ export const LikeList = ({ list, title, isMyInfo }: LikeListProps) => {
   } else {
     titleName = '팔로워';
   }
-  console.log(list);
 
   return (
     <LikeBox>
