@@ -4,6 +4,7 @@ import LogoSmall from '@public/images/logo-small.svg';
 import { SearchBox, SearchResult } from '@components/common/Search';
 import { css } from '@emotion/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { axiosInstance } from 'api';
 import { isCategoryNameInDB } from '@components/post/types';
 import { CATEGORY_NAME_MAP } from '@components/post/constants';
@@ -25,11 +26,18 @@ const LogoContainer = styled.div`
   align-items: center;
   margin-left: 16px;
   margin-right: auto;
+
+  & > a {
+    display: flex;
+    text-decoration: none;
+    align-items: center;
+  }
 `;
 const LogoTitle = styled.div`
   font-family: 'UhBee EUN KYUNG';
   font-size: 1.5rem;
   font-weight: 700;
+  color: #000000;
 `;
 
 const User = styled.div`
@@ -157,14 +165,18 @@ export const Header: FunctionComponent = () => {
   return (
     <Bar>
       <LogoContainer>
-        <LogoSmall style={{ marginRight: '16px' }} />
-        <LogoTitle> 뽀모 </LogoTitle>
+        <Link href="/">
+          <LogoSmall style={{ marginRight: '16px' }} />
+          <LogoTitle> 뽀모 </LogoTitle>
+        </Link>
       </LogoContainer>
       <SearchBox onChange={onChangeHandler} isOpen={isOpen}>
         <SearchResult results={searchResults} />
       </SearchBox>
       <User>
-        <Profile src="/images/profile.svg" alt="프로필이미지" />
+        <Link href="/profile">
+          <Profile src="/images/profile.svg" alt="프로필이미지" />
+        </Link>
         <Notification src="/images/notification.svg" alt="알람이미지" />
       </User>
     </Bar>
