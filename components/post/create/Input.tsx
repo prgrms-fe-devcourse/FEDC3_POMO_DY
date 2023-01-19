@@ -1,15 +1,8 @@
 import styled from '@emotion/styled';
 import { useState, ChangeEventHandler, ChangeEvent } from 'react';
+import { InputProps } from './types';
 
-interface Props {
-  type?: string;
-  id: string;
-  placeholder: string;
-  width?: number;
-  height?: number;
-}
-
-function Input({ type, id, placeholder, width, height }: Props) {
+function Input({ type, id, placeholder, width, height }: InputProps) {
   const [value, setValue] = useState('');
 
   const handleValueChange: ChangeEventHandler = (e: ChangeEvent<HTMLInputElement>) => {

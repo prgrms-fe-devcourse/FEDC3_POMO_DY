@@ -23,7 +23,7 @@ export default function Login() {
     LoginApi({
       email,
       password,
-      onSuccess: () => router.push('/'),
+      onSuccess: () => router.replace('/'),
     });
   };
   return (

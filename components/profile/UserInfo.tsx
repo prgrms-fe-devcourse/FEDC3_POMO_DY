@@ -3,9 +3,10 @@ import { COLORS } from 'styles/colors';
 import PencilImg from '@public/icons/pencil.svg';
 import ProfileImg from '@public/icons/profile.svg';
 import { publicApi } from 'api';
-import { SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { getLocalstorage } from '@components/auth/localstorage';
+import { FollowingIdData, PromptType } from './types';
 
 interface UserInfoProps {
   email: string;
@@ -20,15 +21,12 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
   const followId = router.query.id;
   const hostId = getLocalstorage('ID');
 
-  useEffect(() => {
-    setName(userName);
-    initState();
-  }, [userName]);
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const initState = async () => {
     try {
       const response = await publicApi.get(`/users/${hostId}`);
-      const checkFollow = response.data.following.findIndex((item: any) => item.user === followId);
+      console.log(response.data.following);
+      const checkFollow = response.data.following.findIndex((item: FollowingIdData) => item.user === followId);
       if (response.status === 200 && checkFollow >= 0) {
         setIsFallow(true);
       }
@@ -37,14 +35,19 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
     }
   };
 
+  useEffect(() => {
+    setName(userName);
+    initState();
+  }, [initState, userName]);
+
   const onModifyNameHandler = async () => {
-    const modifyName: any = prompt('변경을 원하는 이름을 적어주세요');
+    const modifyName: PromptType = prompt('변경을 원하는 이름을 적어주세요');
     try {
       const response = await publicApi.put('/settings/update-user', {
         fullName: modifyName,
       });
       if (response.status === 200) {
-        setName(modifyName);
+        setName(String(modifyName));
       }
     } catch (error) {
       console.log(error, '이름 변경 실패');
@@ -53,7 +56,7 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
 
   const onModifyPasswordHandler = async () => {
     {
-      const modifyPassword = prompt('변경을 원하는 비밀번호를 적어주세요');
+      const modifyPassword: PromptType = prompt('변경을 원하는 비밀번호를 적어주세요');
       try {
         await publicApi.put('/settings/update-password', {
           password: modifyPassword,

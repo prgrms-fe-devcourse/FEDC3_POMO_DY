@@ -1,14 +1,7 @@
 import styled from '@emotion/styled';
 import { LikeList } from './LikeList';
+import { ProfileProps } from './types';
 import { UserInfo } from './UserInfo';
-
-interface ProfileProps {
-  followers: [];
-  following: [];
-  email: string;
-  userName: string;
-  isMyInfo: boolean;
-}
 
 export default function Profile({ followers, following, email, userName, isMyInfo }: ProfileProps) {
   return (

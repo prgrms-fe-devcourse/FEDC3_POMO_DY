@@ -7,17 +7,11 @@ import { COLORS } from 'styles/colors';
 import { getLocalstorage } from '@components/auth/localstorage';
 import { publicApi } from 'api';
 import { useRouter } from 'next/router';
-
-interface LikeItemProps {
-  followers: string;
-  following: string;
-  title: string;
-  isMyInfo: boolean;
-}
+import { FollowingIdData, Id, LikeItemProps } from './types';
 
 export const LikeItem = ({ following, followers, title, isMyInfo }: LikeItemProps) => {
   const router = useRouter();
-  let id: string;
+  let id: Id;
   if (title === 'following') {
     id = following;
   } else {
@@ -26,7 +20,7 @@ export const LikeItem = ({ following, followers, title, isMyInfo }: LikeItemProp
 
   const onDeleteHandler = async () => {
     const hostId = getLocalstorage('ID');
-    const followingId = data.followers.find((item: any) => item.follower == hostId)._id;
+    const followingId = data.followers.find((item: FollowingIdData) => item.follower == hostId)._id;
     try {
       const response = await publicApi.delete('/follow/delete', {
         data: {
@@ -35,7 +29,7 @@ export const LikeItem = ({ following, followers, title, isMyInfo }: LikeItemProp
       });
       if (response.status === 200) {
         // 차후 수정 (페이지 교체)
-        router.reload();
+        //router.reload();
       }
     } catch (error) {
       console.log(error, '팔로잉 삭제 실패');
