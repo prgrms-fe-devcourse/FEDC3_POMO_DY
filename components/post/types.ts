@@ -33,3 +33,5 @@ export type CategoryName = '공부' | '개발' | '취업' | '독서' | '취미' 
 export const isCategoryNameInDB = (name: string): name is CategoryNameInDB => {
   return CATEGORY_NAME_MAP.hasOwnProperty(name);
 };
+
+export type TimeStatus = 'focus' | 'rest';
