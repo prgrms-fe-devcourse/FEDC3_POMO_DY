@@ -1,19 +1,20 @@
 import styled from '@emotion/styled';
 
-import DefaultProfile from 'public/images/profile.svg';
 import { UserInfo } from './types';
 
 interface Props {
   users: Array<UserInfo>;
 }
-
+``;
 function UserList({ users }: Props) {
+  const DefaultProfile = '/images/profile.svg';
+
   return (
     <Container>
-      {users.map(({ userName }, idx) => {
+      {users.map(({ userName, image }, idx) => {
         return (
           <UserItem key={idx}>
-            <ProfileImage />
+            <ProfileImage src={image ?? DefaultProfile} />
             <UserName>{userName}</UserName>
           </UserItem>
         );
@@ -33,12 +34,15 @@ const UserItem = styled.li`
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-bottom: 5px;
 `;
 
-const ProfileImage = styled(DefaultProfile)`
-  min-width: 30px;
-  max-width: 30px;
-`;
+const ProfileImage = styled.img((prop) => {
+  return {
+    minWidth: '25px',
+    maxWidth: '25px',
+  };
+});
 
 const UserName = styled.span`
   display: block;
