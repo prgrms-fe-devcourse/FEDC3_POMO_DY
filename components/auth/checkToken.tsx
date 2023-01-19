@@ -1,8 +1,9 @@
 import { axiosInstance } from 'api';
 import { setToken } from 'api';
 import { deleteLocalstorage, setLocalstorage } from './localstorage';
+import { TokenTypes } from './types';
 
-export const checkToken = async (token: string | undefined) => {
+export const checkToken = async (token: TokenTypes) => {
   try {
     const response = await axiosInstance.post('/api/authUser', token);
     if (response.status === 200) {
