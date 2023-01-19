@@ -1,9 +1,12 @@
-export interface ProfileProps {
-  followers: [];
-  following: [];
+export interface UserInfoProps {
   email: string;
   userName: string;
   isMyInfo: boolean;
+}
+
+export interface ProfileProps extends UserInfoProps {
+  followers: [];
+  following: [];
 }
 
 export interface LikeItemProps {

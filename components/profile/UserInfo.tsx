@@ -6,17 +6,13 @@ import { publicApi } from 'api';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { getLocalstorage } from '@components/auth/localstorage';
-import { FollowingIdData, PromptType } from './types';
-
-interface UserInfoProps {
-  email: string;
-  userName: string;
-  isMyInfo: boolean;
-}
+import { FollowingIdData, PromptType, UserInfoProps } from './types';
+import Modal from '@components/common/modal';
 
 export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
   const [isFallow, setIsFallow] = useState(false);
   const [name, setName] = useState('templite');
+  const [isModalOpen, setIsModalOpen] = useState(true);
   const router = useRouter();
   const followId = router.query.id;
   const hostId = getLocalstorage('ID');
@@ -83,6 +79,7 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
 
   return (
     <>
+      <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
       <InfoContainer>
         <Info>
           <ProfileImg className="infoIcon" />
