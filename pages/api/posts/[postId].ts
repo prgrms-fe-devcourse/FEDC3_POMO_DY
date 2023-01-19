@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 
 import { publicApi } from 'api';
 import { isCategoryNameInDB } from '@components/post/types';
-import { CategoryNameMap } from '@components/post/constants';
+import { CATEGORY_NAME_MAP } from '@components/post/constants';
 
 export default async function getPost(request: NextApiRequest, response: NextApiResponse) {
   const {
@@ -16,12 +16,16 @@ export default async function getPost(request: NextApiRequest, response: NextApi
     const categoryNameInDB = data.channel.name;
     if (!isCategoryNameInDB(categoryNameInDB)) throw new Error('잘못된 카테고리입니다.');
 
+    if (!Array.isArray(data.comments)) throw new Error('잘못된 댓글 목록입니다.');
+
     const post = {
       id: data._id,
       category: {
         id: data.channel._id,
-        name: CategoryNameMap[categoryNameInDB],
+        name: CATEGORY_NAME_MAP[categoryNameInDB],
       },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      comments: data.comments.map((comment: any) => ({ id: comment._id, content: comment.comment })),
       ...JSON.parse(data.title),
     };
 

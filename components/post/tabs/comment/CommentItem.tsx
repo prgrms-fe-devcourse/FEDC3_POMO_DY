@@ -1,11 +1,15 @@
 import styled from '@emotion/styled';
 import EmptyProfileImage from 'public/icons/profile.svg';
 
-export default function CommentItem() {
+interface CommentItemProps {
+  comment: string;
+}
+
+export default function CommentItem({ comment }: CommentItemProps) {
   return (
     <Container>
       <EmptyProfileImage />
-      <Comment>댓글댓글댓글하하</Comment>
+      <Comment>{comment}</Comment>
     </Container>
   );
 }

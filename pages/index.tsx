@@ -11,7 +11,7 @@ import { AuthRequired } from '@components/auth/authrequire';
 
 const MainContainer = styled.main`
   background-color: white;
-  height: 100vh; /* 나중에 헤더 길이 빼야함  */
+  height: calc(100vh - 100px);
   display: flex;
   justify-content: center;
 `;
@@ -28,6 +28,7 @@ const UserListContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
   min-width: 260px;
   padding: 20px;
   width: 15%;
@@ -92,6 +93,7 @@ const UserSearchInput = styled.input`
 const UserList = styled.ul`
   width: 100%;
   height: 100%;
+  overflow-y: scroll;
   margin: 0;
   padding: 0;
   background-color: #ffffff;
@@ -100,6 +102,16 @@ const UserList = styled.ul`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: #e5e5e5;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #c4c4c4;
+  }
 `;
 
 export default function Home() {
