@@ -23,10 +23,10 @@ export const validNickNameCheck = (nickName: string) => {
   return true;
 };
 
-export const validPasswordCheck = (passWord: string) => {
-  const regExpPassword = new RegExp('^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{8,}$');
-  if (!regExpPassword.test(passWord)) {
-    alert('비밀번호는 영어 , 숫자로 구성된 8글자 이상 입니다.');
+export const validPasswordCheck = (password: string) => {
+  const regExpPassword = /^(?=.*[\d])(?=.*[!@#$%^&*])[\w!@#$%^&*]{6,16}$/;
+  if (!regExpPassword.test(password)) {
+    alert('비밀번호는 영어, 숫자 및 1개이상의 특수문자가 포함된 6글자 이상 입니다.');
     return false;
   }
   return true;
