@@ -48,6 +48,9 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
   const onSubmitModalHendler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (modalTypes === 'name') {
+      if (!validNickNameCheck(modalInputValue)) {
+        return;
+      }
       try {
         const response = await publicApi.put('/settings/update-user', {
           fullName: modalInputValue,
@@ -61,6 +64,9 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
         console.log(error, '이름 변경 실패');
       }
     } else if (modalTypes === 'password') {
+      if (!validPasswordCheck(modalInputValue)) {
+        return;
+      }
       try {
         const response = await publicApi.put('/settings/update-password', {
           password: modalInputValue,
@@ -78,9 +84,6 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
   };
 
   const onModifyNameHandler = async () => {
-    if (!validNickNameCheck(modalInputValue)) {
-      return;
-    }
     setIsModalOpen(true);
     setModalTypes('name');
     setModalTitle('닉네임 변경');
@@ -88,9 +91,6 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
   };
 
   const onModifyPasswordHandler = async () => {
-    if (!validPasswordCheck(modalInputValue)) {
-      return;
-    }
     setIsModalOpen(true);
     setModalTypes('password');
     setModalTitle('비밀번호 변경');
