@@ -6,11 +6,11 @@ import Link from 'next/link';
 import { COLORS } from 'styles/colors';
 import { getLocalstorage } from '@components/auth/localstorage';
 import { publicApi } from 'api';
-import { useRouter } from 'next/router';
 import { FollowingIdData, Id, LikeItemProps } from './types';
+import { useQueryClient } from 'react-query';
 
 export const LikeItem = ({ following, followers, title, isMyInfo }: LikeItemProps) => {
-  const router = useRouter();
+  const queryClient = useQueryClient();
   let id: Id;
   if (title === 'following') {
     id = following;
@@ -28,8 +28,7 @@ export const LikeItem = ({ following, followers, title, isMyInfo }: LikeItemProp
         },
       });
       if (response.status === 200) {
-        // 차후 수정 (페이지 교체)
-        //router.reload();
+        queryClient.invalidateQueries('myData');
       }
     } catch (error) {
       console.log(error, '팔로잉 삭제 실패');
