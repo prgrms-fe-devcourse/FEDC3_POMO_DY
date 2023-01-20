@@ -1,3 +1,4 @@
+import { AuthRequired } from '@components/auth/authrequire';
 import { DEFAULT_POST } from '@components/post/constants';
 import { useGetPost } from '@components/post/hooks/queries';
 import PostInfo from '@components/post/info';
@@ -49,35 +50,37 @@ export default function PostPage() {
   const increaseCount = () => setCount((prev) => prev + 1);
 
   return (
-    <Container>
-      {postData && (
-        <>
-          <PostContext.Provider value={postData}>
-            <div>
-              <StyledPostInfo postInfo={postData} count={count} />
-              {startTime && (
-                <Time
-                  startTime={startTime}
-                  iteration={postData.iteration}
-                  status={status}
-                  startRest={startRest}
-                  startFocus={startFocus}
-                  finish={finish}
-                  increaseCount={increaseCount}
-                />
-              )}
-              <ExitButton onClick={onExit}>나가기</ExitButton>
-            </div>
-            <StyledPostTabs status={status} />
-          </PostContext.Provider>
-          {status === 'waiting' && startTime && (
-            <Waiting targetTime={startTime} finish={startFocus}>
-              <ExitButton onClick={onExit}>나가기</ExitButton>
-            </Waiting>
-          )}
-        </>
-      )}
-    </Container>
+    <AuthRequired>
+      <Container>
+        {postData && (
+          <>
+            <PostContext.Provider value={postData}>
+              <div>
+                <StyledPostInfo postInfo={postData} count={count} />
+                {startTime && (
+                  <Time
+                    startTime={startTime}
+                    iteration={postData.iteration}
+                    status={status}
+                    startRest={startRest}
+                    startFocus={startFocus}
+                    finish={finish}
+                    increaseCount={increaseCount}
+                  />
+                )}
+                <ExitButton onClick={onExit}>나가기</ExitButton>
+              </div>
+              <StyledPostTabs status={status} />
+            </PostContext.Provider>
+            {status === 'waiting' && startTime && (
+              <Waiting targetTime={startTime} finish={startFocus}>
+                <ExitButton onClick={onExit}>나가기</ExitButton>
+              </Waiting>
+            )}
+          </>
+        )}
+      </Container>
+    </AuthRequired>
   );
 }
 
