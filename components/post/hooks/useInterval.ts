@@ -5,13 +5,17 @@ type IntervalId = ReturnType<typeof setInterval>;
 export default function useInterval(callback: () => void, interval: number, isAutoStart = true) {
   const intervalId = useRef<IntervalId | null>(null);
 
-  const cancel = (id: IntervalId) => {
-    clearInterval(id);
+  const cancel = () => {
+    if (intervalId.current !== null) {
+      clearInterval(intervalId.current);
+    }
   };
 
   const start = () => {
     if (isAutoStart) return;
-    intervalId.current = setInterval(callback, interval);
+    intervalId.current = setInterval(() => {
+      callback();
+    }, interval);
   };
 
   useEffect(() => {
@@ -20,7 +24,7 @@ export default function useInterval(callback: () => void, interval: number, isAu
     }
     return () => {
       if (intervalId.current !== null) {
-        cancel(intervalId.current);
+        cancel();
       }
     };
   }, [callback, interval, isAutoStart]);

@@ -7,14 +7,11 @@ export const getTimeTable = (startTime: Date, iteration: number) => {
     const timeToRest = new Date(startTime);
     timeToRest.setMinutes(timeToRest.getMinutes() + FOCUS_TIME + 60 * i);
     const timeToFocus = new Date(timeToRest);
-    timeToRest.setMinutes(timeToFocus.getMinutes() + REST_TIME);
+    timeToFocus.setMinutes(timeToFocus.getMinutes() + REST_TIME);
 
     timeTable.push({ nextStatus: 'rest', nextTime: timeToRest });
-    if (i < iteration - 1) {
-      timeTable.push({ nextStatus: 'focus', nextTime: timeToFocus });
-    } else {
-      timeTable.push({ nextStatus: 'finished', nextTime: null });
-    }
+    timeTable.push({ nextStatus: i < iteration - 1 ? 'focus' : 'finished', nextTime: timeToFocus });
   }
+  console.log('getTimeTable', startTime, timeTable);
   return timeTable;
 };

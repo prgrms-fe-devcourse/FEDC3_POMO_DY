@@ -37,4 +37,9 @@ export const isCategoryNameInDB = (name: string): name is CategoryNameInDB => {
   return CATEGORY_NAME_MAP.hasOwnProperty(name);
 };
 
-export type PomoStatus = 'focus' | 'rest' | 'finished';
+export type PomoStatus = 'focus' | 'rest' | 'finished' | 'waiting';
+
+export interface NextTime {
+  nextStatus: PomoStatus;
+  nextTime: Date | null;
+}
