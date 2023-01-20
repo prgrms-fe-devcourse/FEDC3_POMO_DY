@@ -1,4 +1,4 @@
-import { CategoryName, CategoryNameInDB, Post } from './types';
+import { CategoryName, CategoryNameInDB, Post, TimeStatus } from './types';
 
 export const CATEGORY_NAME_MAP: Record<CategoryNameInDB, CategoryName> = {
   study: '공부',
@@ -20,4 +20,10 @@ export const DEFAULT_POST: Post = {
   description: '',
   category: { id: '', name: '공부' },
   comments: [],
+  host: { id: '', name: '' },
+};
+
+export const TIME_STATUS_NAME: Record<TimeStatus, string> = {
+  focus: '집중',
+  rest: '휴식',
 };

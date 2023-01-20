@@ -2,9 +2,13 @@ import styled from '@emotion/styled';
 
 import Input from './Input';
 import { COLORS } from 'styles/colors';
-import { onSuccessProp } from './types';
+import { FormEventHandler } from 'react';
 
-function PostCreate({ onCreate }: onSuccessProp) {
+interface Props {
+  onCreate: FormEventHandler<HTMLFormElement>;
+}
+
+function PostCreate({ onCreate }: Props) {
   return (
     <Container>
       <H1>뽀모 모집하기</H1>

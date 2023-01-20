@@ -1,3 +1,5 @@
+import { CATEGORY_NAME_MAP } from '@components/post/constants';
+import { CategoryNameInDB } from '@components/post/types';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { COLORS } from 'styles/colors';
@@ -63,30 +65,12 @@ const CountCircle = styled.div`
 
 export default function CategoryCard({ _id, name, posts }: CategoryInfoType) {
   const nextUrl = `/post/${_id}`;
-
-  const gettranslateName = (name: string) => {
-    switch (name) {
-      case 'study':
-        return '공부';
-      case 'develop':
-        return '개발';
-      case 'job':
-        return '취업';
-      case 'reading':
-        return '독서';
-      case 'hobby':
-        return '취미';
-      case 'etc':
-        return '기타';
-      default:
-        return '카테고리';
-    }
-  };
+  const translatedName = CATEGORY_NAME_MAP[name];
 
   return (
-    <Link href={nextUrl} style={{ textDecoration: 'none' }}>
+    <Link href={nextUrl} style={{ textDecoration: 'none' }} as={`${nextUrl}-${name}`}>
       <CardContainer>
-        <CategoryTitle>{gettranslateName(name)}</CategoryTitle>
+        <CategoryTitle>{translatedName}</CategoryTitle>
         <CategorySub>뽀모방 개수</CategorySub>
         <CountCircle>{posts.length}</CountCircle>
       </CardContainer>

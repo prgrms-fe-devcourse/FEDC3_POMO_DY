@@ -2,7 +2,7 @@ import { CATEGORY_NAME_MAP } from '@components/post/constants';
 export interface Post {
   id: string;
   title: string;
-  participants: Participant[];
+  participants: User[];
   date: string;
   startTime: string;
   endTime: string;
@@ -10,10 +10,13 @@ export interface Post {
   description: string;
   category: Category;
   comments: Comment[];
+  host: User;
 }
-interface Participant {
+
+export interface User {
   id: string;
-  userId: string;
+  name: string;
+  image?: string;
 }
 
 interface Category {
@@ -33,3 +36,5 @@ export type CategoryName = '공부' | '개발' | '취업' | '독서' | '취미' 
 export const isCategoryNameInDB = (name: string): name is CategoryNameInDB => {
   return CATEGORY_NAME_MAP.hasOwnProperty(name);
 };
+
+export type TimeStatus = 'focus' | 'rest';

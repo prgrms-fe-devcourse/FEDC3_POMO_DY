@@ -1,11 +1,64 @@
 import styled from '@emotion/styled';
 import { COLORS } from 'styles/colors';
 import ProfileIcon from '@public/icons/profile.svg';
+import SadTomatoSvg from '@public/images/sad-tomato.svg';
+import { PostDetailType } from './types';
+import { useEffect, useState } from 'react';
+import { getElapsedTimeStr, getIsInProgress } from './util';
+
+interface Props {
+  _id: string;
+  participants: [];
+  data: PostDetailType;
+  createdAt: string;
+}
+
+export default function PostCard({ _id, participants, data, createdAt }: Props) {
+  const { title, date, description, startTime, endTime, iteration } = data;
+
+  const [isInProgress, setIsInProgress] = useState(false);
+
+  useEffect(() => {
+    setIsInProgress(getIsInProgress(date, startTime, endTime));
+  }, [startTime, endTime]);
+
+  return (
+    <CardContainer>
+      {isInProgress && (
+        <CardCoverContainer>
+          <SadTomatoSvg />
+          <CoverMsg>진행 중인 뽀모예요</CoverMsg>
+        </CardCoverContainer>
+      )}
+      <TopBox>
+        <TextDate>{date}</TextDate>
+        <Time>
+          <RedText>{startTime}</RedText> ~ {endTime}
+        </Time>
+        <RecursionCount>
+          반복 <RedText>{iteration || '0'}회</RedText>
+        </RecursionCount>
+      </TopBox>
+      <BottomBox>
+        <BottomLeftBox>
+          <TitleContainer>{title}</TitleContainer>
+          <ContentContainer>{description}</ContentContainer>
+          <SubContainer>{getElapsedTimeStr(createdAt)}</SubContainer>
+        </BottomLeftBox>
+        <BottomRightBox>
+          <ProfileIcon className="profile" />
+          <CountCircle>{participants.length + 1}명</CountCircle>
+        </BottomRightBox>
+      </BottomBox>
+    </CardContainer>
+  );
+}
 
 const CardContainer = styled.div`
-  min-width: 354px;
-  height: 240px;
-  padding: 40px 50px;
+  min-width: 370px;
+  width: 31.5%;
+  height: 245px;
+  padding: 40px;
   background: ${COLORS.sub_yellow};
   border-radius: 14px;
   display: flex;
@@ -14,11 +67,33 @@ const CardContainer = styled.div`
   gap: 20px;
   transition: all 0.2s ease-in-out;
   cursor: pointer;
+  position: relative;
 
   &:hover {
     transform: scale(1.03, 1.03);
     box-shadow: 0px 5px 5px -2px rgba(0, 0, 0, 0.25);
   }
+`;
+
+const CardCoverContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  gap: 5px;
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+  top: 0;
+  left: 0;
+  background: rgba(161, 194, 152, 0.88);
+`;
+
+const CoverMsg = styled.div`
+  font-family: 'UhBee EUN KYUNG';
+  font-weight: 700;
+  font-size: 18px;
 `;
 
 const TopBox = styled.div`
@@ -28,7 +103,7 @@ const TopBox = styled.div`
   flex-direction: column;
   gap: 3px;
 `;
-const Date = styled.div`
+const TextDate = styled.div`
   font-weight: 600;
   font-size: 13px;
   color: #2b2b2b;
@@ -57,12 +132,13 @@ const BottomBox = styled.div`
 `;
 
 const BottomLeftBox = styled.div`
-  width: 60%;
+  width: 70%;
 `;
 
 const TitleContainer = styled.div`
   font-weight: 600;
-  font-size: 20px;
+  font-size: 18px;
+  margin-bottom: 5px;
 `;
 
 const ContentContainer = styled.div`
@@ -79,7 +155,7 @@ const SubContainer = styled.div`
 const BottomRightBox = styled.div`
   display: flex;
   justify-content: flex-end;
-  width: 40%;
+  width: 30%;
 
   & > .profile {
     width: 39px;
@@ -99,30 +175,3 @@ const CountCircle = styled.div`
   text-align: center;
   line-height: 39px;
 `;
-
-export default function PostCard() {
-  return (
-    <CardContainer>
-      <TopBox>
-        <Date>2022.01.11</Date>
-        <Time>
-          <RedText>10:10</RedText> ~ 11:00
-        </Time>
-        <RecursionCount>
-          반복 <RedText>1회</RedText>
-        </RecursionCount>
-      </TopBox>
-      <BottomBox>
-        <BottomLeftBox>
-          <TitleContainer>모닝 스터디</TitleContainer>
-          <ContentContainer>굿모닝! 아침 루틴 실천하기!</ContentContainer>
-          <SubContainer>1시간 전</SubContainer>
-        </BottomLeftBox>
-        <BottomRightBox>
-          <ProfileIcon className="profile" />
-          <CountCircle>7명</CountCircle>
-        </BottomRightBox>
-      </BottomBox>
-    </CardContainer>
-  );
-}

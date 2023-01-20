@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { FunctionComponent, ChangeEvent, useCallback, useState, useEffect, useMemo } from 'react';
+import { FunctionComponent, ChangeEvent, useCallback, useState, useEffect } from 'react';
 import LogoSmall from '@public/images/logo-small.svg';
 import { SearchBox, SearchResult } from '@components/common/Search';
 import { css } from '@emotion/react';
@@ -26,13 +26,18 @@ const LogoContainer = styled(Link)`
   align-items: center;
   margin-left: 16px;
   margin-right: auto;
-  text-decoration-line: none;
-  color: black;
+
+  & > a {
+    display: flex;
+    text-decoration: none;
+    align-items: center;
+  }
 `;
 const LogoTitle = styled.div`
   font-family: 'UhBee EUN KYUNG';
   font-size: 1.5rem;
   font-weight: 700;
+  color: #000000;
 `;
 
 const User = styled.div`
@@ -69,24 +74,25 @@ const Notification = styled(imageBase)`
 `;
 
 export const Header: FunctionComponent = () => {
-  const [keyword, setKeyword] = useState<string>('');
+  const [keyword, setKeyword] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [isFetched, setIsFetched] = useState(false);
 
   useEffect(() => {
     getCategories();
   }, []);
 
   useEffect(() => {
-    setIsOpen(searchResults.length > 0);
-  }, [searchResults]);
+    if (isFetched && categories.length > 0) {
+      getResultsSearch(keyword, categories);
+    }
+  }, [isFetched, keyword, categories]);
 
   useEffect(() => {
-    if (typeof window !== undefined && categories.length > 0) {
-      getResultsSearch(keyword);
-    }
-  }, [keyword]);
+    setIsOpen(searchResults.length > 0);
+  }, [searchResults]);
 
   const getCategories = useCallback(async () => {
     try {
@@ -101,12 +107,13 @@ export const Header: FunctionComponent = () => {
         };
       });
       setCategories(categoriesName);
+      setIsFetched(true);
     } catch (err) {
       console.error(err);
     }
   }, []);
 
-  const getResultsSearch = useCallback(async (keyword: string) => {
+  const getResultsSearch = useCallback(async (keyword: string, categories: Category[]) => {
     if (keyword === '') {
       return;
     }
@@ -135,6 +142,7 @@ export const Header: FunctionComponent = () => {
             return returnValue;
           },
         );
+        console.log(finalData);
         setSearchResults(finalData);
       } else {
         setSearchResults([]);
@@ -148,22 +156,25 @@ export const Header: FunctionComponent = () => {
     const {
       target: { value },
     } = e;
-    setKeyword(value);
     if (value.trim().length === 0) {
       setIsOpen(false);
+    } else {
+      setKeyword(value);
     }
   }, []);
   return (
     <Bar>
-      <LogoContainer href={'/'}>
-        <LogoSmall style={{ marginRight: '16px' }} />
-        <LogoTitle> 뽀모 </LogoTitle>
+      <LogoContainer>
+        <Link href="/">
+          <LogoSmall style={{ marginRight: '16px' }} />
+          <LogoTitle> 뽀모 </LogoTitle>
+        </Link>
       </LogoContainer>
       <SearchBox onChange={onChangeHandler} isOpen={isOpen}>
         <SearchResult results={searchResults} />
       </SearchBox>
       <User>
-        <Link href={'/profile'}>
+        <Link href="/profile">
           <Profile src="/images/profile.svg" alt="프로필이미지" />
         </Link>
         <Notification src="/images/notification.svg" alt="알람이미지" />

@@ -5,7 +5,7 @@ import { global } from '../styles/global';
 import '../public/fonts/index.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { Header } from '@components/common/Header';
+import BaseLayout from '@components/layout/BaseLayout';
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchOnWindowFocus: false, refetchOnReconnect: false, retry: 1 } },
@@ -20,8 +20,9 @@ export default function App({ Component, pageProps }: AppProps) {
           <title>뽀모 - 같이 뽀모해요!</title>
         </Head>
         <Global styles={global} />
-        <Header />
-        <Component {...pageProps} />
+        <BaseLayout>
+          <Component {...pageProps} />
+        </BaseLayout>
       </QueryClientProvider>
     </>
   );
