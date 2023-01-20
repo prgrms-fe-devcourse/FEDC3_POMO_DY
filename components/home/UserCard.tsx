@@ -29,23 +29,27 @@ const ImageContainer = styled.div`
   position: relative;
 
   & > .profile {
-    width: 100%;
-    height: 100%;
+    width: 35px;
+    height: 35px;
   }
 `;
 
 const ActiveCircle = styled.div`
   position: absolute;
-  right: 0;
-  bottom: 0;
+  right: 4px;
+  bottom: 4px;
   width: 11px;
   height: 12px;
   background: #93e396;
   border-radius: 50%;
+  border: 1px solid #333333;
 `;
 
 const UserNameContainer = styled.div`
-  font-size: 22px;
+  font-size: 1.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export default function UserCard({ _id, fullName, isOnline }: UserInfoType) {

@@ -22,6 +22,7 @@ const CategoryContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 50px;
+  overflow: scroll;
 `;
 
 const UserListContainer = styled.div`
@@ -53,7 +54,7 @@ const MainTextDiv = styled.div`
 
 const SubTextDiv = styled.div`
   color: #333333;
-  font-size: 22px;
+  font-size: 1.2rem;
 `;
 
 const CategoryCardList = styled.div`
@@ -65,18 +66,19 @@ const CategoryCardList = styled.div`
 const InputContainer = styled.div`
   height: 50px;
   border-radius: 10px;
-  font-size: 18px;
+  font-size: 1.1rem;
   line-height: 40px;
   color: #838383;
   position: relative;
+  display: flex;
+  align-items: center;
 
   & > .search {
     position: absolute;
-    left: 12px;
-    top: 10px;
-    width: 24px;
-    height: 25px;
-    cursor: pointer;
+    left: 15px;
+    top: 16px;
+    width: 16px;
+    height: 16px;
   }
 `;
 
@@ -85,7 +87,7 @@ const UserSearchInput = styled.input`
   height: 100%;
   border: none;
   outline: none;
-  padding-left: 50px;
+  padding-left: 43px;
   border-radius: 10px;
   box-sizing: border-box;
 `;
@@ -158,7 +160,7 @@ export default function Home() {
             <LogoSvg className="logo" />
             같이 뽀모해요.
           </MainTextDiv>
-          <SubTextDiv>원하시는 카테고리를 선택해주세요.</SubTextDiv>
+          <SubTextDiv>참여할 뽀모 카테고리를 선택해주세요.</SubTextDiv>
           <CategoryCardList>
             {categoryArr.map(({ _id, name, posts }: CategoryInfoType) => (
               <CategoryCard key={_id} _id={_id} name={name} posts={posts} />
