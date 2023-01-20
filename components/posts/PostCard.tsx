@@ -42,7 +42,9 @@ export default function PostCard({ _id, participants, data, createdAt, onPostCli
   const [isInProgress, setIsInProgress] = useState(false);
 
   const onClick: MouseEventHandler = (e: React.MouseEvent<HTMLDivElement>) => {
-    onPostClick({ _id, channelId, title, date, description, startTime, endTime, iteration, likes: participants });
+    if (!isInProgress) {
+      onPostClick({ _id, channelId, title, date, description, startTime, endTime, iteration, likes: participants });
+    }
   };
 
   useEffect(() => {
@@ -115,7 +117,8 @@ const CardCoverContainer = styled.div`
   border-radius: 14px;
   top: 0;
   left: 0;
-  background: rgba(161, 194, 152, 0.88);
+  background: rgba(161, 194, 152, 0.9);
+  z-index: 1;
 `;
 
 const CoverMsg = styled.div`
