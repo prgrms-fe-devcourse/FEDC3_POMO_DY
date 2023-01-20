@@ -10,6 +10,7 @@ export default async function creaetPost(request: NextApiRequest, response: Next
     const { data }: AxiosResponse = await publicApi.post('/posts/create', body);
     return response.status(200).end(JSON.stringify(data));
   } catch (err) {
+    console.log(err);
     return response.status(500).end(JSON.stringify(err));
   }
 }

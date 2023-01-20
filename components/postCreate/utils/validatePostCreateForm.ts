@@ -6,7 +6,7 @@ const isTodayCurrentTimeAfter = (date: string, time: string) => {
   const today = calcTodayDateKST();
   const curTime = calcCurrentTimeKST();
 
-  return today <= date && curTime < time;
+  return (date <= today && curTime < time) || today < date;
 };
 
 export const validatePostCreateForm = ({ title, date, startTime, endTime, content, channelId }: Post) => {

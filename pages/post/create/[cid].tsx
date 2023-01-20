@@ -2,9 +2,14 @@ import styled from '@emotion/styled';
 
 import PostCreate from '@components/postCreate/index';
 import { usePostCreateForm } from '@components/postCreate/hooks/usePostCreateForm';
+import { useRouter } from 'next/router';
+import { AuthRequired } from '@components/auth/authrequire';
 
 function PostCreatePage() {
-  const TMP_CHANNEL_ID = '63c22e612358f16faf4df033';
+  const router = useRouter();
+  const { cid } = router.query;
+  const channelId = typeof cid !== 'string' ? '' : cid;
+
   const {
     form,
     onChange: handleChange,
@@ -16,15 +21,19 @@ function PostCreatePage() {
     endTime: '',
     interval: 1,
     content: '',
-    channelId: TMP_CHANNEL_ID,
+    channelId,
   });
 
   // TODO: Input 유효성 검사
 
   return (
-    <Container>
-      <PostCreate values={form} onChange={handleChange} onCreate={handleSubmit} />
-    </Container>
+    channelId && (
+      <AuthRequired>
+        <Container>
+          <PostCreate values={form} onChange={handleChange} onCreate={handleSubmit} />
+        </Container>
+      </AuthRequired>
+    )
   );
 }
 

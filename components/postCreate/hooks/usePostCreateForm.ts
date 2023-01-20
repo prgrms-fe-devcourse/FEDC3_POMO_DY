@@ -2,13 +2,15 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { AxiosResponse } from 'axios';
 
-import { internalApi } from 'api';
+import { publicApi } from 'api';
 import { Post, PostFormData } from '../types';
 import { calcEndTime } from '../utils/time';
 import { validatePostCreateForm } from '../utils/validatePostCreateForm';
 
 const createPost = async (formData: PostFormData) => {
-  const { data }: AxiosResponse = await internalApi.post('/api/posts/create', formData);
+  const { data }: AxiosResponse = await publicApi.post('/posts/create', formData);
+  const { _id } = data;
+  await publicApi.post('/likes/create', { postId: _id });
   return data;
 };
 
@@ -63,9 +65,9 @@ export const usePostCreateForm = (initialState: Post) => {
     };
 
     submitPost()
-      .then(({ channel: { _id } }) => {
+      .then(({ _id: postId, channel: { _id: categoryId } }) => {
         alert('뽀모 모집글을 생성했어요!');
-        router.push(`/post/${_id}`);
+        router.replace(`/post/${categoryId}/${postId}`);
       })
       .catch(() => {
         alert('뽀모 모집글을 생성하는데 실패했어요.');
