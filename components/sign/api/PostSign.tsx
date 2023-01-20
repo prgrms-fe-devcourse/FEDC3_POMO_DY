@@ -2,7 +2,7 @@ import { LoginApi } from '@components/login/loginApi';
 import { axiosInstance } from 'api';
 import { PostSignProps } from '../types';
 
-export const PostSign = async ({ email, fullName, password, onSuccess }: PostSignProps) => {
+export const PostSign = async ({ email, fullName, password, router }: PostSignProps) => {
   try {
     const response = await axiosInstance.post('/api/sign', {
       email,
@@ -13,7 +13,7 @@ export const PostSign = async ({ email, fullName, password, onSuccess }: PostSig
       LoginApi({
         email,
         password,
-        onSuccess,
+        router,
       });
     }
   } catch (error) {

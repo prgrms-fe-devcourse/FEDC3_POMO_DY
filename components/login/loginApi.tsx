@@ -2,7 +2,7 @@ import { setToken, axiosInstance } from 'api/index';
 import { setLocalstorage } from '@components/auth/localstorage';
 import { LoginApiProps } from './types';
 
-export const LoginApi = async ({ email, password, onSuccess }: LoginApiProps) => {
+export const LoginApi = async ({ email, password, router }: LoginApiProps) => {
   try {
     const response = await axiosInstance.post('api/login', {
       email,
@@ -14,7 +14,7 @@ export const LoginApi = async ({ email, password, onSuccess }: LoginApiProps) =>
       setLocalstorage('JWT_TOKEN', token);
       setLocalstorage('ID', id);
       setToken(token);
-      onSuccess();
+      router.replace('/');
     }
   } catch (error) {
     console.log(error);
