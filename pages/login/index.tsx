@@ -1,33 +1,26 @@
 import LogoSvg from '@public/images/logo.svg';
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { FormEvent } from 'react';
 import { LoginApi } from '@components/login/loginApi';
 import { useRouter } from 'next/router';
 import { validPasswordCheck } from '@components/login/validateInput';
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const router = useRouter();
-
-  const onEmailHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.currentTarget.value);
-  };
-
-  const onPasswordHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.currentTarget.value);
-  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const email = (event.currentTarget.elements[0] as HTMLInputElement).value;
+    const password = (event.currentTarget.elements[1] as HTMLInputElement).value;
     if (!validPasswordCheck(password)) {
       return;
     }
+
     LoginApi({
       email,
       password,
-      onSuccess: () => router.replace('/'),
+      router,
     });
   };
   return (
@@ -43,11 +36,11 @@ export default function Login() {
         <FormTitle>로그인</FormTitle>
         <FormItem>
           <FormSubTitle>이메일</FormSubTitle>
-          <FormInput type="email" placeholder="이메일을 입력해주세요" onChange={onEmailHandler} />
+          <FormInput type="email" placeholder="이메일을 입력해주세요" />
         </FormItem>
         <FormItem>
           <FormSubTitle>비밀번호</FormSubTitle>
-          <FormInput type="password" placeholder="비밀번호를 입력해 주세요" onChange={onPasswordHandler} />
+          <FormInput type="password" placeholder="비밀번호를 입력해 주세요" />
         </FormItem>
         <FormButton type="submit">로그인</FormButton>
         <FormLink href="/sign">회원가입</FormLink>

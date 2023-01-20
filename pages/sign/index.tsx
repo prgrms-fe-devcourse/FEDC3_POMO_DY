@@ -1,62 +1,32 @@
 import LogoSvg from '@public/images/logo.svg';
 import styled from '@emotion/styled';
-import { ChangeEvent, FormEvent, useState } from 'react';
-import { axiosInstance } from 'api';
-import { useRouter } from 'next/router';
-import { LoginApi } from '@components/login/loginApi';
 import { validNickNameCheck, validPasswordCheck } from '@components/login/validateInput';
+import { PostSign } from '@components/sign/api/PostSign';
+import { useRouter } from 'next/router';
+import { FormEvent } from 'react';
 
 export default function Sign() {
-  const [email, setEmail] = useState('');
-  const [fullName, setFullName] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const router = useRouter();
-
-  const onEmailHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.currentTarget.value);
-  };
-  const onNameHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setFullName(event.currentTarget.value);
-  };
-  const onPasswordHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.currentTarget.value);
-  };
-  const onConfirmPasswordHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setConfirmPassword(event.currentTarget.value);
-  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const email = (event.currentTarget.elements[0] as HTMLInputElement).value;
+    const password = (event.currentTarget.elements[1] as HTMLInputElement).value;
+    const confirmPassword = (event.currentTarget.elements[2] as HTMLInputElement).value;
+    const fullName = (event.currentTarget.elements[3] as HTMLInputElement).value;
     if (password !== confirmPassword) {
       alert('비밀번호가 일치하지 않습니다');
       return;
     }
-
-    if (!validNickNameCheck(fullName)) {
+    if (!validNickNameCheck(fullName) || !validPasswordCheck(password)) {
       return;
     }
-
-    if (!validPasswordCheck(password)) {
-      return;
-    }
-
-    try {
-      const response = await axiosInstance.post('/api/sign', {
-        email,
-        fullName,
-        password,
-      });
-      if (response.status === 200) {
-        LoginApi({
-          email,
-          password,
-          onSuccess: () => router.push('/'),
-        });
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    PostSign({
+      email,
+      fullName,
+      password,
+      router,
+    });
   };
 
   return (
@@ -72,16 +42,16 @@ export default function Sign() {
         <FormTitle>회원가입</FormTitle>
         <FormList>
           <FormSubTitle>이메일</FormSubTitle>
-          <FormInput type="email" placeholder="이메일을 입력해주세요" onChange={onEmailHandler} />
+          <FormInput type="email" placeholder="이메일을 입력해주세요" name="email" />
         </FormList>
         <FormList>
           <FormSubTitle>비밀번호</FormSubTitle>
-          <FormInput type="password" placeholder="비밀번호를 입력해 주세요" onChange={onPasswordHandler} />
-          <FormInput type="password" placeholder="비밀번호를 다시 입력해 주세요" onChange={onConfirmPasswordHandler} />
+          <FormInput type="password" placeholder="비밀번호를 입력해 주세요" name="password" />
+          <FormInput type="password" placeholder="비밀번호를 다시 입력해 주세요" name="confirmPassword" />
         </FormList>
         <FormList>
           <FormSubTitle>이름</FormSubTitle>
-          <FormInput type="text" placeholder="이름을 입력해 주세요" onChange={onNameHandler} />
+          <FormInput type="text" placeholder="이름을 입력해 주세요" name="fullName" />
         </FormList>
         <FormList>
           <FormButton type="submit">회원가입</FormButton>

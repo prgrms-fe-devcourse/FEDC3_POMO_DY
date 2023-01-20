@@ -13,7 +13,6 @@ import { validNickNameCheck, validPasswordCheck } from '@components/login/valida
 
 export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
   const [isFallow, setIsFallow] = useState(false);
-  const [name, setName] = useState(userName);
   const [modalInfo, setModalInfo] = useState({
     title: '',
     inputType: '',
@@ -60,8 +59,9 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
         });
         if (response.status === 200) {
           setIsModalOpen(false);
-          setName(() => modalInputValue);
-          queryClient.invalidateQueries('myData');
+          if (isMyInfo === true) {
+            queryClient.invalidateQueries('myData');
+          }
         }
       } catch (error) {
         console.log(error, '이름 변경 실패');
@@ -134,7 +134,7 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
         <Info>
           <ProfileImg className="infoIcon" />
           <InfoDetail>
-            <InfoUserName>{name}</InfoUserName>
+            <InfoUserName>{userName}</InfoUserName>
             {isMyInfo && <PencilImg onClick={onModifyNameHandler} />}
             <InfoUserEmail>{email}</InfoUserEmail>
           </InfoDetail>

@@ -1,6 +1,6 @@
 import ProfileImg from '@public/icons/profile.svg';
 import styled from '@emotion/styled';
-import { getFullName } from './getFullName';
+import { getFullName } from './api/getFullName';
 import { useQuery } from 'react-query';
 import Link from 'next/link';
 import { COLORS } from 'styles/colors';
