@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { COLORS } from 'styles/colors';
-import { TIME_STATUS_NAME } from '../constants';
-import { TimeStatus } from '../types';
+import { POMO_STATUS_NAME } from '../constants';
+import { PomoStatus } from '../types';
 
 interface TimeProps {
-  status: TimeStatus;
+  status: PomoStatus;
 }
 
 export default function Time({ status }: TimeProps) {
@@ -17,7 +17,7 @@ export default function Time({ status }: TimeProps) {
       </Timer>
       <Status status={status}>
         <Image src={`/images/pomo-circle${status === 'focus' ? '-white' : ''}.svg`} alt="로고" width="60" height="60" />
-        <StatusText>{TIME_STATUS_NAME[status]}</StatusText>
+        <StatusText>{POMO_STATUS_NAME[status]}</StatusText>
       </Status>
     </Container>
   );
@@ -32,7 +32,7 @@ const Container = styled.div`
 
 const Clock = styled(Image)``;
 
-const Status = styled.div<{ status: TimeStatus }>`
+const Status = styled.div<{ status: PomoStatus }>`
   background-color: ${({ status }) => (status === 'rest' ? '#ffffff' : COLORS.main)};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 90px;
