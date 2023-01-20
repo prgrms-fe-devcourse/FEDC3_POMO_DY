@@ -12,7 +12,6 @@ import LeftArrow from '@public/icons/left_arrow.svg';
 import { COLORS } from 'styles/colors';
 import { publicApi } from 'api';
 import { AuthRequired } from '@components/auth/authrequire';
-import { IsEnd } from './../../../components/posts/util';
 
 interface CateoryIdProps {
   categoryId: string;

@@ -1,5 +1,3 @@
-import { Post } from '@components/post/types';
-
 export const getIsInProgress = (date: string, startTime: string, endTime: string) => {
   const startT = new Date(`${date} ${startTime}`).getTime();
 
