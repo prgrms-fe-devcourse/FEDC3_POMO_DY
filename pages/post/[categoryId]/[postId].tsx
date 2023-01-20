@@ -68,7 +68,7 @@ export default function PostPage() {
               )}
               <ExitButton onClick={onExit}>나가기</ExitButton>
             </div>
-            <StyledPostTabs />
+            <StyledPostTabs status={status} />
           </PostContext.Provider>
           {status === 'waiting' && startTime && (
             <Waiting targetTime={startTime} finish={startFocus}>
