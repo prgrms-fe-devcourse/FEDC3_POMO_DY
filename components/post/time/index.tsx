@@ -12,6 +12,7 @@ interface TimeProps {
   startFocus: () => void;
   startRest: () => void;
   finish: () => void;
+  increaseCount: () => void;
 }
 
 export default function Time(props: TimeProps) {
@@ -78,7 +79,7 @@ const Clock = styled.div`
 const TimeText = styled.div`
   position: absolute;
   top: 168px;
-  left: 123px;
+  left: 119px;
   font-weight: 700;
   font-size: 50px;
   line-height: 84px;
