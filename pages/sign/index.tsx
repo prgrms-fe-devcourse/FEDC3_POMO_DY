@@ -4,6 +4,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { axiosInstance } from 'api';
 import { useRouter } from 'next/router';
 import { LoginApi } from '@components/login/loginApi';
+import { validNickNameCheck, validPasswordCheck } from '@components/login/validateInput';
 
 export default function Sign() {
   const [email, setEmail] = useState('');
@@ -31,6 +32,15 @@ export default function Sign() {
       alert('비밀번호가 일치하지 않습니다');
       return;
     }
+
+    if (!validNickNameCheck(fullName)) {
+      return;
+    }
+
+    if (!validPasswordCheck(password)) {
+      return;
+    }
+
     try {
       const response = await axiosInstance.post('/api/sign', {
         email,
@@ -159,7 +169,6 @@ const FormInput = styled.input`
   font-size: 25px;
   line-height: 36px;
   padding-left: 20px;
-  color: #838383;
 `;
 const FormButton = styled.button`
   width: 480px;

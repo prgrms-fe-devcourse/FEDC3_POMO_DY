@@ -1,13 +1,8 @@
 import { setToken, axiosInstance } from 'api/index';
 import { setLocalstorage } from '@components/auth/localstorage';
+import { LoginApiProps } from './types';
 
-interface loginApiProps {
-  email: string;
-  password: string;
-  onSuccess: () => void;
-}
-
-export const LoginApi = async ({ email, password, onSuccess }: loginApiProps) => {
+export const LoginApi = async ({ email, password, onSuccess }: LoginApiProps) => {
   try {
     const response = await axiosInstance.post('api/login', {
       email,
@@ -15,7 +10,9 @@ export const LoginApi = async ({ email, password, onSuccess }: loginApiProps) =>
     });
     if (response.status === 200) {
       const token: string = response.data.token;
+      const id: string = response.data._id;
       setLocalstorage('JWT_TOKEN', token);
+      setLocalstorage('ID', id);
       setToken(token);
       onSuccess();
     }

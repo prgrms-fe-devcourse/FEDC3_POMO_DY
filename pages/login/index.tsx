@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { LoginApi } from '@components/login/loginApi';
 import { useRouter } from 'next/router';
+import { validPasswordCheck } from '@components/login/validateInput';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -20,10 +21,13 @@ export default function Login() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!validPasswordCheck(password)) {
+      return;
+    }
     LoginApi({
       email,
       password,
-      onSuccess: () => router.push('/'),
+      onSuccess: () => router.replace('/'),
     });
   };
   return (
@@ -131,7 +135,6 @@ const FormInput = styled.input`
   font-size: 25px;
   line-height: 36px;
   padding-left: 20px;
-  color: #838383;
 `;
 
 const FormButton = styled.button`
