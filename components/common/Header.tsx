@@ -20,7 +20,7 @@ const Bar = styled.nav`
   height: 100px;
 `;
 
-const LogoContainer = styled(Link)`
+const LogoContainer = styled.div`
   display: flex;
   min-width: 120px;
   align-items: center;
