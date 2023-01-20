@@ -1,5 +1,4 @@
 import { CATEGORY_NAME_MAP } from '@components/post/constants';
-import { CategoryNameInDB } from '@components/post/types';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { COLORS } from 'styles/colors';

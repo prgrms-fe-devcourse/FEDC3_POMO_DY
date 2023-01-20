@@ -1,29 +1,56 @@
+import { MouseEventHandler, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { COLORS } from 'styles/colors';
+
 import ProfileIcon from '@public/icons/profile.svg';
 import SadTomatoSvg from '@public/images/sad-tomato.svg';
+import { COLORS } from 'styles/colors';
 import { PostDetailType } from './types';
-import { useEffect, useState } from 'react';
 import { getElapsedTimeStr, getIsInProgress } from './util';
+
+interface Like {
+  _id: string;
+  user: string;
+  post: string;
+  createdAt: string;
+  updatedAt: string;
+  _v: number;
+}
+
+interface PostInfo {
+  _id: string;
+  channelId: string;
+  title: string;
+  description: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  iteration: string;
+  likes: Array<Like>;
+}
 
 interface Props {
   _id: string;
-  participants: [];
+  participants: Array<Like>;
   data: PostDetailType;
   createdAt: string;
+  onPostClick: (post: PostInfo) => void;
 }
 
-export default function PostCard({ _id, participants, data, createdAt }: Props) {
-  const { title, date, description, startTime, endTime, iteration } = data;
+export default function PostCard({ _id, participants, data, createdAt, onPostClick }: Props) {
+  const { channelId, title, date, content: description, startTime, endTime, interval: iteration } = data;
 
   const [isInProgress, setIsInProgress] = useState(false);
+
+  const onClick: MouseEventHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+    onPostClick({ _id, channelId, title, date, description, startTime, endTime, iteration, likes: participants });
+  };
 
   useEffect(() => {
     setIsInProgress(getIsInProgress(date, startTime, endTime));
   }, [startTime, endTime]);
 
   return (
-    <CardContainer>
+    <CardContainer onClick={onClick}>
       {isInProgress && (
         <CardCoverContainer>
           <SadTomatoSvg />
@@ -33,7 +60,7 @@ export default function PostCard({ _id, participants, data, createdAt }: Props) 
       <TopBox>
         <TextDate>{date}</TextDate>
         <Time>
-          <RedText>{startTime}</RedText> ~ {endTime}
+          <RedText>{startTime || '00:00'}</RedText> ~ {endTime || '00:00'}
         </Time>
         <RecursionCount>
           반복 <RedText>{iteration || '0'}회</RedText>
@@ -47,7 +74,7 @@ export default function PostCard({ _id, participants, data, createdAt }: Props) 
         </BottomLeftBox>
         <BottomRightBox>
           <ProfileIcon className="profile" />
-          <CountCircle>{participants.length + 1}명</CountCircle>
+          <CountCircle>{participants.length}명</CountCircle>
         </BottomRightBox>
       </BottomBox>
     </CardContainer>
@@ -59,6 +86,7 @@ const CardContainer = styled.div`
   width: 31.5%;
   height: 245px;
   padding: 40px;
+  color: #000;
   background: ${COLORS.sub_yellow};
   border-radius: 14px;
   display: flex;
@@ -150,6 +178,7 @@ const SubContainer = styled.div`
   font-weight: 500;
   font-size: 13px;
   color: #2b2b2b;
+  opacity: 0.7;
 `;
 
 const BottomRightBox = styled.div`

@@ -1,4 +1,4 @@
-import { MouseEventHandler, useEffect, useState } from 'react';
+import { MouseEventHandler, useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 
@@ -6,8 +6,17 @@ import Modal from '@components/common/modal';
 import UserList from './UserList';
 import { UserInfo } from './types';
 import { COLORS } from 'styles/colors';
-import { publicApi } from 'api';
+import { internalApi, publicApi } from 'api';
 import { fetchUsers } from './fetchUsers';
+
+interface Like {
+  _id: string;
+  user: string;
+  post: string;
+  createdAt: string;
+  updatedAt: string;
+  _v: number;
+}
 
 interface PostInfo {
   _id: string;
@@ -18,7 +27,7 @@ interface PostInfo {
   startTime: string;
   endTime: string;
   iteration: string;
-  likes: Array<{ id: string; userId: string }>;
+  likes: Array<Like>;
 }
 
 interface Props {
@@ -29,6 +38,8 @@ interface Props {
 
 function PostDetails({ postInfo, isOpen, setIsOpen }: Props) {
   const router = useRouter();
+  const [entered, setEntered] = useState(false);
+  const [users, setUsers] = useState<UserInfo[]>([]);
   const {
     _id: postId,
     channelId,
@@ -40,40 +51,54 @@ function PostDetails({ postInfo, isOpen, setIsOpen }: Props) {
     iteration: interval,
     likes: participants,
   } = postInfo;
-  const dummyUserData = [
-    { id: '63c806ddd10a060b921e3efa', userId: '63c2b8272358f16faf4df0c5' },
-    { id: '63c806ddd10a060b921e3efa', userId: '63c2b8272358f16faf4df0c5' },
-    { id: '63c806ddd10a060b921e3efa', userId: '63c2b8272358f16faf4df0c5' },
-    { id: '63c806ddd10a060b921e3efa', userId: '63c2b8272358f16faf4df0c5' },
-  ];
-  const [users, setUsers] = useState<UserInfo[]>([]);
 
-  const getUsersInfo = async () => {
-    const userInfo = await fetchUsers(dummyUserData);
-    // const userInfo = await fetchUsers(participants);
-    setUsers([...userInfo]);
-  };
+  const getUsersInfo = useCallback(async () => {
+    const userInfo = await fetchUsers(participants);
+    return userInfo;
+  }, [participants]);
 
-  useEffect(() => {
-    getUsersInfo();
+  const checkEntered = useCallback((enteredUsers: Array<UserInfo>) => {
+    const myId = localStorage.getItem('ID');
+    if (!myId) {
+      setEntered(false);
+      alert('다시 로그인 해주세요.');
+      router.push('/');
+      return;
+    }
+
+    if (enteredUsers.findIndex((item) => item.userId === myId) !== -1) {
+      setEntered(true);
+      return;
+    }
+
+    setEntered(false);
   }, []);
 
-  const handleEnterPost: MouseEventHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(e);
+  useEffect(() => {
+    getUsersInfo().then((res) => {
+      setUsers(() => [...res]);
+      checkEntered(res);
+    });
+  }, [postInfo, getUsersInfo, checkEntered]);
 
+  const routePostPage = () => router.push(`/post/${channelId}/${postId}`);
+
+  const handleEnterPost: MouseEventHandler = () => {
     publicApi
       .post('/likes/create', { postId })
       .then((res) => {
-        console.log(res);
-        router.push(`/post/${channelId}/${postId}`);
+        routePostPage();
       })
-      .catch(() => alert('뽀모에 참가할 수 없어요 ㅠ.ㅠ'));
+      .catch(() => {
+        alert('뽀모에 참가할 수 없어요. 다시 시도해주세요.');
+      });
   };
 
   return (
     <Modal isModalOpen={isOpen} setIsModalOpen={setIsOpen}>
       <Container>
         <PostInfoWrapper>
+          {entered && <PointText>참여중</PointText>}
           <PostTitle>{title}</PostTitle>
           <PostContent>{content}</PostContent>
           <FlexWrapper>
@@ -101,7 +126,11 @@ function PostDetails({ postInfo, isOpen, setIsOpen }: Props) {
             </PostParticipants>
           </FlexWrapper>
         </PostInfoWrapper>
-        <EnterButton onClick={handleEnterPost}>뽀모 참여하기</EnterButton>
+        {entered ? (
+          <EnterButton onClick={routePostPage}>뽀모방 가기</EnterButton>
+        ) : (
+          <EnterButton onClick={handleEnterPost}>뽀모 참여하기</EnterButton>
+        )}
       </Container>
     </Modal>
   );
@@ -118,6 +147,18 @@ const Container = styled.div`
 
 const PostInfoWrapper = styled.div`
   padding: 0 13% 20px;
+`;
+
+const PointText = styled.div`
+  width: fit-content;
+  padding: 3px 8px;
+  background-color: #fffbeb;
+  border: 2px solid #fbf2cf;
+  border-radius: 28px;
+  color: #ff9a61;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-bottom: 10px;
 `;
 
 const PostTitle = styled.h1`

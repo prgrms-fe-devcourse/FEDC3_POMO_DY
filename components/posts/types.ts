@@ -1,12 +1,13 @@
 import { CategoryInfoType } from '@components/home/types';
 
 export interface PostDetailType {
+  channelId: string;
   title: string;
-  description: string;
+  content: string;
   date: string;
   startTime: string;
   endTime: string;
-  iteration: string;
+  interval: string;
 }
 
 export interface PostType {
