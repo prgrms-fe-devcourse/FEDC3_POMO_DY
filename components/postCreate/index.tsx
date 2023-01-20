@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import Input from './Input';
+import Input from '@components/postCreate/input';
 import { COLORS } from 'styles/colors';
 import { FormEventHandler } from 'react';
 
