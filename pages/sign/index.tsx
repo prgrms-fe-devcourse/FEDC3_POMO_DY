@@ -1,17 +1,16 @@
 import LogoSvg from '@public/images/logo.svg';
 import styled from '@emotion/styled';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { axiosInstance } from 'api';
-import { useRouter } from 'next/router';
-import { LoginApi } from '@components/login/loginApi';
 import { validNickNameCheck, validPasswordCheck } from '@components/login/validateInput';
+import { PostSign } from '@components/sign/api/postSign';
+import { useRouter } from 'next/router';
 
 export default function Sign() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [fullName, setFullName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const router = useRouter();
 
   const onEmailHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.currentTarget.value);
@@ -32,31 +31,15 @@ export default function Sign() {
       alert('비밀번호가 일치하지 않습니다');
       return;
     }
-
-    if (!validNickNameCheck(fullName)) {
+    if (!validNickNameCheck(fullName) || !validPasswordCheck(password)) {
       return;
     }
-
-    if (!validPasswordCheck(password)) {
-      return;
-    }
-
-    try {
-      const response = await axiosInstance.post('/api/sign', {
-        email,
-        fullName,
-        password,
-      });
-      if (response.status === 200) {
-        LoginApi({
-          email,
-          password,
-          onSuccess: () => router.push('/'),
-        });
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    PostSign({
+      email,
+      fullName,
+      password,
+      onSuccess: () => router.replace('/'),
+    });
   };
 
   return (

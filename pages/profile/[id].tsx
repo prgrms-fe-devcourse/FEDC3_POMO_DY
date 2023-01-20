@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import Profile from '@components/profile/index';
 import { useQuery } from 'react-query';
 import { useEffect, useState } from 'react';
-import { getFullName } from '@components/profile/getFullName';
+import { getFullName } from '@components/profile/api/getFullName';
 import { getLocalstorage } from '@components/auth/localstorage';
 
 export default function UserProfile() {
