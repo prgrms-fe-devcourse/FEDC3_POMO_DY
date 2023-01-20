@@ -12,6 +12,7 @@ import LeftArrow from '@public/icons/left_arrow.svg';
 import { COLORS } from 'styles/colors';
 import { publicApi } from 'api';
 import { AuthRequired } from '@components/auth/authrequire';
+import { IsEnd } from './../../../components/posts/util';
 
 interface CateoryIdProps {
   categoryId: string;
@@ -116,18 +117,22 @@ export default function Post({ categoryId, categoryName }: CateoryIdProps) {
         </MainHeader>
         <PostCardList>
           {!posts.length && <Notice>모집 중인 뽀모방이 없어요</Notice>}
-          {posts.map(({ _id, likes, title, createdAt }) => {
-            return (
-              <PostCard
-                key={_id}
-                _id={_id}
-                participants={getUniqueParticipant(likes)}
-                data={{ ...JSON.parse(title), channelId: categoryId }}
-                createdAt={createdAt}
-                onPostClick={onPostClick}
-              />
-            );
-          })}
+          {posts
+            .filter((post: PostDetailsProps) => {
+              return IsEnd(JSON.parse(post.title));
+            })
+            .map(({ _id, likes, title, createdAt }) => {
+              return (
+                <PostCard
+                  key={_id}
+                  _id={_id}
+                  participants={getUniqueParticipant(likes)}
+                  data={{ ...JSON.parse(title), channelId: categoryId }}
+                  createdAt={createdAt}
+                  onPostClick={onPostClick}
+                />
+              );
+            })}
         </PostCardList>
       </MainContainer>
       {current && <PostDetails postInfo={current} isOpen={isModalOpen} setIsOpen={setIsModalOpen} />}

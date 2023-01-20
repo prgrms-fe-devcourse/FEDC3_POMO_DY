@@ -1,3 +1,5 @@
+import { Post } from '@components/post/types';
+
 export const getIsInProgress = (date: string, startTime: string, endTime: string) => {
   const startT = new Date(`${date} ${startTime}`).getTime();
 
@@ -25,4 +27,12 @@ export const getElapsedTimeStr = (createdAt: string) => {
   if (elapsedHour > 24) return `${elapsedDay}일 전`;
   else if (elapsedHour < 1) return `${Math.floor(elapsedTime / 1000 / 60)}분 전`;
   else return `${elapsedHour}시간 전`;
+};
+
+export const IsEnd = (postDetail: Post) => {
+  const { date, endTime } = postDetail;
+  const end = new Date(`${date} ${endTime}`).getTime();
+
+  if (isNaN(end)) return false;
+  return end > Date.now();
 };
