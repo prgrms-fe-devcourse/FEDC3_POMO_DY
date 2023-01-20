@@ -5,7 +5,7 @@ import ProfileIcon from '@public/icons/profile.svg';
 import SadTomatoSvg from '@public/images/sad-tomato.svg';
 import { COLORS } from 'styles/colors';
 import { PostDetailType } from './types';
-import { getElapsedTimeStr, getIsInProgress, isEnd } from './util';
+import { changeMaxText, getElapsedTimeStr, getIsInProgress, isEnd } from './util';
 interface Like {
   _id: string;
   user: string;
@@ -74,8 +74,8 @@ export default function PostCard({ _id, participants, data, createdAt, onPostCli
       </TopBox>
       <BottomBox>
         <BottomLeftBox>
-          <TitleContainer>{title}</TitleContainer>
-          <ContentContainer>{description}</ContentContainer>
+          <TitleContainer>{changeMaxText(title, 15) || '빈 제목'}</TitleContainer>
+          <ContentContainer>{changeMaxText(description, 20) || '빈 내용'}</ContentContainer>
           <SubContainer>{getElapsedTimeStr(createdAt)}</SubContainer>
         </BottomLeftBox>
         <BottomRightBox>

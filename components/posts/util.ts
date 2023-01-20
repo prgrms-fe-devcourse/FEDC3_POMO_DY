@@ -35,3 +35,8 @@ export const isEnd = (endDate: string) => {
   if (isNaN(end) || !end) return true;
   return end < Date.now();
 };
+
+export const changeMaxText = (text = '', length: number) => {
+  if (text.length > length) return `${text.substring(0, length - 2)}...`;
+  else return text;
+};
