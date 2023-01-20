@@ -1,7 +1,7 @@
 import LogoSvg from '@public/images/logo.svg';
 import styled from '@emotion/styled';
 import { validNickNameCheck, validPasswordCheck } from '@components/login/validateInput';
-import { PostSign } from '@components/sign/api/PostSign';
+import { PostSign } from '@components/sign/api';
 import { useRouter } from 'next/router';
 import { FormEvent } from 'react';
 
