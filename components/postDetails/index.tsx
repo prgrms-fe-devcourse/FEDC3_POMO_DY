@@ -87,7 +87,6 @@ function PostDetails({ postInfo, isOpen, setIsOpen }: Props) {
     publicApi
       .post('/likes/create', { postId })
       .then((res) => {
-        console.log(res);
         routePostPage();
       })
       .catch(() => {
