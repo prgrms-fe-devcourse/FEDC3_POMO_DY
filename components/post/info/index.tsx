@@ -4,9 +4,10 @@ import { Post } from '../types';
 
 interface PostInfoProps {
   postInfo: Post;
+  count: number;
 }
 
-export default function PostInfo({ postInfo }: PostInfoProps) {
+export default function PostInfo({ postInfo, count }: PostInfoProps) {
   return (
     <Container>
       <TitleWrapper>
@@ -20,7 +21,7 @@ export default function PostInfo({ postInfo }: PostInfoProps) {
       <InfoItem>
         <Label>반복</Label>
         <Content className="iteration">
-          <span>0</span> / {postInfo.iteration}회
+          <span>{count}</span> / {postInfo.iteration}회
         </Content>
       </InfoItem>
       <InfoItem>

@@ -12,6 +12,7 @@ interface TimeProps {
   startFocus: () => void;
   startRest: () => void;
   finish: () => void;
+  increaseCount: () => void;
 }
 
 export default function Time(props: TimeProps) {

@@ -6,10 +6,11 @@ interface TimerProps {
   startFocus: () => void;
   startRest: () => void;
   finish: () => void;
+  increaseCount: () => void;
 }
 
-export default function Timer({ startTime, iteration, startFocus, startRest, finish }: TimerProps) {
-  const { minute, second } = usePomoTimer(startTime, iteration, startFocus, startRest, finish);
+export default function Timer({ startTime, iteration, startFocus, startRest, finish, increaseCount }: TimerProps) {
+  const { minute, second } = usePomoTimer(startTime, iteration, startFocus, startRest, finish, increaseCount);
   return (
     <>
       {minute} : {second}

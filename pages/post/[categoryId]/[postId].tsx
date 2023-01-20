@@ -17,6 +17,7 @@ export default function PostPage() {
   const { postId } = router.query;
   const { data: postData } = useGetPost(postId as string);
   const [status, setStatus] = useState<PomoStatus>('waiting');
+  const [count, setCount] = useState(0);
 
   const startTime = useMemo<Date | undefined>(() => {
     if (!postData) return;
@@ -26,7 +27,7 @@ export default function PostPage() {
   }, [postData]);
 
   // FIXME: 시간 관련 기능 구현할 동안은 계속 두겠습니다.
-  // const testTime = new Date(2023, 0, 20, 21, 3);
+  // const testTime = new Date(2023, 0, 20, 21, 31);
   // testTime.setMinutes(testTime.getMinutes() + 1);
   // console.log('testTIme', testTime);
 
@@ -45,6 +46,7 @@ export default function PostPage() {
       window.history.back();
     }
   };
+  const increaseCount = () => setCount((prev) => prev + 1);
 
   return (
     <Container>
@@ -52,7 +54,7 @@ export default function PostPage() {
         <>
           <PostContext.Provider value={postData}>
             <div>
-              <StyledPostInfo postInfo={postData} />
+              <StyledPostInfo postInfo={postData} count={count} />
               {startTime && (
                 <Time
                   startTime={startTime}
@@ -61,6 +63,7 @@ export default function PostPage() {
                   startRest={startRest}
                   startFocus={startFocus}
                   finish={finish}
+                  increaseCount={increaseCount}
                 />
               )}
               <ExitButton onClick={onExit}>나가기</ExitButton>
@@ -69,7 +72,7 @@ export default function PostPage() {
           </PostContext.Provider>
           {status === 'waiting' && startTime && (
             <Waiting targetTime={startTime} finish={startFocus}>
-              <ExitButton>나가기</ExitButton>
+              <ExitButton onClick={onExit}>나가기</ExitButton>
             </Waiting>
           )}
         </>

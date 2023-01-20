@@ -9,6 +9,7 @@ export default function usePomoTimer(
   startFocusTime: () => void,
   startRestTime: () => void,
   finish: () => void,
+  increaseCount: () => void,
 ) {
   const [second, setSecond] = useState<number>();
   const [minute, setMinute] = useState<number>();
@@ -32,6 +33,7 @@ export default function usePomoTimer(
         setCurrentStartTime(timeTable[0].nextTime);
         startFocusTime();
         timeTable.shift();
+        increaseCount();
       } else if (timeTable[0].nextStatus === 'rest' && minute === FOCUS_TIME && second === 0) {
         setCurrentStartTime(timeTable[0].nextTime);
         startRestTime();
@@ -39,9 +41,10 @@ export default function usePomoTimer(
       } else if (timeTable[0].nextStatus === 'finished' && minute === REST_TIME && second === 0) {
         finish();
         timeTable.shift();
+        increaseCount();
       }
     }
-  }, [minute, second, startFocusTime, startRestTime, timeTable, finish]);
+  }, [minute, second, startFocusTime, startRestTime, timeTable, finish, increaseCount]);
 
   return { second, minute };
 }
