@@ -5,8 +5,7 @@ import ProfileIcon from '@public/icons/profile.svg';
 import SadTomatoSvg from '@public/images/sad-tomato.svg';
 import { COLORS } from 'styles/colors';
 import { PostDetailType } from './types';
-import { getElapsedTimeStr, getIsInProgress } from './util';
-
+import { getElapsedTimeStr, getIsInProgress, isEnd } from './util';
 interface Like {
   _id: string;
   user: string;
@@ -35,7 +34,6 @@ interface Props {
   createdAt: string;
   onPostClick: (post: PostInfo) => void;
 }
-
 export default function PostCard({ _id, participants, data, createdAt, onPostClick }: Props) {
   const { channelId, title, date, content: description, startTime, endTime, interval: iteration } = data;
 
@@ -58,6 +56,12 @@ export default function PostCard({ _id, participants, data, createdAt, onPostCli
           <SadTomatoSvg />
           <CoverMsg>진행 중인 뽀모예요</CoverMsg>
         </CardCoverContainer>
+      )}
+      {isEnd(`${date} ${endTime}`) && (
+        <EndCardCoverContainer>
+          <SadTomatoSvg />
+          <CoverMsg>종료된 뽀모예요</CoverMsg>
+        </EndCardCoverContainer>
       )}
       <TopBox>
         <TextDate>{date}</TextDate>
@@ -86,7 +90,7 @@ export default function PostCard({ _id, participants, data, createdAt, onPostCli
 const CardContainer = styled.div`
   min-width: 370px;
   width: 31.5%;
-  height: 245px;
+  height: 250px;
   padding: 40px;
   color: #000;
   background: ${COLORS.sub_yellow};
@@ -118,6 +122,22 @@ const CardCoverContainer = styled.div`
   top: 0;
   left: 0;
   background: rgba(161, 194, 152, 0.9);
+  z-index: 1;
+`;
+
+const EndCardCoverContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  gap: 5px;
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+  top: 0;
+  left: 0;
+  background: rgba(203, 203, 203, 0.9);
   z-index: 1;
 `;
 

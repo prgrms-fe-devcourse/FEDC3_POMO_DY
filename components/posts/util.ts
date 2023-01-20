@@ -29,10 +29,9 @@ export const getElapsedTimeStr = (createdAt: string) => {
   else return `${elapsedHour}시간 전`;
 };
 
-export const IsEnd = (postDetail: Post) => {
-  const { date, endTime } = postDetail;
-  const end = new Date(`${date} ${endTime}`).getTime();
+export const isEnd = (endDate: string) => {
+  const end = new Date(endDate).getTime();
 
-  if (isNaN(end)) return false;
-  return end > Date.now();
+  if (isNaN(end) || !end) return true;
+  return end < Date.now();
 };
