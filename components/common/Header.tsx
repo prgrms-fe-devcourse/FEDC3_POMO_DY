@@ -5,13 +5,22 @@ import { SearchBox, SearchResult } from '@components/common/Search';
 import { css } from '@emotion/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { axiosInstance } from 'api';
+import { publicApi } from 'api';
 import { isCategoryNameInDB } from '@components/post/types';
 import { CATEGORY_NAME_MAP } from '@components/post/constants';
 
 interface Category {
   _id: string;
   name: string;
+}
+
+interface Result {
+  _id: string;
+  role?: string;
+  title?: string;
+  email?: string;
+  fullName?: string;
+  channel?: string;
 }
 
 interface Notification {
@@ -182,6 +191,14 @@ const NotificationIcon = styled(imageBase)`
   ${imageCircle}
 `;
 
+function exception(isUser: boolean, isPost: boolean) {
+  if (isUser && isPost) {
+    throw new Error("can't be User and Post at the same time");
+  } else if (!isUser && !isPost) {
+    throw new Error('must be User or Post');
+  }
+}
+
 export const Header: FunctionComponent = () => {
   const [keyword, setKeyword] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -206,7 +223,7 @@ export const Header: FunctionComponent = () => {
 
   const getCategories = useCallback(async () => {
     try {
-      const { data } = await axiosInstance.get('/api/channels');
+      const { data } = await publicApi.get('/channels');
       const categoriesName = data.map(({ _id, name }: { _id: string; name: string }) => {
         const categoryName = name;
         if (!isCategoryNameInDB(categoryName)) throw new Error('잘못된 카테고리입니다.');
@@ -229,10 +246,38 @@ export const Header: FunctionComponent = () => {
     }
 
     try {
-      const res = await axiosInstance.get(`/api/search/all/${keyword}`);
+      const res = await publicApi.get(`/search/all/${encodeURIComponent(keyword)}`);
       if (res.status === 200 && res.data.length > 0) {
         const { data } = res;
-        const finalData = data.map(
+        const results = data
+          .map((result: Result) => {
+            const isUser = result.email !== undefined && result.fullName !== undefined;
+            const isPost = result.title !== undefined && result.channel !== undefined;
+            exception(isUser, isPost);
+
+            if (isUser) {
+              const { _id, fullName, role } = result;
+              return {
+                _id,
+                fullName,
+                role,
+              };
+            } else {
+              const customData = result.title ? JSON.parse(result.title) : {};
+              return {
+                _id: result._id,
+                channelId: result.channel,
+                ...customData,
+              };
+            }
+          })
+          .filter(
+            (info: Result) =>
+              (info.role && info.role !== 'SuperAdmin' && info.fullName && info.fullName.includes(keyword)) ||
+              (info.title && info.title.includes(keyword)),
+          )
+          .slice(0, 15);
+        const finalData = results.map(
           (result: {
             _id: string;
             role?: string;
