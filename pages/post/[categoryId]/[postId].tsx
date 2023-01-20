@@ -36,13 +36,14 @@ export default function PostPage() {
   const startRest = () => setStatus('rest');
   const finish = () => setStatus('finished');
   const onExit = () => {
+    let isExit;
     if (status === 'waiting') {
       // FIXME: 모달 컴포넌트 사용하기
-      confirm('뽀모도로 방에서 나가시겠습니까?');
+      isExit = confirm('뽀모도로 방에서 나가시겠습니까?');
     } else if (status === 'focus' || status === 'rest') {
-      confirm('뽀모도로 방에서 나가시겠습니까? 다시 들어올 수 없습니다.');
+      isExit = confirm('뽀모도로 방에서 나가시겠습니까? 다시 들어올 수 없습니다.');
     }
-    if (typeof window !== undefined) {
+    if (typeof window !== undefined && isExit) {
       // FIXME: 글 목록 페이지 url로 바꿔야 함
       window.history.back();
     }
