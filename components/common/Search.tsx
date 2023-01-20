@@ -88,7 +88,6 @@ const SearchInputContainer = styled.div`
   padding: 5px 10px;
   width: 100%;
   gap: 10px;
-  }
 `;
 
 const Content = (props: { src: string; alt: string; title: string | undefined; category: string | null }) => {
