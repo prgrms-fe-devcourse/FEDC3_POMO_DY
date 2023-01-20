@@ -26,3 +26,15 @@ export const getElapsedTimeStr = (createdAt: string) => {
   else if (elapsedHour < 1) return `${Math.floor(elapsedTime / 1000 / 60)}분 전`;
   else return `${elapsedHour}시간 전`;
 };
+
+export const isEnd = (endDate: string) => {
+  const end = new Date(endDate).getTime();
+
+  if (isNaN(end) || !end) return true;
+  return end < Date.now();
+};
+
+export const changeMaxText = (text = '', length: number) => {
+  if (text.length > length) return `${text.substring(0, length - 2)}...`;
+  else return text;
+};

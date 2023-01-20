@@ -199,7 +199,7 @@ const PostCardList = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 30px;
-  justify-content: center;
+  justify-content: flex-start;
 `;
 
 const Notice = styled.div`
