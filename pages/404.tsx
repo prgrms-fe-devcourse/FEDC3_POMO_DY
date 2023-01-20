@@ -5,14 +5,13 @@ import styled from '@emotion/styled';
 
 const Page: NextPage = () => {
   const router = useRouter();
-
   const move = () => {
     router.push('/');
   };
 
   const Container = styled.div`
     width: 100%;
-    height: 50vh;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -37,6 +36,7 @@ const Page: NextPage = () => {
     font-weight: bold;
     color: white;
     box-shadow: 1px 3px 2px 1px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
   `;
 
   const TextBox = styled.div`
