@@ -51,7 +51,6 @@ export default function CommentTapContent({ status }: CommentTapContentProps) {
         </RefreshButton>
         <CommentList ref={commentListRef}>
           {comments.map((comment) => {
-            console.log(status, comment.authorId, hostId);
             if (status === 'focus' && comment.authorId !== hostId) {
               return <CommentItem comment={comment.content} key={comment.id} isHidden />;
             } else {
