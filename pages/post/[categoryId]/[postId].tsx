@@ -23,7 +23,7 @@ export default function PostPage() {
     if (!postData) return;
     const [year, month, day] = postData?.date.split('-');
     const [hour, minute] = postData?.startTime.split(':');
-    return new Date(+year, +month, +day, +hour, +minute);
+    return new Date(+year, +month - 1, +day, +hour, +minute);
   }, [postData]);
 
   // FIXME: 시간 관련 기능 구현할 동안은 계속 두겠습니다.
