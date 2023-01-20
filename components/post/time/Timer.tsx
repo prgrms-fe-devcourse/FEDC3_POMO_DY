@@ -13,7 +13,7 @@ export default function Timer({ startTime, iteration, startFocus, startRest, fin
   const { minute, second } = usePomoTimer(startTime, iteration, startFocus, startRest, finish, increaseCount);
   return (
     <>
-      {minute} : {second}
+      {minute?.toString().padStart(2, '0')} : {second?.toString().padStart(2, '0')}
     </>
   );
 }
