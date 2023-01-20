@@ -25,6 +25,8 @@ export const getPost = async (id: string) => {
     .map((like: any) => like.user as string);
   const participants = await getParticipants(participantIdList);
 
+  const parsedData = JSON.parse(data.title);
+
   const post: Post = {
     id: data._id,
     category: {
@@ -39,7 +41,12 @@ export const getPost = async (id: string) => {
     })),
     participants,
     host: { id: data.author._id, name: data.author.fullName, image: data.author.image },
-    ...JSON.parse(data.title),
+    title: parsedData.title,
+    date: parsedData.date,
+    startTime: parsedData.startTime,
+    endTime: parsedData.endTime,
+    iteration: parsedData.interval,
+    description: parsedData.content,
   };
 
   return post;
