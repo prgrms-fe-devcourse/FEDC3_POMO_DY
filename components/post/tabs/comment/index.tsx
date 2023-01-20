@@ -10,6 +10,7 @@ import { tabContainerStyle, TabContentBackground } from '@components/post/styles
 import { useQueryClient } from 'react-query';
 import useHost from '@components/post/hooks/useHost';
 import { PomoStatus } from '@components/post/types';
+import { getLocalstorage } from '@components/auth/localstorage';
 
 interface CommentTapContentProps {
   status: PomoStatus;
@@ -23,7 +24,6 @@ export default function CommentTapContent({ status }: CommentTapContentProps) {
   const comments = useComments();
   const queryClient = useQueryClient();
   const commentListRef = useRef<HTMLDivElement>(null);
-  const { id: hostId } = useHost();
 
   const onChangeCommentValue = (e: React.ChangeEvent<HTMLInputElement>) => setCommentValue(e.target.value);
   const onSubmitComment = (e: React.FormEvent<HTMLFormElement>) => {
@@ -51,7 +51,8 @@ export default function CommentTapContent({ status }: CommentTapContentProps) {
         </RefreshButton>
         <CommentList ref={commentListRef}>
           {comments.map((comment) => {
-            if (status === 'focus' && comment.authorId !== hostId) {
+            const userId = getLocalstorage('ID');
+            if (status === 'focus' && comment.authorId !== userId) {
               return <CommentItem comment={comment.content} key={comment.id} isHidden />;
             } else {
               return <CommentItem comment={comment.content} key={comment.id} />;
