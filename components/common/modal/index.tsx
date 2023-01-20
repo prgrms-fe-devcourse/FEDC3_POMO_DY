@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 
 import CloseIcon from 'public/icons/close.svg';
+import { useBodyScrollLock } from './useBodyScrollLock';
 
 interface Props {
   children?: ReactNode;
@@ -10,13 +11,20 @@ interface Props {
 }
 
 function Modal({ isModalOpen, setIsModalOpen, children }: Props) {
+  const { openScroll } = useBodyScrollLock();
+
+  const handleClose = () => {
+    openScroll();
+    setIsModalOpen(false);
+  };
+
   return (
     <>
       {isModalOpen && (
         <ModalWrapper>
           <Dimmed />
           <ModalContainer>
-            <CloseButton onClick={() => setIsModalOpen(!isModalOpen)} />
+            <CloseButton onClick={handleClose} />
             {children}
           </ModalContainer>
         </ModalWrapper>
@@ -26,7 +34,8 @@ function Modal({ isModalOpen, setIsModalOpen, children }: Props) {
 }
 
 const ModalWrapper = styled.div`
-  position: absolute;
+  z-index: 100;
+  position: fixed;
   top: 100px;
   right: 0;
   bottom: 0;
@@ -39,7 +48,7 @@ const ModalWrapper = styled.div`
 `;
 
 const Dimmed = styled.div`
-  position: absolute;
+  position: fixed;
   height: 100vh;
   top: 0;
   right: 0;
