@@ -15,9 +15,23 @@ interface TimeProps {
 }
 
 export default function Time(props: TimeProps) {
+  const getTimeText = () => {
+    switch (props.status) {
+      case 'focus':
+      case 'rest':
+        return <Timer {...props} />;
+      case 'finished':
+        return '끝';
+      case 'waiting':
+        return '대기 중';
+    }
+  };
   return (
     <Container>
-      <Timer {...props} />
+      <Clock>
+        <Image src="/images/clock.svg" alt="시계" width="382" height="397" />
+        <TimeText>{getTimeText()}</TimeText>
+      </Clock>
       <Status status={props.status}>
         <Image
           src={`/images/pomo-circle${props.status === 'focus' ? '-white' : ''}.svg`}
@@ -36,6 +50,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 47px;
+  margin-top: 93px;
 `;
 
 const Status = styled.div<{ status: PomoStatus }>`
@@ -54,4 +69,19 @@ const StatusText = styled.div`
   font-weight: 700;
   font-size: 30px;
   line-height: 36px;
+`;
+
+const Clock = styled.div`
+  position: relative;
+`;
+
+const TimeText = styled.div`
+  position: absolute;
+  top: 168px;
+  left: 123px;
+  font-weight: 700;
+  font-size: 50px;
+  line-height: 84px;
+  color: #2b2b2b;
+  font-family: 'UhBee EUN KYUNG';
 `;
