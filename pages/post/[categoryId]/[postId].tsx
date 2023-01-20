@@ -5,8 +5,10 @@ import PostTabs from '@components/post/tabs';
 import Time from '@components/post/time';
 import { Post, PomoStatus } from '@components/post/types';
 import Waiting from '@components/post/waiting';
+import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import React, { useMemo, useState } from 'react';
+import { COLORS } from 'styles/colors';
 
 export const PostContext = React.createContext<Post>(DEFAULT_POST);
 
@@ -53,19 +55,59 @@ export default function PostPage() {
         return <div>대기 중</div>;
     }
   };
+  const onExit = () => {
+    if (status === 'waiting') {
+      // FIXME: 모달 컴포넌트 사용하기
+      alert('뽀모도로 방에서 나가시겠습니까?');
+    } else if (status === 'focus' || status === 'rest') {
+      alert('뽀모도로 방에서 나가시겠습니까? 다시 들어올 수 없습니다.');
+    }
+    if (typeof window !== undefined) {
+      // FIXME: 글 목록 페이지 url로 바꿔야 함
+      window.history.back();
+    }
+  };
 
   return (
-    <div>
+    <Container>
       {postData && (
         <>
           <PostContext.Provider value={postData}>
-            <PostInfo postInfo={postData} />
-            <PostTabs />
-            {getTimeComponent()}
+            <div>
+              <PostInfo postInfo={postData} />
+              {getTimeComponent()}
+              <ExitButton onClick={onExit}>나가기</ExitButton>
+            </div>
+            <StyledPostTabs />
           </PostContext.Provider>
-          {status === 'waiting' && startTime && <Waiting targetTime={startTime} finish={startFocus} />}
+          {status === 'waiting' && startTime && (
+            <Waiting targetTime={startTime} finish={startFocus}>
+              <ExitButton>나가기</ExitButton>
+            </Waiting>
+          )}
         </>
       )}
-    </div>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  display: grid;
+  grid-template-columns: max-content max-content;
+  grid-template-rows: min-content max-content max-content;
+`;
+
+const ExitButton = styled.button`
+  border-radius: 28px;
+  background-color: ${COLORS.main};
+  padding: 9px 24px;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  color: #ffffff;
+  margin-top: 36px;
+`;
+
+const StyledPostTabs = styled(PostTabs)`
+  grid-row: 1 / span 3;
+`;
