@@ -1,6 +1,5 @@
 import { DEFAULT_POST } from '@components/post/constants';
 import { useGetPost } from '@components/post/hooks/queries';
-import useCountDown from '@components/post/hooks/useWaitingTimer';
 import PostInfo from '@components/post/info';
 import PostTabs from '@components/post/tabs';
 import Time from '@components/post/time';
@@ -15,8 +14,7 @@ export default function PostPage() {
   const router = useRouter();
   const { postId } = router.query;
   const { data: postData } = useGetPost(postId as string);
-  const [timeStatus, setTimeStatus] = useState<PomoStatus>('focus');
-  const [isWaiting, setIsWaiting] = useState(true);
+  const [status, setStatus] = useState<PomoStatus>('waiting');
 
   const startTime = useMemo<Date | undefined>(() => {
     if (!postData) return;
@@ -26,12 +24,34 @@ export default function PostPage() {
   }, [postData]);
 
   // FIXME: 시간 관련 기능 구현할 동안은 계속 두겠습니다.
-  // const testTime = new Date();
-  // testTime.setMinutes(7);
-  // const testIsWaiting = false;
+  // const testTime = new Date(2023, 0, 20, 18, 58);
+  // testTime.setMinutes(testTime.getMinutes() + 1);
+  // console.log('testTIme', testTime);
 
-  const finishWaiting = () => {
-    setIsWaiting(false);
+  const startFocus = () => setStatus('focus');
+  const startRest = () => setStatus('rest');
+  const finish = () => setStatus('finished');
+  const getTimeComponent = () => {
+    switch (status) {
+      case 'focus':
+      case 'rest':
+        return (
+          startTime && (
+            <Time
+              startTime={startTime}
+              iteration={1}
+              status={status}
+              startRest={startRest}
+              startFocus={startFocus}
+              finish={finish}
+            />
+          )
+        );
+      case 'finished':
+        return <div>끝</div>;
+      case 'waiting':
+        return <div>대기 중</div>;
+    }
   };
 
   return (
@@ -41,9 +61,9 @@ export default function PostPage() {
           <PostContext.Provider value={postData}>
             <PostInfo postInfo={postData} />
             <PostTabs />
-            <Time status={timeStatus} />
+            {getTimeComponent()}
           </PostContext.Provider>
-          {isWaiting && startTime && <Waiting targetTime={startTime} finish={finishWaiting} />}
+          {status === 'waiting' && startTime && <Waiting targetTime={startTime} finish={startFocus} />}
         </>
       )}
     </div>

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Logo from '@public/images/logo.svg';
-import useCountDown from '../hooks/useWaitingTimer';
+import useCountDown from '../hooks/useCountDown';
 
 interface WaitingProps {
   targetTime: Date;

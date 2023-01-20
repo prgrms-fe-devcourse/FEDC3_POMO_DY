@@ -27,4 +27,8 @@ export const POMO_STATUS_NAME: Record<PomoStatus, string> = {
   focus: '집중',
   rest: '휴식',
   finished: '끝',
+  waiting: '대기 중',
 };
+
+export const FOCUS_TIME = 50;
+export const REST_TIME = 10;

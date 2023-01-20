@@ -3,21 +3,29 @@ import Image from 'next/image';
 import { COLORS } from 'styles/colors';
 import { POMO_STATUS_NAME } from '../constants';
 import { PomoStatus } from '../types';
+import Timer from './Timer';
 
 interface TimeProps {
+  startTime: Date;
+  iteration: number;
   status: PomoStatus;
+  startFocus: () => void;
+  startRest: () => void;
+  finish: () => void;
 }
 
-export default function Time({ status }: TimeProps) {
+export default function Time(props: TimeProps) {
   return (
     <Container>
-      <Timer>
-        <Clock src="/images/clock.svg" alt="시계" width="382" height="397" />
-        <TimeText>11 : 00</TimeText>
-      </Timer>
-      <Status status={status}>
-        <Image src={`/images/pomo-circle${status === 'focus' ? '-white' : ''}.svg`} alt="로고" width="60" height="60" />
-        <StatusText>{POMO_STATUS_NAME[status]}</StatusText>
+      <Timer {...props} />
+      <Status status={props.status}>
+        <Image
+          src={`/images/pomo-circle${props.status === 'focus' ? '-white' : ''}.svg`}
+          alt="로고"
+          width="60"
+          height="60"
+        />
+        <StatusText>{POMO_STATUS_NAME[props.status]}</StatusText>
       </Status>
     </Container>
   );
@@ -30,8 +38,6 @@ const Container = styled.div`
   gap: 47px;
 `;
 
-const Clock = styled(Image)``;
-
 const Status = styled.div<{ status: PomoStatus }>`
   background-color: ${({ status }) => (status === 'rest' ? '#ffffff' : COLORS.main)};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -42,21 +48,6 @@ const Status = styled.div<{ status: PomoStatus }>`
   align-items: center;
   flex-direction: ${({ status }) => (status === 'rest' ? 'row' : 'row-reverse')};
   color: ${({ status }) => (status === 'rest' ? '#2B2B2B' : '#ffffff')};
-`;
-
-const Timer = styled.div`
-  position: relative;
-`;
-
-const TimeText = styled.div`
-  position: absolute;
-  top: 168px;
-  left: 123px;
-  font-weight: 700;
-  font-size: 50px;
-  line-height: 84px;
-  color: #2b2b2b;
-  font-family: 'UhBee EUN KYUNG';
 `;
 
 const StatusText = styled.div`
