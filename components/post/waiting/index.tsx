@@ -1,13 +1,23 @@
 import styled from '@emotion/styled';
 import Logo from '@public/images/logo.svg';
+import useCountDown from '../hooks/useWaitingTimer';
 
-export default function Waiting() {
+interface WaitingProps {
+  targetTime: Date;
+  finish: () => void;
+}
+
+export default function Waiting({ targetTime, finish }: WaitingProps) {
+  const { minute, second } = useCountDown(targetTime, finish);
   return (
     <Container>
       <Logo />
       <WaitingText>뽀모 대기 중</WaitingText>
       <WaitingTimer>
-        <span>30분 21초</span> 뒤에 시작할 예정이에요.
+        <span>
+          {minute}분 {second}초
+        </span>{' '}
+        뒤에 시작할 예정이에요.
       </WaitingTimer>
     </Container>
   );

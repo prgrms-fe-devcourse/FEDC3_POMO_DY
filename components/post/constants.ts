@@ -1,4 +1,4 @@
-import { CategoryName, CategoryNameInDB, Post, TimeStatus } from './types';
+import { CategoryName, CategoryNameInDB, Post, PomoStatus } from './types';
 
 export const CATEGORY_NAME_MAP: Record<CategoryNameInDB, CategoryName> = {
   study: '공부',
@@ -23,7 +23,8 @@ export const DEFAULT_POST: Post = {
   host: { id: '', name: '' },
 };
 
-export const TIME_STATUS_NAME: Record<TimeStatus, string> = {
+export const POMO_STATUS_NAME: Record<PomoStatus, string> = {
   focus: '집중',
   rest: '휴식',
+  finished: '끝',
 };
