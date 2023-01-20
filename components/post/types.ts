@@ -27,6 +27,7 @@ interface Category {
 export interface Comment {
   id: string;
   content: string;
+  authorId: string;
 }
 
 export type CategoryNameInDB = 'study' | 'develop' | 'job' | 'reading' | 'hobby' | 'etc';

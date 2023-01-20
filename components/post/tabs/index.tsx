@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
 import * as Tabs from '@radix-ui/react-tabs';
 import { COLORS } from 'styles/colors';
+import { PomoStatus } from '../types';
 import CommentTapContent from './comment';
 import ParticipantTapContent from './participant';
 
-export default function PostTabs() {
+export default function PostTabs({ status }: { status: PomoStatus }) {
   return (
     <Tabs.Root defaultValue="comments">
       <Tabs.List>
@@ -12,7 +13,7 @@ export default function PostTabs() {
         <StyledParticipantsTabTrigger value="participants">참여자</StyledParticipantsTabTrigger>
       </Tabs.List>
       <Tabs.Content value="comments">
-        <CommentTapContent />
+        <CommentTapContent status={status} />
       </Tabs.Content>
       <Tabs.Content value="participants">
         <ParticipantTapContent />

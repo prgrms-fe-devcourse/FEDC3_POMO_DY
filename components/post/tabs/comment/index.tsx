@@ -8,8 +8,14 @@ import CommentItem from './CommentItem';
 import useComments from '@components/post/hooks/useComments';
 import { tabContainerStyle, TabContentBackground } from '@components/post/styles';
 import { useQueryClient } from 'react-query';
+import useHost from '@components/post/hooks/useHost';
+import { PomoStatus } from '@components/post/types';
 
-export default function CommentTapContent() {
+interface CommentTapContentProps {
+  status: PomoStatus;
+}
+
+export default function CommentTapContent({ status }: CommentTapContentProps) {
   const [commentValue, setCommentValue] = useState('');
   const { mutate: postComment } = usePostComment();
   const router = useRouter();
@@ -17,6 +23,7 @@ export default function CommentTapContent() {
   const comments = useComments();
   const queryClient = useQueryClient();
   const commentListRef = useRef<HTMLDivElement>(null);
+  const { id: hostId } = useHost();
 
   const onChangeCommentValue = (e: React.ChangeEvent<HTMLInputElement>) => setCommentValue(e.target.value);
   const onSubmitComment = (e: React.FormEvent<HTMLFormElement>) => {
@@ -43,9 +50,14 @@ export default function CommentTapContent() {
           <RefreshIcon />
         </RefreshButton>
         <CommentList ref={commentListRef}>
-          {comments.map((comment) => (
-            <CommentItem comment={comment.content} key={comment.id} />
-          ))}
+          {comments.map((comment) => {
+            console.log(status, comment.authorId, hostId);
+            if (status === 'focus' && comment.authorId !== hostId) {
+              return <CommentItem comment={comment.content} key={comment.id} isHidden />;
+            } else {
+              return <CommentItem comment={comment.content} key={comment.id} />;
+            }
+          })}
         </CommentList>
         <CommentForm onSubmit={onSubmitComment}>
           <CommentInput onChange={onChangeCommentValue} value={commentValue} placeholder="댓글을 입력하세요" />
