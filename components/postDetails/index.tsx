@@ -86,7 +86,7 @@ function PostDetails({ postInfo, isOpen, setIsOpen }: Props) {
   const handleEnterPost: MouseEventHandler = () => {
     publicApi
       .post('/likes/create', { postId })
-      .then((res) => {
+      .then(() => {
         routePostPage();
       })
       .catch(() => {
