@@ -1,13 +1,15 @@
 import styled from '@emotion/styled';
 import Logo from '@public/images/logo.svg';
+import { ReactNode } from 'react';
 import useCountDown from '../hooks/useCountDown';
 
 interface WaitingProps {
   targetTime: Date;
   finish: () => void;
+  children: ReactNode;
 }
 
-export default function Waiting({ targetTime, finish }: WaitingProps) {
+export default function Waiting({ targetTime, finish, children }: WaitingProps) {
   const { minute, second } = useCountDown(targetTime, finish);
   return (
     <Container>
@@ -19,6 +21,8 @@ export default function Waiting({ targetTime, finish }: WaitingProps) {
         </span>{' '}
         뒤에 시작할 예정이에요.
       </WaitingTimer>
+      {/* FIXME: 나가기 버튼을 빨리 넣기 위한 임시 처리 */}
+      {children}
     </Container>
   );
 }
