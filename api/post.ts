@@ -32,7 +32,11 @@ export const getPost = async (id: string) => {
       name: CATEGORY_NAME_MAP[categoryNameInDB],
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    comments: data.comments.map((comment: any) => ({ id: comment._id, content: comment.comment })),
+    comments: data.comments.map((comment: any) => ({
+      id: comment._id,
+      content: comment.comment,
+      authorId: comment.author._id,
+    })),
     participants,
     host: { id: data.author._id, name: data.author.fullName, image: data.author.image },
     ...JSON.parse(data.title),
