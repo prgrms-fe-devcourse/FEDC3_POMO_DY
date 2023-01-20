@@ -12,6 +12,5 @@ export const getTimeTable = (startTime: Date, iteration: number) => {
     timeTable.push({ nextStatus: 'rest', nextTime: timeToRest });
     timeTable.push({ nextStatus: i < iteration - 1 ? 'focus' : 'finished', nextTime: timeToFocus });
   }
-  console.log('getTimeTable', startTime, timeTable);
   return timeTable;
 };
