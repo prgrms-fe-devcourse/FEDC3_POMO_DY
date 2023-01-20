@@ -1,14 +1,5 @@
 import styled from '@emotion/styled';
-import {
-  FunctionComponent,
-  ChangeEvent,
-  useCallback,
-  useState,
-  useEffect,
-  ReactNode,
-  MouseEvent,
-  MouseEventHandler,
-} from 'react';
+import { FunctionComponent, ChangeEvent, useCallback, useState, useEffect, ReactNode, MouseEvent } from 'react';
 import LogoSmall from '@public/images/logo-small.svg';
 import { SearchBox, SearchResult } from '@components/common/Search';
 import { css } from '@emotion/react';
@@ -39,31 +30,31 @@ const dummy = [
     seen: false,
     _id: '1',
     author: 'flash',
-    follow: '1-1',
+    follow: '순요',
   },
   {
     seen: false,
     _id: '2',
     author: 'ho',
-    follow: '1-2',
+    follow: '규란',
   },
   {
     seen: false,
     _id: '3',
     author: 'fd',
-    follow: '1-3',
+    follow: '주영',
   },
   {
     seen: false,
     _id: '4',
-    author: 'sophia',
-    follow: '1-4',
+    author: 'soso',
+    follow: '승훈',
   },
   {
     seen: false,
     _id: '5',
-    author: 'sophia',
-    follow: '1-5',
+    author: 'happy',
+    follow: '포린',
   },
 ];
 
