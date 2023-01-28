@@ -3,7 +3,7 @@ import { COLORS } from 'styles/colors';
 import PencilImg from '@public/icons/pencil.svg';
 import ProfileImg from '@public/icons/profile.svg';
 import { publicApi } from 'api';
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { getLocalstorage } from '@components/auth/localstorage';
 import { FollowingIdData, UserInfoProps } from './types';
@@ -26,8 +26,7 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
   const hostId = getLocalstorage('ID');
   const queryClient = useQueryClient();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const initState = async () => {
+  const initState = useCallback(async () => {
     try {
       const response = await publicApi.get(`/users/${hostId}`);
       const checkFollow = response.data.following.findIndex((item: FollowingIdData) => item.user === followId);
@@ -37,11 +36,11 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
     } catch (error) {
       console.log(error, '정보 입력 실패');
     }
-  };
+  }, [followId, hostId]);
 
   useEffect(() => {
     initState();
-  }, [initState, userName]);
+  }, [initState]);
 
   const onInputModalHendler = (e: ChangeEvent<HTMLInputElement>) => {
     setModalInputValue(e.target.value);
@@ -88,7 +87,12 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
 
   const onModifyNameHandler = async () => {
     setIsModalOpen(true);
-    setModalInfo({ title: '닉네임 변경', inputType: 'text', modalType: 'name', placeholder: '닉네임을 입력해 주세요' });
+    setModalInfo({
+      title: '닉네임 변경',
+      inputType: 'text',
+      modalType: 'name',
+      placeholder: '닉네임을 입력해 주세요',
+    });
   };
 
   const onModifyPasswordHandler = async () => {
