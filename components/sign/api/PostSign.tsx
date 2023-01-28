@@ -17,6 +17,7 @@ export const PostSign = async ({ email, fullName, password, router }: PostSignPr
       });
     }
   } catch (error) {
+    alert('중복된 메일 주소입니다.');
     console.error(error);
   }
 };
