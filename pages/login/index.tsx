@@ -9,6 +9,7 @@ import { validPasswordCheck } from '@components/login/validateInput';
 export default function Login() {
   const router = useRouter();
 
+  // 1. handleSubmit에서 이벤트로 모든 정보를 가져와서 처리하기와 각 이벤트를 onChange로 가져와서 갱신시키는 방법중 뭐가 나은가
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const email = (event.currentTarget.elements[0] as HTMLInputElement).value;

@@ -12,6 +12,7 @@ import { useQueryClient } from 'react-query';
 export const LikeItem = ({ following, followers, title, isMyInfo }: LikeItemProps) => {
   const queryClient = useQueryClient();
   let id: Id;
+
   if (title === 'following') {
     id = following;
   } else {
