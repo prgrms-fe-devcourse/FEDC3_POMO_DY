@@ -66,8 +66,6 @@ export default function CategoryCard({ _id, name, posts }: CategoryInfoType) {
   const nextUrl = `/post/${_id}`;
   const translatedName = CATEGORY_NAME_MAP[name];
 
-  console.log(posts);
-
   return (
     <Link href={nextUrl} style={{ textDecoration: 'none' }} as={`${nextUrl}-${name}`}>
       <CardContainer>
