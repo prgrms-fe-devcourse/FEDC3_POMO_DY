@@ -38,16 +38,17 @@ export default function PostCard({ _id, participants, data, createdAt, onPostCli
   const { channelId, title, date, content: description, startTime, endTime, interval: iteration } = data;
 
   const [isInProgress, setIsInProgress] = useState(false);
+  const isPomoEnd = isEnd(`${date} ${endTime}`);
 
   const onClick: MouseEventHandler = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!isInProgress) {
+    if (!isInProgress && !isPomoEnd) {
       onPostClick({ _id, channelId, title, date, description, startTime, endTime, iteration, likes: participants });
     }
   };
 
   useEffect(() => {
     setIsInProgress(getIsInProgress(date, startTime, endTime));
-  }, [startTime, endTime]);
+  }, [date, startTime, endTime]);
 
   return (
     <CardContainer onClick={onClick}>
@@ -57,7 +58,7 @@ export default function PostCard({ _id, participants, data, createdAt, onPostCli
           <CoverMsg>진행 중인 뽀모예요</CoverMsg>
         </CardCoverContainer>
       )}
-      {isEnd(`${date} ${endTime}`) && (
+      {isPomoEnd && (
         <EndCardCoverContainer>
           <SadTomatoSvg />
           <CoverMsg>종료된 뽀모예요</CoverMsg>
