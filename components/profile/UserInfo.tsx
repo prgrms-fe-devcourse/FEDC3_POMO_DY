@@ -87,7 +87,12 @@ export const UserInfo = ({ email, userName, isMyInfo }: UserInfoProps) => {
 
   const onModifyNameHandler = async () => {
     setIsModalOpen(true);
-    setModalInfo({ title: '닉네임 변경', inputType: 'text', modalType: 'name', placeholder: '닉네임을 입력해 주세요' });
+    setModalInfo({
+      title: '닉네임 변경',
+      inputType: 'text',
+      modalType: 'name',
+      placeholder: '닉네임을 입력해 주세요',
+    });
   };
 
   const onModifyPasswordHandler = async () => {
